@@ -1,5 +1,7 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import {
+  useNavigate,
+} from "react-router-dom";
 
 import {
   Bell,
@@ -10,92 +12,145 @@ import {
   UserRound,
   Settings,
   Mail,
+  Building2,
 } from "lucide-react";
 
-import { useAuth } from "../../context/AuthContext";
+import {
+  useAuth,
+} from "../../context/AuthContext";
 
-import { signOutUser } from "../../services/authService";
+import {
+  signOutUser,
+} from "../../services/authService";
 
 
 function Topbar({
   sidebarCollapsed,
   setSidebarCollapsed,
 }) {
-  const navigate = useNavigate();
+  const navigate =
+    useNavigate();
 
-  const { user } = useAuth();
-
-  const [profileOpen, setProfileOpen] =
-    useState(false);
-
-  const [logoutLoading, setLogoutLoading] =
-    useState(false);
+  const {
+    user,
+    profile,
+    profileLoading,
+  } = useAuth();
 
 
-  const metadata =
-    user?.user_metadata || {};
+  const [
+    profileOpen,
+    setProfileOpen,
+  ] = useState(false);
 
+  const [
+    logoutLoading,
+    setLogoutLoading,
+  ] = useState(false);
+
+
+  /* =====================================================
+     USER INFORMATION
+     ===================================================== */
 
   const fullName =
-    metadata.full_name ||
-    user?.email?.split("@")[0] ||
+    profile?.full_name ||
+    user?.user_metadata
+      ?.full_name ||
+    user?.user_metadata
+      ?.name ||
+    user?.email
+      ?.split("@")[0] ||
     "BreedVision User";
 
 
+  const email =
+    profile?.email ||
+    user?.email ||
+    "";
+
+
   const role =
-    metadata.role ||
+    profile?.role ||
     "user";
 
 
-  const email =
-    user?.email || "";
+  const organization =
+    profile?.organization ||
+    "";
 
 
   const formattedRole =
     role
-      .replaceAll("_", " ")
-      .replace(/\b\w/g, (character) =>
-        character.toUpperCase()
+      .replaceAll(
+        "_",
+        " "
+      )
+      .replace(
+        /\b\w/g,
+        (character) =>
+          character.toUpperCase()
       );
 
 
-  const initials = fullName
-    .split(" ")
-    .map((part) => part[0])
-    .join("")
-    .slice(0, 2)
-    .toUpperCase();
+  const initials =
+    fullName
+      .split(" ")
+      .filter(Boolean)
+      .map(
+        (part) =>
+          part[0]
+      )
+      .join("")
+      .slice(0, 2)
+      .toUpperCase() ||
+    "BV";
 
 
-  const handleLogout = async () => {
-    try {
-      setLogoutLoading(true);
+  /* =====================================================
+     LOGOUT
+     ===================================================== */
 
-      await signOutUser();
+  const handleLogout =
+    async () => {
+      try {
+        setLogoutLoading(
+          true
+        );
 
-      setProfileOpen(false);
+        await signOutUser();
 
-      navigate(
-        "/login",
-        {
-          replace: true,
-        }
-      );
+        setProfileOpen(
+          false
+        );
 
-    } catch (logoutError) {
-      console.error(
-        "Logout error:",
+        navigate(
+          "/login",
+          {
+            replace: true,
+          }
+        );
+
+      } catch (
         logoutError
-      );
+      ) {
+        console.error(
+          "Logout error:",
+          logoutError
+        );
 
-    } finally {
-      setLogoutLoading(false);
-    }
-  };
+      } finally {
+        setLogoutLoading(
+          false
+        );
+      }
+    };
 
 
   return (
     <header className="dashboard-topbar">
+
+      {/* LEFT */}
 
       <div className="topbar-left">
 
@@ -130,6 +185,8 @@ function Topbar({
       </div>
 
 
+      {/* RIGHT */}
+
       <div className="topbar-right">
 
         <button
@@ -145,6 +202,8 @@ function Topbar({
 
         <div className="topbar-divider" />
 
+
+        {/* PROFILE */}
 
         <div className="profile-menu-wrapper">
 
@@ -166,7 +225,9 @@ function Topbar({
             <div className="profile-information">
 
               <span>
-                {fullName}
+                {profileLoading
+                  ? "Loading..."
+                  : fullName}
               </span>
 
               <p>
@@ -178,15 +239,19 @@ function Topbar({
 
             <ChevronDown
               size={17}
-              className={`profile-dropdown-icon ${
-                profileOpen
-                  ? "open"
-                  : ""
-              }`}
+              className={
+                `profile-dropdown-icon ${
+                  profileOpen
+                    ? "open"
+                    : ""
+                }`
+              }
             />
 
           </button>
 
+
+          {/* DROPDOWN */}
 
           {profileOpen && (
 
@@ -214,6 +279,8 @@ function Topbar({
               </div>
 
 
+              {/* EMAIL */}
+
               <div className="profile-dropdown-email">
 
                 <Mail size={14} />
@@ -225,27 +292,59 @@ function Topbar({
               </div>
 
 
+              {/* ORGANIZATION */}
+
+              {organization && (
+                <div className="profile-dropdown-email">
+
+                  <Building2
+                    size={14}
+                  />
+
+                  <span>
+                    {organization}
+                  </span>
+
+                </div>
+              )}
+
+
               <div className="profile-dropdown-divider" />
 
 
-              <button
-                type="button"
-                className="profile-dropdown-item"
-              >
-                <UserRound size={16} />
-
-                My Profile
-              </button>
-
+              {/* PROFILE */}
 
               <button
                 type="button"
                 className="profile-dropdown-item"
                 onClick={() =>
-                  navigate("/settings")
+                  navigate(
+                    "/settings"
+                  )
                 }
               >
-                <Settings size={16} />
+                <UserRound
+                  size={16}
+                />
+
+                My Profile
+              </button>
+
+
+              {/* SETTINGS */}
+
+              <button
+                type="button"
+                className="profile-dropdown-item"
+                onClick={() =>
+                  navigate(
+                    "/settings"
+                  )
+                }
+              >
+                <Settings
+                  size={16}
+                />
 
                 Settings
               </button>
@@ -254,13 +353,21 @@ function Topbar({
               <div className="profile-dropdown-divider" />
 
 
+              {/* LOGOUT */}
+
               <button
                 type="button"
                 className="profile-dropdown-item logout-item"
-                onClick={handleLogout}
-                disabled={logoutLoading}
+                onClick={
+                  handleLogout
+                }
+                disabled={
+                  logoutLoading
+                }
               >
-                <LogOut size={16} />
+                <LogOut
+                  size={16}
+                />
 
                 {logoutLoading
                   ? "Signing out..."
