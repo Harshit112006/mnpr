@@ -18,7 +18,40 @@ import {
 
 import {
   signInUser,
+  signInWithGoogle,
 } from "../../services/authService";
+
+
+function GoogleIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      width="20"
+      height="20"
+      aria-hidden="true"
+    >
+      <path
+        fill="#4285F4"
+        d="M21.35 11.1h-9.18v3.71h5.29c-.23 1.19-.91 2.2-1.93 2.88v2.4h3.12c1.83-1.68 2.88-4.16 2.88-7.09 0-.66-.06-1.3-.18-1.9z"
+      />
+
+      <path
+        fill="#34A853"
+        d="M12.17 21.5c2.61 0 4.8-.86 6.4-2.34l-3.12-2.4c-.86.58-1.97.93-3.28.93-2.51 0-4.64-1.7-5.4-3.98H3.55v2.47A9.67 9.67 0 0012.17 21.5z"
+      />
+
+      <path
+        fill="#FBBC05"
+        d="M6.77 13.71a5.82 5.82 0 010-3.72V7.52H3.55a9.68 9.68 0 000 8.66l3.22-2.47z"
+      />
+
+      <path
+        fill="#EA4335"
+        d="M12.17 6.02c1.42 0 2.7.49 3.7 1.45l2.77-2.77C16.96 3.13 14.78 2.2 12.17 2.2a9.67 9.67 0 00-8.62 5.32l3.22 2.47c.76-2.28 2.89-3.97 5.4-3.97z"
+      />
+    </svg>
+  );
+}
 
 
 function Login() {
@@ -28,6 +61,9 @@ function Login() {
     useState(false);
 
   const [loading, setLoading] =
+    useState(false);
+
+  const [googleLoading, setGoogleLoading] =
     useState(false);
 
   const [error, setError] =
@@ -77,6 +113,7 @@ function Login() {
           password: formData.password,
         });
 
+
       if (!data.session) {
         setError(
           "Login failed. Please verify your account and try again."
@@ -84,6 +121,7 @@ function Login() {
 
         return;
       }
+
 
       navigate(
         "/dashboard",
@@ -105,6 +143,29 @@ function Login() {
 
     } finally {
       setLoading(false);
+    }
+  };
+
+
+  const handleGoogleLogin = async () => {
+    try {
+      setError("");
+      setGoogleLoading(true);
+
+      await signInWithGoogle();
+
+    } catch (googleError) {
+      console.error(
+        "Google login error:",
+        googleError
+      );
+
+      setError(
+        googleError.message ||
+        "Unable to continue with Google."
+      );
+
+      setGoogleLoading(false);
     }
   };
 
@@ -145,8 +206,6 @@ function Login() {
 
       <form onSubmit={handleSubmit}>
 
-        {/* EMAIL */}
-
         <div className="input-group">
 
           <label>
@@ -170,8 +229,6 @@ function Login() {
 
         </div>
 
-
-        {/* PASSWORD */}
 
         <div className="input-group">
 
@@ -228,8 +285,6 @@ function Login() {
         </div>
 
 
-        {/* OPTIONS */}
-
         <div className="login-options">
 
           <label className="remember-me">
@@ -247,8 +302,6 @@ function Login() {
         </div>
 
 
-        {/* ERROR */}
-
         {error && (
           <div className="auth-message auth-error-message">
 
@@ -262,12 +315,13 @@ function Login() {
         )}
 
 
-        {/* SIGN IN */}
-
         <button
           className="primary-auth-button"
           type="submit"
-          disabled={loading}
+          disabled={
+            loading ||
+            googleLoading
+          }
         >
 
           {loading ? (
@@ -283,9 +337,7 @@ function Login() {
             <>
               Sign In
 
-              <ArrowRight
-                size={19}
-              />
+              <ArrowRight size={19} />
             </>
           )}
 
@@ -293,46 +345,44 @@ function Login() {
 
 
         <div className="separator">
+
           <span />
-          <p>OR</p>
+
+          <p>
+            OR
+          </p>
+
           <span />
+
         </div>
 
-
-        {/* GOOGLE - NEXT STEP */}
 
         <button
           className="google-button"
           type="button"
+          onClick={handleGoogleLogin}
+          disabled={
+            loading ||
+            googleLoading
+          }
         >
 
-          <svg
-            viewBox="0 0 24 24"
-            width="20"
-            height="20"
-          >
-            <path
-              fill="#4285F4"
-              d="M21.35 11.1h-9.18v3.71h5.29c-.23 1.19-.91 2.2-1.93 2.88v2.4h3.12c1.83-1.68 2.88-4.16 2.88-7.09 0-.66-.06-1.3-.18-1.9z"
-            />
+          {googleLoading ? (
+            <>
+              <LoaderCircle
+                size={18}
+                className="auth-loader"
+              />
 
-            <path
-              fill="#34A853"
-              d="M12.17 21.5c2.61 0 4.8-.86 6.4-2.34l-3.12-2.4c-.86.58-1.97.93-3.28.93-2.51 0-4.64-1.7-5.4-3.98H3.55v2.47A9.67 9.67 0 0012.17 21.5z"
-            />
+              Connecting to Google...
+            </>
+          ) : (
+            <>
+              <GoogleIcon />
 
-            <path
-              fill="#FBBC05"
-              d="M6.77 13.71a5.82 5.82 0 010-3.72V7.52H3.55a9.68 9.68 0 000 8.66l3.22-2.47z"
-            />
-
-            <path
-              fill="#EA4335"
-              d="M12.17 6.02c1.42 0 2.7.49 3.7 1.45l2.77-2.77C16.96 3.13 14.78 2.2 12.17 2.2a9.67 9.67 0 00-8.62 5.32l3.22 2.47c.76-2.28 2.89-3.97 5.4-3.97z"
-            />
-          </svg>
-
-          Continue with Google
+              Continue with Google
+            </>
+          )}
 
         </button>
 

@@ -1,7 +1,8 @@
 import { supabase } from "../lib/supabaseClient";
 
+
 /* =====================================================
-   SIGN UP
+   SIGN UP WITH EMAIL + PASSWORD
    ===================================================== */
 
 export const signUpUser = async ({
@@ -34,7 +35,7 @@ export const signUpUser = async ({
 
 
 /* =====================================================
-   SIGN IN
+   SIGN IN WITH EMAIL + PASSWORD
    ===================================================== */
 
 export const signInUser = async ({
@@ -53,6 +54,35 @@ export const signInUser = async ({
 
   return data;
 };
+
+
+/* =====================================================
+   SIGN IN / SIGN UP WITH GOOGLE
+   ===================================================== */
+
+export const signInWithGoogle = async () => {
+  const { data, error } =
+    await supabase.auth.signInWithOAuth({
+      provider: "google",
+
+      options: {
+        redirectTo:
+          `${window.location.origin}/dashboard`,
+
+        queryParams: {
+          prompt: "select_account",
+        },
+      },
+    });
+
+  if (error) {
+    throw error;
+  }
+
+  return data;
+};
+
+
 /* =====================================================
    SIGN OUT
    ===================================================== */
@@ -66,8 +96,9 @@ export const signOutUser = async () => {
   }
 };
 
+
 /* =====================================================
-   RESET PASSWORD REQUEST
+   SEND PASSWORD RESET EMAIL
    ===================================================== */
 
 export const sendPasswordResetEmail = async (
@@ -88,6 +119,8 @@ export const sendPasswordResetEmail = async (
 
   return data;
 };
+
+
 /* =====================================================
    UPDATE PASSWORD
    ===================================================== */
