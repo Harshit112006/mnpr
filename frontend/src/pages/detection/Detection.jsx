@@ -15,13 +15,30 @@ import {
 } from "lucide-react";
 
 import ImageQualityPanel from "../../components/detection/ImageQualityPanel";
+import BackendResultPanel from "../../components/detection/BackendResultPanel";
+
 import { analyzeImageQuality } from "../../utils/imageQuality";
+import { detectAnimal } from "../../services/detectionService";
 
 import "../../styles/Detection.css";
 
+
 function Detection() {
+  // =====================================================
+  // REFS
+  // =====================================================
+
   const fileInputRef = useRef(null);
   const webcamRef = useRef(null);
+
+  // Used to prevent an old API response from appearing
+  // after the user selects a different image.
+  const analysisRequestIdRef = useRef(0);
+
+
+  // =====================================================
+  // IMAGE STATES
+  // =====================================================
 
   const [selectedFile, setSelectedFile] = useState(null);
   const [previewUrl, setPreviewUrl] = useState("");
@@ -29,11 +46,35 @@ function Detection() {
   const [isDragging, setIsDragging] = useState(false);
   const [error, setError] = useState("");
 
+
+  // =====================================================
+  // CAMERA STATES
+  // =====================================================
+
   const [cameraOpen, setCameraOpen] = useState(false);
   const [cameraError, setCameraError] = useState("");
 
+
+  // =====================================================
+  // IMAGE QUALITY STATES
+  // =====================================================
+
   const [quality, setQuality] = useState(null);
   const [qualityLoading, setQualityLoading] = useState(false);
+
+
+  // =====================================================
+  // BACKEND ANALYSIS STATES
+  // =====================================================
+
+  const [analysisLoading, setAnalysisLoading] = useState(false);
+  const [backendResult, setBackendResult] = useState(null);
+  const [backendError, setBackendError] = useState("");
+
+
+  // =====================================================
+  // CONFIGURATION
+  // =====================================================
 
   const allowedTypes = [
     "image/jpeg",
@@ -50,15 +91,36 @@ function Detection() {
     facingMode: "environment",
   };
 
+
+  // =====================================================
+  // PREVIEW CLEANUP
+  // =====================================================
+
   const clearOldPreview = () => {
-    if (previewUrl && previewUrl.startsWith("blob:")) {
+    if (
+      previewUrl &&
+      previewUrl.startsWith("blob:")
+    ) {
       URL.revokeObjectURL(previewUrl);
     }
   };
 
+
+  // =====================================================
+  // FILE HANDLING
+  // =====================================================
+
   const handleFile = (file) => {
     setError("");
     setQuality(null);
+
+    setBackendResult(null);
+    setBackendError("");
+
+    setAnalysisLoading(false);
+
+    // Invalidate any previous API request result
+    analysisRequestIdRef.current += 1;
 
     if (!file) {
       return;
@@ -68,6 +130,7 @@ function Detection() {
       setError(
         "Please upload a JPG, JPEG, PNG or WEBP image."
       );
+
       return;
     }
 
@@ -75,6 +138,7 @@ function Detection() {
       setError(
         "Image size must be less than 10 MB."
       );
+
       return;
     }
 
@@ -87,24 +151,35 @@ function Detection() {
     setPreviewUrl(newPreviewUrl);
   };
 
+
   const handleInputChange = (event) => {
     const file =
       event.target.files?.[0];
 
     handleFile(file);
 
+    // Allows selecting the same file again later.
     event.target.value = "";
   };
 
+
+  // =====================================================
+  // DRAG AND DROP
+  // =====================================================
+
   const handleDragOver = (event) => {
     event.preventDefault();
+
     setIsDragging(true);
   };
 
+
   const handleDragLeave = (event) => {
     event.preventDefault();
+
     setIsDragging(false);
   };
+
 
   const handleDrop = (event) => {
     event.preventDefault();
@@ -117,24 +192,46 @@ function Detection() {
     handleFile(file);
   };
 
+
+  // =====================================================
+  // REMOVE IMAGE
+  // =====================================================
+
   const removeImage = () => {
+    analysisRequestIdRef.current += 1;
+
     clearOldPreview();
 
     setSelectedFile(null);
     setPreviewUrl("");
+
     setQuality(null);
+    setQualityLoading(false);
+
     setError("");
+
+    setBackendResult(null);
+    setBackendError("");
+
+    setAnalysisLoading(false);
   };
+
+
+  // =====================================================
+  // CAMERA
+  // =====================================================
 
   const openCamera = () => {
     setCameraError("");
     setCameraOpen(true);
   };
 
+
   const closeCamera = () => {
     setCameraOpen(false);
     setCameraError("");
   };
+
 
   const capturePhoto = async () => {
     const screenshot =
@@ -180,9 +277,16 @@ function Detection() {
     }
   };
 
+
+  // =====================================================
+  // IMAGE QUALITY ANALYSIS
+  // =====================================================
+
   useEffect(() => {
     if (!previewUrl) {
       setQuality(null);
+      setQualityLoading(false);
+
       return;
     }
 
@@ -221,6 +325,84 @@ function Detection() {
     };
   }, [previewUrl]);
 
+
+  // =====================================================
+  // BACKEND ANALYSIS
+  // =====================================================
+
+  const handleAnalyzeAnimal = async () => {
+    if (!selectedFile) {
+      setBackendError(
+        "Please upload or capture an image first."
+      );
+
+      return;
+    }
+
+    const requestId =
+      analysisRequestIdRef.current + 1;
+
+    analysisRequestIdRef.current = requestId;
+
+    try {
+      setAnalysisLoading(true);
+
+      setBackendError("");
+      setBackendResult(null);
+
+      const result =
+        await detectAnimal(selectedFile);
+
+      // Only show response if image/request
+      // is still the current one.
+      if (
+        analysisRequestIdRef.current === requestId
+      ) {
+        setBackendResult(result);
+      }
+    } catch (apiError) {
+      console.error(
+        "BreedVision API error:",
+        apiError
+      );
+
+      if (
+        analysisRequestIdRef.current !== requestId
+      ) {
+        return;
+      }
+
+      const apiDetail =
+        apiError?.response?.data?.detail;
+
+      let message =
+        "Unable to connect to BreedVision backend.";
+
+      if (typeof apiDetail === "string") {
+        message = apiDetail;
+      } else if (apiDetail) {
+        message =
+          "Backend rejected the request. Please check the uploaded image.";
+      } else if (apiError?.code === "ERR_NETWORK") {
+        message =
+          "BreedVision backend is offline. Start the FastAPI server and try again.";
+      }
+
+      setBackendError(message);
+    } finally {
+      if (
+        analysisRequestIdRef.current === requestId
+      ) {
+        setAnalysisLoading(false);
+      }
+    }
+  };
+
+
+  // =====================================================
+  // OBJECT URL CLEANUP
+  // =====================================================
+
   useEffect(() => {
     return () => {
       if (
@@ -232,16 +414,28 @@ function Detection() {
     };
   }, [previewUrl]);
 
+
+  // =====================================================
+  // UI
+  // =====================================================
+
   return (
     <div className="detection-page">
 
+      {/* =================================================
+          HEADER
+      ================================================= */}
+
       <section className="detection-header">
+
         <div>
           <span className="detection-eyebrow">
             BREEDVISION COMPUTER VISION
           </span>
 
-          <h1>AI Breed Detection</h1>
+          <h1>
+            AI Breed Detection
+          </h1>
 
           <p>
             Upload or capture a clear image of cattle
@@ -250,42 +444,75 @@ function Detection() {
           </p>
         </div>
 
+
         <div className="detection-status">
+
           <div className="detection-status-dot" />
 
           <div>
-            <span>Detection Interface</span>
-            <p>Upload, camera & quality check ready</p>
+            <span>
+              Detection Interface
+            </span>
+
+            <p>
+              Frontend + FastAPI ready
+            </p>
           </div>
+
         </div>
+
       </section>
 
+
+      {/* =================================================
+          WORKSPACE
+      ================================================= */}
+
       <section className="detection-workspace">
+
+
+        {/* =================================================
+            LEFT PANEL
+        ================================================= */}
 
         <div className="detection-upload-panel">
 
           <div className="detection-panel-heading">
-            <div>
-              <span>STEP 01</span>
 
-              <h2>Provide animal image</h2>
+            <div>
+              <span>
+                STEP 01
+              </span>
+
+              <h2>
+                Provide animal image
+              </h2>
 
               <p>
-                Upload a clear side or front-view image
-                for better breed analysis.
+                Upload a clear side or front-view
+                image for better breed analysis.
               </p>
             </div>
 
             <ImagePlus size={23} />
+
           </div>
+
+
+          {/* =============================================
+              CAMERA
+          ============================================= */}
 
           {cameraOpen ? (
 
             <div className="camera-workspace">
 
               <div className="camera-toolbar">
+
                 <div>
-                  <span>LIVE CAMERA</span>
+                  <span>
+                    LIVE CAMERA
+                  </span>
 
                   <p>
                     Position the animal clearly
@@ -297,21 +524,27 @@ function Detection() {
                   type="button"
                   className="camera-close-button"
                   onClick={closeCamera}
+                  aria-label="Close camera"
                 >
                   <X size={18} />
                 </button>
+
               </div>
+
 
               <div className="webcam-container">
 
                 {!cameraError ? (
+
                   <Webcam
                     ref={webcamRef}
                     audio={false}
                     mirrored={false}
                     screenshotFormat="image/jpeg"
                     screenshotQuality={0.95}
-                    videoConstraints={videoConstraints}
+                    videoConstraints={
+                      videoConstraints
+                    }
                     className="webcam-video"
                     onUserMedia={() => {
                       setCameraError("");
@@ -322,26 +555,41 @@ function Detection() {
                       );
                     }}
                   />
+
                 ) : (
+
                   <div className="camera-error-state">
+
                     <CameraOff size={32} />
 
-                    <h3>Camera unavailable</h3>
+                    <h3>
+                      Camera unavailable
+                    </h3>
 
-                    <p>{cameraError}</p>
+                    <p>
+                      {cameraError}
+                    </p>
+
                   </div>
+
                 )}
 
+
                 {!cameraError && (
+
                   <div className="camera-frame-guide">
+
                     <div className="frame-corner top-left" />
                     <div className="frame-corner top-right" />
                     <div className="frame-corner bottom-left" />
                     <div className="frame-corner bottom-right" />
+
                   </div>
+
                 )}
 
               </div>
+
 
               <div className="camera-controls">
 
@@ -351,8 +599,10 @@ function Detection() {
                   onClick={closeCamera}
                 >
                   <CameraOff size={17} />
+
                   Cancel
                 </button>
+
 
                 <button
                   type="button"
@@ -361,6 +611,7 @@ function Detection() {
                   disabled={Boolean(cameraError)}
                 >
                   <Camera size={19} />
+
                   Capture Photo
                 </button>
 
@@ -370,9 +621,15 @@ function Detection() {
 
           ) : !previewUrl ? (
 
+            /* =============================================
+               UPLOAD / DRAG-DROP
+            ============================================= */
+
             <div
               className={`image-drop-zone ${
-                isDragging ? "dragging" : ""
+                isDragging
+                  ? "dragging"
+                  : ""
               }`}
               onDragOver={handleDragOver}
               onDragLeave={handleDragLeave}
@@ -381,6 +638,7 @@ function Detection() {
                 fileInputRef.current?.click()
               }
             >
+
               <div className="drop-zone-icon">
                 <UploadCloud size={32} />
               </div>
@@ -396,6 +654,7 @@ function Detection() {
                 or click to browse
               </p>
 
+
               <button
                 type="button"
                 className="browse-image-button"
@@ -406,43 +665,66 @@ function Detection() {
                 }}
               >
                 <FileImage size={17} />
+
                 Browse Image
               </button>
+
 
               <span className="upload-requirements">
                 JPG, JPEG, PNG or WEBP • Maximum 10 MB
               </span>
+
             </div>
 
           ) : (
 
+            /* =============================================
+               IMAGE PREVIEW
+            ============================================= */
+
             <div className="image-preview-container">
 
               <div className="image-preview-toolbar">
+
                 <div>
-                  <span>IMAGE READY</span>
-                  <p>{selectedFile?.name}</p>
+                  <span>
+                    IMAGE READY
+                  </span>
+
+                  <p>
+                    {selectedFile?.name}
+                  </p>
                 </div>
+
 
                 <button
                   type="button"
                   className="remove-image-button"
                   onClick={removeImage}
+                  aria-label="Remove selected image"
                 >
                   <X size={18} />
                 </button>
+
               </div>
+
 
               <div className="image-preview">
+
                 <img
                   src={previewUrl}
-                  alt="Animal preview"
+                  alt="Selected animal preview"
                 />
+
               </div>
 
+
               <div className="image-file-info">
+
                 <div>
-                  <span>File size</span>
+                  <span>
+                    File size
+                  </span>
 
                   <strong>
                     {selectedFile
@@ -455,27 +737,44 @@ function Detection() {
                   </strong>
                 </div>
 
+
                 <div>
-                  <span>Format</span>
+                  <span>
+                    Format
+                  </span>
 
                   <strong>
                     {selectedFile?.type
-                      ?.replace("image/", "")
-                      .toUpperCase() || "—"}
+                      ?.replace(
+                        "image/",
+                        ""
+                      )
+                      .toUpperCase() ||
+                      "—"}
                   </strong>
                 </div>
 
+
                 <div>
-                  <span>Status</span>
+                  <span>
+                    Status
+                  </span>
 
                   <strong className="valid-image-status">
                     Valid
                   </strong>
                 </div>
+
               </div>
 
             </div>
+
           )}
+
+
+          {/* =============================================
+              HIDDEN FILE INPUT
+          ============================================= */}
 
           <input
             ref={fileInputRef}
@@ -485,20 +784,41 @@ function Detection() {
             hidden
           />
 
+
+          {/* =============================================
+              FILE ERROR
+          ============================================= */}
+
           {error && (
+
             <div className="detection-error-message">
+
               <Info size={16} />
+
               {error}
+
             </div>
+
           )}
 
+
+          {/* =============================================
+              CAMERA OPTION
+          ============================================= */}
+
           {!cameraOpen && (
+
             <>
               <div className="image-source-divider">
                 <span />
-                <p>OR</p>
+
+                <p>
+                  OR
+                </p>
+
                 <span />
               </div>
+
 
               <button
                 type="button"
@@ -509,26 +829,46 @@ function Detection() {
 
                 Capture using Camera
 
-                <span>LIVE</span>
+                <span>
+                  LIVE
+                </span>
               </button>
             </>
+
           )}
 
         </div>
 
 
+        {/* =================================================
+            RIGHT ANALYSIS PANEL
+        ================================================= */}
+
         <aside className="detection-analysis-panel">
 
+
           <div className="analysis-panel-heading">
+
             <ScanSearch size={23} />
 
             <div>
-              <span>STEP 02</span>
-              <h2>AI Analysis</h2>
+              <span>
+                STEP 02
+              </span>
+
+              <h2>
+                AI Analysis
+              </h2>
             </div>
+
           </div>
 
+
           {!selectedFile ? (
+
+            /* =============================================
+               NO IMAGE
+            ============================================= */
 
             <div className="analysis-empty-state">
 
@@ -536,7 +876,9 @@ function Detection() {
                 <ScanSearch size={31} />
               </div>
 
-              <h3>Waiting for an image</h3>
+              <h3>
+                Waiting for an image
+              </h3>
 
               <p>
                 Upload or capture an animal image
@@ -548,27 +890,43 @@ function Detection() {
           ) : (
 
             <>
+              {/* =========================================
+                  IMAGE QUALITY
+              ========================================= */}
+
               {qualityLoading ? (
 
                 <div className="quality-loading-state">
+
                   <LoaderCircle
                     size={28}
                     className="quality-loading-spinner"
                   />
 
-                  <h3>Checking image quality</h3>
+                  <h3>
+                    Checking image quality
+                  </h3>
 
                   <p>
-                    BreedVision is analyzing resolution,
-                    brightness and sharpness.
+                    BreedVision is analyzing
+                    resolution, brightness and
+                    sharpness.
                   </p>
+
                 </div>
 
               ) : (
 
-                <ImageQualityPanel quality={quality} />
+                <ImageQualityPanel
+                  quality={quality}
+                />
 
               )}
+
+
+              {/* =========================================
+                  ANALYSIS ACTION
+              ========================================= */}
 
               <div className="analysis-ready-state compact-analysis">
 
@@ -576,7 +934,10 @@ function Detection() {
                   <ShieldCheck size={28} />
                 </div>
 
-                <span>FRONTEND VALIDATION COMPLETE</span>
+                <span>
+                  FRONTEND VALIDATION COMPLETE
+                </span>
+
 
                 <h3>
                   {quality?.suitable
@@ -584,58 +945,149 @@ function Detection() {
                     : "Image can still be submitted"}
                 </h3>
 
+
                 <p>
                   Image-quality checks are advisory.
-                  Final breed recognition will be performed
-                  by the FastAPI ML pipeline.
+                  BreedVision will now send the selected
+                  image to the FastAPI inference pipeline.
                 </p>
+
 
                 <button
                   type="button"
-                  className="analyze-animal-button"
-                  disabled
+                  className="analyze-animal-button active"
+                  onClick={handleAnalyzeAnimal}
+                  disabled={
+                    !selectedFile ||
+                    qualityLoading ||
+                    analysisLoading
+                  }
                 >
-                  <ScanSearch size={18} />
-                  Analyze Animal
+
+                  {analysisLoading ? (
+
+                    <>
+                      <LoaderCircle
+                        size={18}
+                        className="analysis-button-spinner"
+                      />
+
+                      Processing Image...
+                    </>
+
+                  ) : (
+
+                    <>
+                      <ScanSearch size={18} />
+
+                      Analyze Animal
+                    </>
+
+                  )}
+
                 </button>
 
-                <div className="model-not-connected">
-                  FastAPI backend connection is the next phase
+
+                <div className="model-connected-status">
+                  FastAPI backend connected
                 </div>
 
+
+                {/* =======================================
+                    BACKEND ERROR
+                ======================================= */}
+
+                {backendError && (
+
+                  <div className="backend-api-error">
+
+                    <Info size={15} />
+
+                    {backendError}
+
+                  </div>
+
+                )}
+
+
+                {/* =======================================
+                    BACKEND RESPONSE
+                ======================================= */}
+
+                <BackendResultPanel
+                  result={backendResult}
+                />
+
               </div>
+
             </>
+
           )}
 
+
+          {/* =================================================
+              HELP CARD
+          ================================================= */}
+
           <div className="detection-help-card">
-            <h4>For better accuracy</h4>
+
+            <h4>
+              For better accuracy
+            </h4>
+
 
             <div>
-              <span>01</span>
-              <p>Keep the complete animal visible.</p>
+              <span>
+                01
+              </span>
+
+              <p>
+                Keep the complete animal visible.
+              </p>
             </div>
 
-            <div>
-              <span>02</span>
-              <p>Use good lighting and avoid heavy blur.</p>
-            </div>
 
             <div>
-              <span>03</span>
-              <p>Prefer one animal per image.</p>
+              <span>
+                02
+              </span>
+
+              <p>
+                Use good lighting and avoid heavy blur.
+              </p>
             </div>
 
+
             <div>
-              <span>04</span>
-              <p>Side or front views work best.</p>
+              <span>
+                03
+              </span>
+
+              <p>
+                Prefer one animal per image.
+              </p>
             </div>
+
+
+            <div>
+              <span>
+                04
+              </span>
+
+              <p>
+                Side or front views work best.
+              </p>
+            </div>
+
           </div>
 
         </aside>
 
       </section>
+
     </div>
   );
 }
+
 
 export default Detection;
