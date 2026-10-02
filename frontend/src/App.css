@@ -1005,3 +1005,57 @@
 
   transform: none;
 }
+
+/* ============================================
+   PROTECTED ROUTE LOADER
+   ============================================ */
+
+.auth-route-loader {
+  width: 100%;
+  min-height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+
+  background:
+    radial-gradient(
+      circle at center,
+      rgba(45, 216, 129, 0.08),
+      transparent 35%
+    ),
+    #06110d;
+}
+
+.auth-route-spinner {
+  margin-bottom: 14px;
+
+  color: #2dd881;
+
+  animation:
+    authRouteSpin 0.85s linear infinite;
+}
+
+.auth-route-loader h3 {
+  color: #e9f2ed;
+
+  font-size: 15px;
+}
+
+.auth-route-loader p {
+  margin-top: 7px;
+
+  color: #71857a;
+
+  font-size: 10px;
+}
+
+@keyframes authRouteSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}

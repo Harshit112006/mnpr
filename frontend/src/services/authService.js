@@ -53,3 +53,15 @@ export const signInUser = async ({
 
   return data;
 };
+/* =====================================================
+   SIGN OUT
+   ===================================================== */
+
+export const signOutUser = async () => {
+  const { error } =
+    await supabase.auth.signOut();
+
+  if (error) {
+    throw error;
+  }
+};

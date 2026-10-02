@@ -6,7 +6,7 @@ import {
 
 import AuthLayout from "../layouts/AuthLayout";
 import DashboardLayout from "../layouts/DashboardLayout";
-
+import ProtectedRoute from "./ProtectedRoute";
 import Login from "../pages/auth/Login";
 import Signup from "../pages/auth/Signup";
 import ForgotPassword from "../pages/auth/ForgotPassword";
@@ -53,7 +53,13 @@ function AppRoutes() {
 
       {/* BreedVision Dashboard */}
 
-      <Route element={<DashboardLayout />}>
+      <Route
+  element={
+    <ProtectedRoute>
+      <DashboardLayout />
+    </ProtectedRoute>
+  }
+>
 
         <Route
           path="/dashboard"
