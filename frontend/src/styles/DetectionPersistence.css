@@ -1,0 +1,385 @@
+/* =====================================================
+   BACKEND RESULT
+   ===================================================== */
+
+.backend-result-panel {
+  margin-top: 16px;
+
+  padding: 15px;
+
+  background:
+    rgba(45, 216, 129, 0.035);
+
+  border:
+    1px solid
+    rgba(45, 216, 129, 0.11);
+
+  border-radius: 12px;
+}
+
+
+.backend-result-title {
+  display: flex;
+
+  align-items: flex-start;
+
+  gap: 9px;
+
+  color: #5be99d;
+}
+
+
+.backend-result-title > svg {
+  flex-shrink: 0;
+
+  margin-top: 1px;
+}
+
+
+.backend-result-title strong {
+  display: block;
+
+  color: #cfe8da;
+
+  font-size: 9px;
+}
+
+
+.backend-result-title span {
+  display: block;
+
+  margin-top: 3px;
+
+  color: #6f867a;
+
+  font-size: 7.5px;
+
+  line-height: 1.5;
+}
+
+
+.backend-result-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: 8px;
+
+  margin-top: 13px;
+}
+
+
+.backend-result-grid > div {
+  min-width: 0;
+
+  display: grid;
+
+  grid-template-columns:
+    auto 1fr;
+
+  column-gap: 7px;
+
+  padding: 9px;
+
+  background:
+    rgba(255, 255, 255, 0.018);
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.045);
+
+  border-radius: 8px;
+}
+
+
+.backend-result-grid svg {
+  grid-row:
+    1 / span 2;
+
+  color: #597064;
+}
+
+
+.backend-result-grid span {
+  color: #53685d;
+
+  font-size: 7px;
+}
+
+
+.backend-result-grid strong {
+  overflow: hidden;
+
+  color: #a9bbb1;
+
+  font-size: 8px;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+}
+
+
+.backend-result-note {
+  display: flex;
+
+  align-items: flex-start;
+
+  gap: 7px;
+
+  margin-top: 10px;
+
+  padding-top: 10px;
+
+  color: #687d72;
+
+  border-top:
+    1px solid
+    rgba(255, 255, 255, 0.045);
+
+  font-size: 7.5px;
+
+  line-height: 1.5;
+}
+
+
+.backend-result-note svg {
+  flex-shrink: 0;
+
+  color: #47cf89;
+}
+
+
+/* =====================================================
+   DATABASE / STORAGE MESSAGES
+   ===================================================== */
+
+.detection-persistence-message {
+  display: flex;
+
+  align-items: flex-start;
+
+  gap: 9px;
+
+  margin-top: 14px;
+
+  padding: 11px 12px;
+
+  border-radius: 10px;
+
+  font-size: 8px;
+
+  line-height: 1.5;
+}
+
+
+.detection-persistence-message > svg {
+  flex-shrink: 0;
+
+  margin-top: 1px;
+}
+
+
+.detection-persistence-message strong {
+  display: block;
+
+  margin-bottom: 2px;
+
+  font-size: 8.5px;
+}
+
+
+.detection-persistence-message span {
+  display: block;
+}
+
+
+.detection-persistence-message.error {
+  color: #ff9e9e;
+
+  background:
+    rgba(255, 80, 80, 0.055);
+
+  border:
+    1px solid
+    rgba(255, 80, 80, 0.11);
+}
+
+
+/* =====================================================
+   SAVED DETECTION
+   ===================================================== */
+
+.detection-persistence-card {
+  position: relative;
+
+  margin-top: 15px;
+
+  padding: 15px;
+
+  overflow: hidden;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(45, 216, 129, 0.07),
+      rgba(9, 31, 21, 0.7)
+    );
+
+  border:
+    1px solid
+    rgba(45, 216, 129, 0.14);
+
+  border-radius: 12px;
+}
+
+
+.detection-persistence-card::after {
+  content: "";
+
+  position: absolute;
+
+  width: 100px;
+  height: 100px;
+
+  top: -55px;
+  right: -45px;
+
+  background:
+    rgba(45, 216, 129, 0.08);
+
+  border-radius: 50%;
+
+  filter: blur(20px);
+}
+
+
+.detection-persistence-icon {
+  width: 36px;
+  height: 36px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: 10px;
+
+  color: #57e699;
+
+  background:
+    rgba(45, 216, 129, 0.08);
+
+  border:
+    1px solid
+    rgba(45, 216, 129, 0.13);
+
+  border-radius: 9px;
+}
+
+
+.detection-persistence-card > div:nth-child(2) > span {
+  color: #46da8c;
+
+  font-size: 7px;
+
+  font-weight: 800;
+
+  letter-spacing: 1px;
+}
+
+
+.detection-persistence-card h4 {
+  margin:
+    5px 0 4px;
+
+  color: #dce9e2;
+
+  font-size: 10px;
+}
+
+
+.detection-persistence-card p {
+  margin: 0;
+
+  color: #71877b;
+
+  font-size: 7.5px;
+
+  line-height: 1.55;
+}
+
+
+.detection-persistence-details {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, 1fr);
+
+  gap: 7px;
+
+  margin-top: 13px;
+}
+
+
+.detection-persistence-details > div {
+  padding: 8px;
+
+  background:
+    rgba(0, 0, 0, 0.12);
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.04);
+
+  border-radius: 7px;
+}
+
+
+.detection-persistence-details span {
+  display: block;
+
+  margin-bottom: 3px;
+
+  color: #53695d;
+
+  font-size: 6.5px;
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.5px;
+}
+
+
+.detection-persistence-details strong {
+  display: block;
+
+  overflow: hidden;
+
+  color: #98afa2;
+
+  font-size: 7.5px;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+}
+
+
+/* =====================================================
+   RESPONSIVE
+   ===================================================== */
+
+@media (
+  max-width: 550px
+) {
+  .backend-result-grid {
+    grid-template-columns: 1fr;
+  }
+
+
+  .detection-persistence-details {
+    grid-template-columns: 1fr;
+  }
+}
