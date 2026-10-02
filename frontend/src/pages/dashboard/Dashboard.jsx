@@ -1,285 +1,814 @@
 import {
-  Beef,
-  ScanSearch,
-  ClipboardCheck,
-  Gauge,
-  ArrowUpRight,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
+
+import {
+  useNavigate,
+} from "react-router-dom";
+
+import {
+  Activity,
+  AlertCircle,
   Camera,
-  Upload,
-  BrainCircuit,
-  Database,
+  FileImage,
+  ImageOff,
+  LoaderCircle,
+  RefreshCw,
+  ScanSearch,
   ShieldCheck,
+  Sparkles,
 } from "lucide-react";
 
-import { Link } from "react-router-dom";
+import {
+  Area,
+  AreaChart,
+  CartesianGrid,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from "recharts";
 
-import StatCard from "../../components/dashboard/StatCard";
-import ActivityChart from "../../components/dashboard/ActivityChart";
-import RecentDetections from "../../components/dashboard/RecentDetections";
+import {
+  useAuth,
+} from "../../context/AuthContext";
+
+import {
+  getDashboardData,
+} from "../../services/dashboardDataService";
+
+import "../../styles/DashboardLive.css";
+
 
 function Dashboard() {
+  const navigate =
+    useNavigate();
+
+
+  const {
+    profile,
+    user,
+  } = useAuth();
+
+
+  const [
+    dashboard,
+    setDashboard,
+  ] = useState(null);
+
+  const [
+    loading,
+    setLoading,
+  ] = useState(true);
+
+  const [
+    error,
+    setError,
+  ] = useState("");
+
+
+  /* =====================================================
+     USER NAME
+     ===================================================== */
+
+  const firstName =
+    profile?.full_name
+      ?.split(" ")[0] ||
+    user?.user_metadata?.name
+      ?.split(" ")[0] ||
+    "User";
+
+
+  /* =====================================================
+     LOAD REAL DASHBOARD DATA
+     ===================================================== */
+
+  const loadDashboard =
+    useCallback(async () => {
+      try {
+        setLoading(true);
+
+        setError("");
+
+
+        const data =
+          await getDashboardData();
+
+
+        setDashboard(
+          data
+        );
+
+      } catch (
+        dashboardError
+      ) {
+        console.error(
+          "Dashboard data error:",
+          dashboardError
+        );
+
+
+        setError(
+          dashboardError.message ||
+          "Unable to load dashboard data."
+        );
+
+      } finally {
+        setLoading(false);
+      }
+    }, []);
+
+
+  useEffect(() => {
+    loadDashboard();
+  }, [
+    loadDashboard,
+  ]);
+
+
+  /* =====================================================
+     HELPERS
+     ===================================================== */
+
+  const formatDate = (
+    value
+  ) => {
+    if (!value) {
+      return "—";
+    }
+
+
+    return new Date(
+      value
+    ).toLocaleString(
+      "en-IN",
+      {
+        day: "2-digit",
+
+        month: "short",
+
+        hour: "2-digit",
+
+        minute:
+          "2-digit",
+      }
+    );
+  };
+
+
+  const formatConfidence =
+    (
+      confidence
+    ) => {
+      if (
+        confidence === null ||
+        confidence === undefined
+      ) {
+        return "—";
+      }
+
+
+      return `${(
+        Number(
+          confidence
+        ) * 100
+      ).toFixed(1)}%`;
+    };
+
+
+  if (
+    loading &&
+    !dashboard
+  ) {
+    return (
+      <div className="live-dashboard-loading">
+
+        <LoaderCircle
+          size={30}
+          className="live-dashboard-spinner"
+        />
+
+        <span>
+          Loading real BreedVision data...
+        </span>
+
+      </div>
+    );
+  }
+
+
+  const data =
+    dashboard || {
+      totalDetections: 0,
+
+      pendingReviews: 0,
+
+      cameraDetections: 0,
+
+      averageConfidence: null,
+
+      activity: [],
+
+      breedDistribution: [],
+
+      recentDetections: [],
+    };
+
+
   return (
-    <div className="dashboard-page">
+    <div className="live-dashboard-page">
 
-      {/* =========================
-          WELCOME HEADER
-      ========================== */}
+      {/* =================================================
+          HEADER
+      ================================================= */}
 
-      <section className="dashboard-welcome">
+      <header className="live-dashboard-header">
+
         <div>
-          <span className="dashboard-eyebrow">
-            BREEDVISION AI COMMAND CENTER
+
+          <span className="live-dashboard-eyebrow">
+            BREEDVISION INTELLIGENCE
           </span>
 
           <h1>
-            Welcome back, Harshit.
+            Welcome back, {firstName}
           </h1>
 
           <p>
-            Monitor breed predictions, livestock records and AI
-            verification activity from one workspace.
+            Your dashboard is now powered by
+            real records from your private
+            BreedVision workspace.
           </p>
+
         </div>
 
-        <Link
-          to="/detection"
-          className="primary-dashboard-button"
-        >
-          <ScanSearch size={18} />
-          New Detection
-          <ArrowUpRight size={16} />
-        </Link>
-      </section>
+
+        <div className="live-dashboard-actions">
+
+          <button
+            type="button"
+            className="live-dashboard-button"
+            onClick={
+              loadDashboard
+            }
+          >
+            <RefreshCw
+              size={15}
+            />
+
+            Refresh
+          </button>
 
 
-      {/* =========================
-          STATISTICS
-      ========================== */}
+          <button
+            type="button"
+            className="live-dashboard-button primary"
+            onClick={() =>
+              navigate(
+                "/detection"
+              )
+            }
+          >
+            <ScanSearch
+              size={15}
+            />
 
-      <section className="dashboard-stat-grid">
+            New Detection
+          </button>
 
-        <StatCard
-          title="Registered Animals"
-          value="0"
-          subtitle="No animals registered yet"
-          icon={Beef}
-        />
+        </div>
 
-        <StatCard
-          title="Total Predictions"
-          value="0"
-          subtitle="No detection activity yet"
-          icon={ScanSearch}
-        />
-
-        <StatCard
-          title="Pending Reviews"
-          value="0"
-          subtitle="No cases require verification"
-          icon={ClipboardCheck}
-        />
-
-        <StatCard
-          title="Average Confidence"
-          value="—"
-          subtitle="Available after model predictions"
-          icon={Gauge}
-        />
-
-      </section>
+      </header>
 
 
-      {/* =========================
-          QUICK DETECTION
-      ========================== */}
+      {error && (
 
-      <section className="quick-detection-banner">
+        <div className="live-dashboard-error">
 
-        <div className="quick-detection-content">
+          <AlertCircle
+            size={16}
+          />
 
-          <div className="quick-detection-icon">
-            <BrainCircuit size={29} />
+          {error}
+
+        </div>
+
+      )}
+
+
+      {/* =================================================
+          REAL KPI CARDS
+      ================================================= */}
+
+      <section className="live-dashboard-stats">
+
+        <article className="live-stat-card">
+
+          <div className="live-stat-card-top">
+
+            <div className="live-stat-icon">
+
+              <ScanSearch
+                size={18}
+              />
+
+            </div>
+
           </div>
 
-          <div>
-            <span>BREED IDENTIFICATION</span>
+          <span>
+            Total Detections
+          </span>
+
+          <strong>
+            {data.totalDetections}
+          </strong>
+
+          <p>
+            Real records stored in Supabase
+          </p>
+
+        </article>
+
+
+        <article className="live-stat-card">
+
+          <div className="live-stat-card-top">
+
+            <div className="live-stat-icon">
+
+              <ShieldCheck
+                size={18}
+              />
+
+            </div>
+
+          </div>
+
+          <span>
+            Pending Reviews
+          </span>
+
+          <strong>
+            {data.pendingReviews}
+          </strong>
+
+          <p>
+            Awaiting verification
+          </p>
+
+        </article>
+
+
+        <article className="live-stat-card">
+
+          <div className="live-stat-card-top">
+
+            <div className="live-stat-icon">
+
+              <Camera
+                size={18}
+              />
+
+            </div>
+
+          </div>
+
+          <span>
+            Camera Captures
+          </span>
+
+          <strong>
+            {data.cameraDetections}
+          </strong>
+
+          <p>
+            Captured through live camera
+          </p>
+
+        </article>
+
+
+        <article className="live-stat-card">
+
+          <div className="live-stat-card-top">
+
+            <div className="live-stat-icon">
+
+              <Sparkles
+                size={18}
+              />
+
+            </div>
+
+          </div>
+
+          <span>
+            Average Confidence
+          </span>
+
+          <strong>
+            {data.averageConfidence ===
+            null
+              ? "—"
+              : formatConfidence(
+                  data.averageConfidence
+                )}
+          </strong>
+
+          <p>
+            {data.averageConfidence ===
+            null
+              ? "Available after ML integration"
+              : "Calculated from real predictions"}
+          </p>
+
+        </article>
+
+      </section>
+
+
+      {/* =================================================
+          ACTIVITY + BREEDS
+      ================================================= */}
+
+      <section className="live-dashboard-grid">
+
+        <article className="live-dashboard-panel">
+
+          <div className="live-panel-heading">
 
             <h2>
-              Identify cattle and buffalo breeds using AI
+              Detection Activity
             </h2>
 
-            <p>
-              Upload an animal image or capture one using your device
-              camera. BreedVision will return the predicted breed,
-              confidence score and alternative predictions.
-            </p>
-          </div>
-
-        </div>
-
-        <div className="quick-detection-actions">
-
-          <Link
-            to="/detection"
-            className="quick-action-primary"
-          >
-            <Upload size={18} />
-            Upload Image
-          </Link>
-
-          <Link
-            to="/detection"
-            className="quick-action-secondary"
-          >
-            <Camera size={18} />
-            Open Camera
-          </Link>
-
-        </div>
-
-      </section>
-
-
-      {/* =========================
-          ANALYTICS AREA
-      ========================== */}
-
-      <section className="dashboard-main-grid">
-
-        <ActivityChart />
-
-        <div className="dashboard-panel model-status-panel">
-
-          <div className="panel-header">
-            <div>
-              <h3>AI System Status</h3>
-              <p>BreedVision model infrastructure</p>
-            </div>
-
-            <span className="status-badge-development">
-              DEVELOPMENT
+            <span>
+              Last 7 days
             </span>
-          </div>
-
-          <div className="model-status-list">
-
-            <div className="model-status-item">
-
-              <div className="model-status-icon">
-                <ScanSearch size={19} />
-              </div>
-
-              <div>
-                <h4>Animal Detector</h4>
-                <p>YOLO detector</p>
-              </div>
-
-              <span className="model-status-pending">
-                Pending
-              </span>
-
-            </div>
-
-
-            <div className="model-status-item">
-
-              <div className="model-status-icon">
-                <BrainCircuit size={19} />
-              </div>
-
-              <div>
-                <h4>Breed Classifier</h4>
-                <p>EfficientNet pipeline</p>
-              </div>
-
-              <span className="model-status-pending">
-                Pending
-              </span>
-
-            </div>
-
-
-            <div className="model-status-item">
-
-              <div className="model-status-icon">
-                <Database size={19} />
-              </div>
-
-              <div>
-                <h4>Database</h4>
-                <p>Supabase integration</p>
-              </div>
-
-              <span className="model-status-pending">
-                Pending
-              </span>
-
-            </div>
-
-
-            <div className="model-status-item">
-
-              <div className="model-status-icon">
-                <ShieldCheck size={19} />
-              </div>
-
-              <div>
-                <h4>Human Verification</h4>
-                <p>Low-confidence review workflow</p>
-              </div>
-
-              <span className="model-status-pending">
-                Pending
-              </span>
-
-            </div>
 
           </div>
 
-        </div>
+
+          <div className="live-dashboard-chart">
+
+            <ResponsiveContainer
+              width="100%"
+              height="100%"
+            >
+              <AreaChart
+                data={
+                  data.activity
+                }
+              >
+
+                <defs>
+
+                  <linearGradient
+                    id="breedVisionActivity"
+                    x1="0"
+                    y1="0"
+                    x2="0"
+                    y2="1"
+                  >
+                    <stop
+                      offset="5%"
+                      stopColor="#2dd881"
+                      stopOpacity={
+                        0.28
+                      }
+                    />
+
+                    <stop
+                      offset="95%"
+                      stopColor="#2dd881"
+                      stopOpacity={
+                        0
+                      }
+                    />
+
+                  </linearGradient>
+
+                </defs>
+
+
+                <CartesianGrid
+                  stroke="rgba(255,255,255,0.04)"
+                  vertical={
+                    false
+                  }
+                />
+
+
+                <XAxis
+                  dataKey="day"
+                  axisLine={
+                    false
+                  }
+                  tickLine={
+                    false
+                  }
+                  tick={{
+                    fill:
+                      "#607469",
+
+                    fontSize:
+                      9,
+                  }}
+                />
+
+
+                <YAxis
+                  allowDecimals={
+                    false
+                  }
+                  axisLine={
+                    false
+                  }
+                  tickLine={
+                    false
+                  }
+                  width={28}
+                  tick={{
+                    fill:
+                      "#607469",
+
+                    fontSize:
+                      9,
+                  }}
+                />
+
+
+                <Tooltip
+                  content={({
+                    active,
+                    payload,
+                    label,
+                  }) => {
+                    if (
+                      !active ||
+                      !payload?.length
+                    ) {
+                      return null;
+                    }
+
+
+                    return (
+                      <div className="live-chart-tooltip">
+
+                        <strong>
+                          {label}
+                        </strong>
+
+                        <div>
+                          {payload[0]
+                            .value}
+                          {" "}
+                          detection
+                          {payload[0]
+                            .value ===
+                          1
+                            ? ""
+                            : "s"}
+                        </div>
+
+                      </div>
+                    );
+                  }}
+                />
+
+
+                <Area
+                  type="monotone"
+                  dataKey="detections"
+                  stroke="#2dd881"
+                  strokeWidth={
+                    2
+                  }
+                  fill="url(#breedVisionActivity)"
+                />
+
+              </AreaChart>
+            </ResponsiveContainer>
+
+          </div>
+
+        </article>
+
+
+        <article className="live-dashboard-panel">
+
+          <div className="live-panel-heading">
+
+            <h2>
+              Breed Distribution
+            </h2>
+
+            <span>
+              Real ML results only
+            </span>
+
+          </div>
+
+
+          {data
+            .breedDistribution
+            .length === 0 ? (
+
+            <div className="live-breed-empty">
+
+              <Activity
+                size={29}
+              />
+
+              <h3>
+                No breed predictions yet
+              </h3>
+
+              <p>
+                The classifier is not connected,
+                so BreedVision will not fabricate
+                breed analytics.
+              </p>
+
+            </div>
+
+          ) : (
+
+            <div className="live-breed-list">
+
+              {data
+                .breedDistribution
+                .slice(
+                  0,
+                  5
+                )
+                .map(
+                  (
+                    item
+                  ) => (
+
+                    <div
+                      className="live-breed-row"
+                      key={
+                        item.breed
+                      }
+                    >
+
+                      <span>
+                        {item.breed}
+                      </span>
+
+                      <strong>
+                        {item.count}
+                      </strong>
+
+                    </div>
+
+                  )
+                )}
+
+            </div>
+
+          )}
+
+        </article>
 
       </section>
 
 
-      {/* =========================
-          RECENT RESULTS
-      ========================== */}
+      {/* =================================================
+          RECENT DETECTIONS
+      ================================================= */}
 
-      <section className="dashboard-bottom-grid">
+      <section className="live-dashboard-panel">
 
-        <RecentDetections />
+        <div className="live-panel-heading">
+
+          <h2>
+            Recent Detections
+          </h2>
+
+          <button
+            type="button"
+            className="live-dashboard-button"
+            onClick={() =>
+              navigate(
+                "/history"
+              )
+            }
+          >
+            View History
+          </button>
+
+        </div>
 
 
-        <div className="dashboard-panel breed-overview-panel">
+        {data
+          .recentDetections
+          .length === 0 ? (
 
-          <div className="panel-header">
-            <div>
-              <h3>Breed Distribution</h3>
-              <p>Detected breeds across registered predictions</p>
-            </div>
-          </div>
+          <div className="live-dashboard-empty">
 
-          <div className="breed-empty-state">
+            <FileImage
+              size={29}
+            />
 
-            <div className="breed-empty-circle">
-              <Beef size={28} />
-            </div>
-
-            <h4>No breed data available</h4>
+            <h3>
+              No detections yet
+            </h3>
 
             <p>
-              Distribution analytics will populate automatically
-              when verified predictions are stored.
+              Upload or capture your first
+              livestock image to populate
+              this dashboard.
             </p>
 
           </div>
 
-        </div>
+        ) : (
+
+          <div className="live-recent-list">
+
+            {data
+              .recentDetections
+              .map(
+                (
+                  detection
+                ) => (
+
+                  <div
+                    className="live-recent-row"
+                    key={
+                      detection.id
+                    }
+                  >
+
+                    <div className="live-recent-image">
+
+                      {detection.signed_url ? (
+
+                        <img
+                          src={
+                            detection.signed_url
+                          }
+                          alt={
+                            detection.original_filename ||
+                            "Detection"
+                          }
+                        />
+
+                      ) : (
+
+                        <ImageOff
+                          size={19}
+                        />
+
+                      )}
+
+                    </div>
+
+
+                    <div className="live-recent-info">
+
+                      <strong>
+                        {detection.predicted_breed ||
+                          "Awaiting ML prediction"}
+                      </strong>
+
+                      <span>
+                        {formatDate(
+                          detection.created_at
+                        )}
+                        {" • "}
+                        {detection.source ===
+                        "camera"
+                          ? "Camera"
+                          : "Upload"}
+                      </span>
+
+                    </div>
+
+
+                    <span className="live-recent-status">
+                      {detection.review_status}
+                    </span>
+
+                  </div>
+
+                )
+              )}
+
+          </div>
+
+        )}
 
       </section>
 
     </div>
   );
 }
+
 
 export default Dashboard;
