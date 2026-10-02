@@ -41,3 +41,7 @@ npm-debug.log*
 yarn-debug.log*ml/data/
 ml/.venv/
 ml/weights/
+
+/ml/data/
+/ml/.venv/
+/ml/weights/

@@ -10,9 +10,9 @@
 
 ## Dataset Split
 
-- Train: 2603
-- Validation: 1791
-- Test: 1789
+- Train: 4328
+- Validation: 928
+- Test: 927
 
 ## Leakage Validation
 
@@ -30,10 +30,3 @@
 - Near-duplicate groups remain within one split.
 - Train, validation and test leakage has been checked.
 - Synthetic data is not used as primary evaluation data.
-
-
-## Warnings
-
-- Train ratio deviates substantially from the 70% target.
-- Validation ratio deviates substantially from the 15% target.
-- Test ratio deviates substantially from the 15% target.

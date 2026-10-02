@@ -8,48 +8,49 @@
     "total_images": 6183,
     "total_groups": 4777,
     "split_counts": {
-        "train": 2603,
-        "validation": 1791,
-        "test": 1789
+        "train": 4328,
+        "validation": 928,
+        "test": 927
     },
     "split_percentages": {
-        "train": 42.1,
-        "validation": 28.97,
-        "test": 28.93
+        "train": 70.0,
+        "validation": 15.01,
+        "test": 14.99
     },
     "class_split_counts": {
         "Bargur": {
-            "train": 303,
-            "validation": 47,
-            "test": 207
+            "train": 390,
+            "validation": 84,
+            "test": 83
         },
         "Gir": {
-            "train": 1172,
-            "validation": 744,
-            "test": 790
+            "train": 1897,
+            "validation": 405,
+            "test": 404
         },
         "Hallikar": {
-            "train": 260,
-            "validation": 614,
-            "test": 207
+            "train": 754,
+            "validation": 163,
+            "test": 164
         },
         "Ongole": {
-            "train": 222,
-            "validation": 117,
-            "test": 147
+            "train": 340,
+            "validation": 73,
+            "test": 73
         },
         "Sahiwal": {
-            "train": 225,
-            "validation": 14,
-            "test": 128
+            "train": 257,
+            "validation": 55,
+            "test": 55
         },
         "Tharparkar": {
-            "train": 421,
-            "validation": 255,
-            "test": 310
+            "train": 690,
+            "validation": 148,
+            "test": 148
         }
     },
     "group_leakage_count": 0,
     "leaking_groups": {},
+    "optimization_score": 2.639550983202296e-05,
     "policy": "Every near-duplicate group is assigned entirely to one split."
 }

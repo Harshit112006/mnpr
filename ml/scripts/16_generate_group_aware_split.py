@@ -7,7 +7,8 @@ from collections import defaultdict
 
 # =========================================================
 # BREEDVISION AI
-# PHASE 4 - GROUP-AWARE TRAIN / VAL / TEST SPLIT
+# PHASE 4
+# BALANCED GROUP-AWARE TRAIN / VAL / TEST SPLIT
 # =========================================================
 
 
@@ -49,8 +50,15 @@ SPLIT_RATIOS = {
 }
 
 
+SPLITS = [
+    "train",
+    "validation",
+    "test",
+]
+
+
 # =========================================================
-# LOADERS
+# LOAD HELPERS
 # =========================================================
 
 
@@ -58,7 +66,7 @@ def load_json(path):
 
     if not path.exists():
         raise FileNotFoundError(
-            f"Missing required file:\n{path}"
+            f"Required file not found:\n{path}"
         )
 
     with path.open(
@@ -69,18 +77,14 @@ def load_json(path):
         return json.load(file)
 
 
-def load_group_rows():
+def load_csv(path):
 
-    if not GROUPS_CSV.exists():
-
+    if not path.exists():
         raise FileNotFoundError(
-            f"\nNear-duplicate grouping file not found:\n"
-            f"{GROUPS_CSV}\n\n"
-            "Run 15_group_near_duplicates.py first."
+            f"Required file not found:\n{path}"
         )
 
-
-    with GROUPS_CSV.open(
+    with path.open(
         "r",
         encoding="utf-8",
         newline="",
@@ -92,15 +96,220 @@ def load_group_rows():
 
 
 # =========================================================
+# OBJECTIVE FUNCTION
+#
+# IMPORTANT:
+# We score the ENTIRE dataset distribution after every
+# possible group assignment.
+#
+# The older implementation scored only the candidate split,
+# which biased the result toward ~42/29/29.
+# =========================================================
+
+
+def calculate_score(
+    current_total_counts,
+    current_class_counts,
+    target_total_counts,
+    target_class_counts,
+    classes,
+):
+
+    total_error = 0.0
+    class_error = 0.0
+    overshoot_penalty = 0.0
+
+
+    # =====================================================
+    # OVERALL SPLIT RATIO ERROR
+    # =====================================================
+
+    for split in SPLITS:
+
+        target = max(
+            target_total_counts[split],
+            1.0,
+        )
+
+        current = (
+            current_total_counts[
+                split
+            ]
+        )
+
+
+        relative_error = (
+            current - target
+        ) / target
+
+
+        total_error += (
+            relative_error
+            *
+            relative_error
+        )
+
+
+        # Strongly discourage unnecessary overshoot
+
+        if current > target:
+
+            overshoot = (
+                current - target
+            ) / target
+
+
+            overshoot_penalty += (
+                overshoot
+                *
+                overshoot
+            )
+
+
+    # =====================================================
+    # CLASS DISTRIBUTION ERROR
+    # =====================================================
+
+    class_terms = 0
+
+
+    for split in SPLITS:
+
+        for breed in classes:
+
+            target = max(
+                target_class_counts[
+                    split
+                ][
+                    breed
+                ],
+                1.0,
+            )
+
+
+            current = (
+                current_class_counts[
+                    split
+                ][
+                    breed
+                ]
+            )
+
+
+            relative_error = (
+                current - target
+            ) / target
+
+
+            class_error += (
+                relative_error
+                *
+                relative_error
+            )
+
+
+            class_terms += 1
+
+
+    if class_terms:
+
+        class_error /= (
+            class_terms
+        )
+
+
+    # Overall dataset ratio gets strongest priority.
+    # Class balance remains important.
+
+    score = (
+        3.0
+        *
+        total_error
+        +
+        1.5
+        *
+        class_error
+        +
+        4.0
+        *
+        overshoot_penalty
+    )
+
+
+    return score
+
+
+# =========================================================
+# APPLY / REMOVE GROUP
+# =========================================================
+
+
+def apply_group(
+    split,
+    group,
+    current_total_counts,
+    current_class_counts,
+):
+
+    current_total_counts[
+        split
+    ] += group[
+        "size"
+    ]
+
+
+    for breed, count in (
+        group[
+            "breed_counts"
+        ].items()
+    ):
+
+        current_class_counts[
+            split
+        ][
+            breed
+        ] += count
+
+
+def remove_group(
+    split,
+    group,
+    current_total_counts,
+    current_class_counts,
+):
+
+    current_total_counts[
+        split
+    ] -= group[
+        "size"
+    ]
+
+
+    for breed, count in (
+        group[
+            "breed_counts"
+        ].items()
+    ):
+
+        current_class_counts[
+            split
+        ][
+            breed
+        ] -= count
+
+
+# =========================================================
 # MAIN
 # =========================================================
 
 
 def main():
 
-    print("=" * 82)
-    print("BREEDVISION AI - GROUP-AWARE TRAIN / VAL / TEST SPLIT")
-    print("=" * 82)
+    print("=" * 84)
+    print(
+        "BREEDVISION AI - BALANCED GROUP-AWARE DATASET SPLIT"
+    )
+    print("=" * 84)
 
 
     random.seed(
@@ -113,12 +322,23 @@ def main():
     )
 
 
-    classes = config[
-        "classes"
-    ]
+    classes = (
+        config[
+            "classes"
+        ]
+    )
 
 
-    rows = load_group_rows()
+    rows = load_csv(
+        GROUPS_CSV
+    )
+
+
+    if not rows:
+
+        raise RuntimeError(
+            "Near-duplicate grouping manifest is empty."
+        )
 
 
     print()
@@ -134,10 +354,10 @@ def main():
 
 
     # =====================================================
-    # GROUP IMAGES BY GROUP_ID
+    # BUILD GROUPS
     # =====================================================
 
-    groups = defaultdict(
+    raw_groups = defaultdict(
         list
     )
 
@@ -150,109 +370,21 @@ def main():
             ].strip()
         )
 
-        groups[
+
+        raw_groups[
             group_id
         ].append(
             row
         )
 
 
-    print(
-        "Groups loaded:",
-        len(groups),
-    )
+    groups = []
 
 
-    # =====================================================
-    # TOTAL CLASS COUNTS
-    # =====================================================
-
-    total_class_counts = defaultdict(
-        int
-    )
-
-
-    for row in rows:
-
-        breed = (
-            row[
-                "breed"
-            ].strip()
-        )
-
-        total_class_counts[
-            breed
-        ] += 1
-
-
-    # =====================================================
-    # TARGET COUNTS
-    # =====================================================
-
-    target_total_counts = {
-
-        split:
-            len(rows)
-            *
-            ratio
-
-        for split, ratio
-        in SPLIT_RATIOS.items()
-    }
-
-
-    target_class_counts = {
-
-        split: {
-
-            breed:
-                total_class_counts[
-                    breed
-                ]
-                *
-                ratio
-
-            for breed in classes
-        }
-
-        for split, ratio
-        in SPLIT_RATIOS.items()
-    }
-
-
-    # =====================================================
-    # CURRENT COUNTS
-    # =====================================================
-
-    current_total_counts = {
-
-        split: 0
-
-        for split in SPLIT_RATIOS
-    }
-
-
-    current_class_counts = {
-
-        split: {
-
-            breed: 0
-
-            for breed in classes
-        }
-
-        for split in SPLIT_RATIOS
-    }
-
-
-    # =====================================================
-    # PREPARE GROUP DATA
-    # =====================================================
-
-    group_data = []
-
-
-    for group_id, group_rows in groups.items():
+    for (
+        group_id,
+        group_rows,
+    ) in raw_groups.items():
 
         breed_counts = defaultdict(
             int
@@ -267,12 +399,13 @@ def main():
                 ].strip()
             )
 
+
             breed_counts[
                 breed
             ] += 1
 
 
-        group_data.append(
+        groups.append(
             {
                 "group_id":
                     group_id,
@@ -289,34 +422,143 @@ def main():
                     dict(
                         breed_counts
                     ),
+
+                "num_breeds":
+                    len(
+                        breed_counts
+                    ),
             }
         )
 
 
+    print(
+        "Near-duplicate groups:",
+        len(groups),
+    )
+
+
     # =====================================================
-    # LARGE GROUPS FIRST
-    #
-    # Random value only acts as deterministic tie-breaker.
+    # DATASET TOTALS
     # =====================================================
 
-    random_keys = {
+    total_images = len(
+        rows
+    )
+
+
+    total_class_counts = {
+        breed: 0
+        for breed in classes
+    }
+
+
+    for row in rows:
+
+        breed = (
+            row[
+                "breed"
+            ].strip()
+        )
+
+
+        if breed in total_class_counts:
+
+            total_class_counts[
+                breed
+            ] += 1
+
+
+    # =====================================================
+    # TARGET COUNTS
+    # =====================================================
+
+    target_total_counts = {
+
+        split:
+            total_images
+            *
+            SPLIT_RATIOS[
+                split
+            ]
+
+        for split in SPLITS
+    }
+
+
+    target_class_counts = {
+
+        split: {
+
+            breed:
+                total_class_counts[
+                    breed
+                ]
+                *
+                SPLIT_RATIOS[
+                    split
+                ]
+
+            for breed in classes
+        }
+
+        for split in SPLITS
+    }
+
+
+    # =====================================================
+    # CURRENT COUNTS
+    # =====================================================
+
+    current_total_counts = {
+
+        split: 0
+
+        for split in SPLITS
+    }
+
+
+    current_class_counts = {
+
+        split: {
+
+            breed: 0
+
+            for breed in classes
+        }
+
+        for split in SPLITS
+    }
+
+
+    # =====================================================
+    # GROUP ORDER
+    #
+    # Cross-class and large groups first because they are
+    # hardest to place correctly.
+    # =====================================================
+
+    random_tiebreak = {
 
         group[
             "group_id"
         ]:
             random.random()
 
-        for group in group_data
+        for group in groups
     }
 
 
-    group_data.sort(
+    groups.sort(
         key=lambda group: (
+            -group[
+                "num_breeds"
+            ],
+
             -group[
                 "size"
             ],
 
-            random_keys[
+            random_tiebreak[
                 group[
                     "group_id"
                 ]
@@ -326,118 +568,48 @@ def main():
 
 
     # =====================================================
-    # GREEDY ASSIGNMENT
+    # INITIAL GLOBAL GREEDY ASSIGNMENT
     # =====================================================
 
-    group_assignment = {}
+    assignment = {}
 
 
-    for group in group_data:
+    print()
+    print(
+        "Generating initial balanced split..."
+    )
+
+
+    for group in groups:
 
         best_split = None
         best_score = None
 
 
-        for split in SPLIT_RATIOS:
+        for split in SPLITS:
 
-            # ---------------------------------------------
-            # Total dataset-size deviation
-            # ---------------------------------------------
-
-            projected_total = (
-                current_total_counts[
-                    split
-                ]
-                +
-                group[
-                    "size"
-                ]
+            apply_group(
+                split,
+                group,
+                current_total_counts,
+                current_class_counts,
             )
 
 
-            target_total = (
-                target_total_counts[
-                    split
-                ]
+            score = calculate_score(
+                current_total_counts,
+                current_class_counts,
+                target_total_counts,
+                target_class_counts,
+                classes,
             )
 
 
-            total_deviation = abs(
-                projected_total
-                -
-                target_total
-            ) / max(
-                target_total,
-                1,
-            )
-
-
-            # ---------------------------------------------
-            # Per-class deviation
-            # ---------------------------------------------
-
-            class_deviation = 0.0
-
-
-            for breed in classes:
-
-                projected_class = (
-                    current_class_counts[
-                        split
-                    ][
-                        breed
-                    ]
-                    +
-                    group[
-                        "breed_counts"
-                    ].get(
-                        breed,
-                        0,
-                    )
-                )
-
-
-                target_class = (
-                    target_class_counts[
-                        split
-                    ][
-                        breed
-                    ]
-                )
-
-
-                class_deviation += abs(
-                    projected_class
-                    -
-                    target_class
-                ) / max(
-                    target_class,
-                    1,
-                )
-
-
-            # Average class deviation
-
-            class_deviation /= max(
-                len(classes),
-                1,
-            )
-
-
-            # ---------------------------------------------
-            # Combined score
-            #
-            # Class balance weighted more heavily.
-            # ---------------------------------------------
-
-            score = (
-                class_deviation
-                *
-                0.75
-                +
-                total_deviation
-                *
-                0.25
+            remove_group(
+                split,
+                group,
+                current_total_counts,
+                current_class_counts,
             )
 
 
@@ -448,39 +620,202 @@ def main():
             ):
 
                 best_score = score
-
                 best_split = split
 
 
-        # =================================================
-        # ASSIGN WHOLE GROUP
-        # =================================================
-
-        group_assignment[
+        assignment[
             group[
                 "group_id"
             ]
         ] = best_split
 
 
-        current_total_counts[
-            best_split
-        ] += group[
-            "size"
-        ]
+        apply_group(
+            best_split,
+            group,
+            current_total_counts,
+            current_class_counts,
+        )
 
 
-        for breed, count in (
-            group[
-                "breed_counts"
-            ].items()
-        ):
+    # =====================================================
+    # LOCAL OPTIMIZATION
+    #
+    # Try moving complete groups between splits.
+    # A move is kept only when the GLOBAL objective improves.
+    # =====================================================
 
-            current_class_counts[
+    print(
+        "Optimizing split distribution..."
+    )
+
+
+    group_lookup = {
+
+        group[
+            "group_id"
+        ]:
+            group
+
+        for group in groups
+    }
+
+
+    current_score = calculate_score(
+        current_total_counts,
+        current_class_counts,
+        target_total_counts,
+        target_class_counts,
+        classes,
+    )
+
+
+    MAX_PASSES = 8
+
+
+    for pass_number in range(
+        1,
+        MAX_PASSES + 1,
+    ):
+
+        improved = False
+
+
+        shuffled_groups = list(
+            groups
+        )
+
+
+        random.shuffle(
+            shuffled_groups
+        )
+
+
+        for group in shuffled_groups:
+
+            group_id = (
+                group[
+                    "group_id"
+                ]
+            )
+
+
+            current_split = (
+                assignment[
+                    group_id
+                ]
+            )
+
+
+            best_split = (
+                current_split
+            )
+
+            best_score = (
+                current_score
+            )
+
+
+            # Temporarily remove from current split
+
+            remove_group(
+                current_split,
+                group,
+                current_total_counts,
+                current_class_counts,
+            )
+
+
+            for candidate_split in SPLITS:
+
+                if (
+                    candidate_split
+                    ==
+                    current_split
+                ):
+                    continue
+
+
+                apply_group(
+                    candidate_split,
+                    group,
+                    current_total_counts,
+                    current_class_counts,
+                )
+
+
+                candidate_score = (
+                    calculate_score(
+                        current_total_counts,
+                        current_class_counts,
+                        target_total_counts,
+                        target_class_counts,
+                        classes,
+                    )
+                )
+
+
+                remove_group(
+                    candidate_split,
+                    group,
+                    current_total_counts,
+                    current_class_counts,
+                )
+
+
+                if (
+                    candidate_score
+                    <
+                    best_score
+                    -
+                    1e-12
+                ):
+
+                    best_score = (
+                        candidate_score
+                    )
+
+                    best_split = (
+                        candidate_split
+                    )
+
+
+            # Re-apply group to best split
+
+            apply_group(
+                best_split,
+                group,
+                current_total_counts,
+                current_class_counts,
+            )
+
+
+            if (
                 best_split
-            ][
-                breed
-            ] += count
+                !=
+                current_split
+            ):
+
+                assignment[
+                    group_id
+                ] = best_split
+
+                current_score = (
+                    best_score
+                )
+
+                improved = True
+
+
+        print(
+            f"Optimization pass {pass_number}: "
+            f"{'improved' if improved else 'stable'}"
+        )
+
+
+        if not improved:
+
+            break
 
 
     # =====================================================
@@ -500,7 +835,7 @@ def main():
 
 
         split = (
-            group_assignment[
+            assignment[
                 group_id
             ]
         )
@@ -538,7 +873,7 @@ def main():
 
 
     # =====================================================
-    # SORT OUTPUT
+    # SORT MANIFEST
     # =====================================================
 
     split_order = {
@@ -555,12 +890,15 @@ def main():
                     "split"
                 ]
             ],
+
             row[
                 "breed"
             ],
+
             row[
                 "group_id"
             ],
+
             row[
                 "image_path"
             ],
@@ -590,9 +928,9 @@ def main():
 
         writer = csv.DictWriter(
             file,
-            fieldnames=
-                fieldnames,
+            fieldnames=fieldnames,
         )
+
 
         writer.writeheader()
 
@@ -602,24 +940,32 @@ def main():
 
 
     # =====================================================
-    # FINAL COUNTS
+    # FINAL STATISTICS
     # =====================================================
 
-    final_split_counts = defaultdict(
-        int
-    )
+    final_split_counts = {
+
+        split: 0
+        for split in SPLITS
+    }
 
 
     final_class_split_counts = {
 
         breed: {
-            "train": 0,
-            "validation": 0,
-            "test": 0,
+
+            split: 0
+
+            for split in SPLITS
         }
 
         for breed in classes
     }
+
+
+    group_splits = defaultdict(
+        set
+    )
 
 
     for row in output_rows:
@@ -633,6 +979,12 @@ def main():
         breed = (
             row[
                 "breed"
+            ]
+        )
+
+        group_id = (
+            row[
+                "group_id"
             ]
         )
 
@@ -651,25 +1003,10 @@ def main():
             ] += 1
 
 
-    # =====================================================
-    # GROUP LEAKAGE INTERNAL CHECK
-    # =====================================================
-
-    group_splits = defaultdict(
-        set
-    )
-
-
-    for row in output_rows:
-
         group_splits[
-            row[
-                "group_id"
-            ]
+            group_id
         ].add(
-            row[
-                "split"
-            ]
+            split
         )
 
 
@@ -683,13 +1020,29 @@ def main():
         for group_id, splits
         in group_splits.items()
 
-        if len(splits) > 1
+        if len(
+            splits
+        ) > 1
     }
 
 
-    # =====================================================
-    # SUMMARY JSON
-    # =====================================================
+    percentages = {
+
+        split:
+            round(
+                final_split_counts[
+                    split
+                ]
+                /
+                total_images
+                *
+                100,
+                2,
+            )
+
+        for split in SPLITS
+    }
+
 
     summary = {
 
@@ -700,9 +1053,7 @@ def main():
             SPLIT_RATIOS,
 
         "total_images":
-            len(
-                output_rows
-            ),
+            total_images,
 
         "total_groups":
             len(
@@ -710,33 +1061,10 @@ def main():
             ),
 
         "split_counts":
-            dict(
-                final_split_counts
-            ),
+            final_split_counts,
 
-        "split_percentages": {
-
-            split:
-                round(
-                    (
-                        final_split_counts[
-                            split
-                        ]
-                        /
-                        max(
-                            len(
-                                output_rows
-                            ),
-                            1,
-                        )
-                    )
-                    *
-                    100,
-                    2,
-                )
-
-            for split in SPLIT_RATIOS
-        },
+        "split_percentages":
+            percentages,
 
         "class_split_counts":
             final_class_split_counts,
@@ -749,10 +1077,13 @@ def main():
         "leaking_groups":
             leaking_groups,
 
+        "optimization_score":
+            current_score,
+
         "policy":
             (
-                "Every near-duplicate group is assigned entirely "
-                "to one split."
+                "Every near-duplicate group is assigned "
+                "entirely to one split."
             ),
     }
 
@@ -770,53 +1101,28 @@ def main():
 
 
     # =====================================================
-    # TERMINAL OUTPUT
+    # OUTPUT
     # =====================================================
 
     print()
-    print("=" * 82)
-    print("SPLIT RESULT")
-    print("=" * 82)
+    print("=" * 84)
+    print("FINAL BALANCED SPLIT")
+    print("=" * 84)
 
 
-    for split in [
-        "train",
-        "validation",
-        "test",
-    ]:
-
-        count = (
-            final_split_counts[
-                split
-            ]
-        )
-
-
-        percentage = (
-            count
-            /
-            max(
-                len(
-                    output_rows
-                ),
-                1,
-            )
-            *
-            100
-        )
-
+    for split in SPLITS:
 
         print(
-            f"{split:<12} : "
-            f"{count:<8} "
-            f"({percentage:.2f}%)"
+            f"{split:<12}: "
+            f"{final_split_counts[split]:<7} "
+            f"({percentages[split]:.2f}%)"
         )
 
 
     print()
-    print("-" * 82)
-    print("CLASS-WISE SPLIT COUNTS")
-    print("-" * 82)
+    print("-" * 84)
+    print("CLASS-WISE COUNTS")
+    print("-" * 84)
 
 
     print(
@@ -846,44 +1152,30 @@ def main():
 
     print()
     print(
-        "Group leakage detected:",
+        "Group leakage:",
         len(
             leaking_groups
         ),
     )
 
 
-    if len(
-        leaking_groups
-    ) == 0:
+    if not leaking_groups:
 
         print(
-            "PASS: No near-duplicate group was split "
-            "across train/validation/test."
-        )
-
-    else:
-
-        print(
-            "WARNING: Group leakage detected."
+            "PASS: All near-duplicate groups remain "
+            "inside exactly one split."
         )
 
 
     print()
     print(
-        "Split manifest:",
+        "Manifest:",
         OUTPUT_CSV
     )
 
     print(
-        "Summary:",
+        "Summary :",
         OUTPUT_JSON
-    )
-
-
-    print()
-    print(
-        "No images were copied, moved or deleted."
     )
 
 
