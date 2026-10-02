@@ -1,72 +1,160 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import {
+  Link,
+  useNavigate,
+} from "react-router-dom";
+
 import { motion } from "framer-motion";
+
 import {
   Eye,
   EyeOff,
   LockKeyhole,
   Mail,
   ArrowRight,
+  AlertCircle,
+  LoaderCircle,
 } from "lucide-react";
+
+import {
+  signInUser,
+} from "../../services/authService";
+
 
 function Login() {
   const navigate = useNavigate();
 
-  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] =
+    useState(false);
 
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
+  const [loading, setLoading] =
+    useState(false);
 
-  const [loading, setLoading] = useState(false);
+  const [error, setError] =
+    useState("");
+
+  const [formData, setFormData] =
+    useState({
+      email: "",
+      password: "",
+    });
+
 
   const handleChange = (event) => {
     setFormData({
       ...formData,
-      [event.target.name]: event.target.value,
+
+      [event.target.name]:
+        event.target.value,
     });
+
+    setError("");
   };
 
-  const handleSubmit = (event) => {
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if (!formData.email || !formData.password) {
+    setError("");
+
+    if (
+      !formData.email ||
+      !formData.password
+    ) {
+      setError(
+        "Please enter your email and password."
+      );
+
       return;
     }
 
-    setLoading(true);
+    try {
+      setLoading(true);
 
-    // Temporary frontend-only authentication.
-    // Real Supabase authentication will replace this later.
-    setTimeout(() => {
+      const data =
+        await signInUser({
+          email: formData.email,
+          password: formData.password,
+        });
+
+      if (!data.session) {
+        setError(
+          "Login failed. Please verify your account and try again."
+        );
+
+        return;
+      }
+
+      navigate(
+        "/dashboard",
+        {
+          replace: true,
+        }
+      );
+
+    } catch (loginError) {
+      console.error(
+        "Login error:",
+        loginError
+      );
+
+      setError(
+        loginError.message ||
+        "Unable to sign in."
+      );
+
+    } finally {
       setLoading(false);
-      navigate("/dashboard");
-    }, 900);
+    }
   };
+
 
   return (
     <motion.div
       className="auth-card"
-      initial={{ opacity: 0, scale: 0.97 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.4 }}
+      initial={{
+        opacity: 0,
+        scale: 0.97,
+      }}
+      animate={{
+        opacity: 1,
+        scale: 1,
+      }}
+      transition={{
+        duration: 0.4,
+      }}
     >
-      <div className="auth-heading">
-        <span>WELCOME BACK</span>
 
-        <h2>Sign in to BreedVision</h2>
+      <div className="auth-heading">
+
+        <span>
+          WELCOME BACK
+        </span>
+
+        <h2>
+          Sign in to BreedVision
+        </h2>
 
         <p>
-          Access intelligent breed detection, livestock analytics and reports.
+          Access intelligent breed detection,
+          livestock analytics and reports.
         </p>
+
       </div>
 
+
       <form onSubmit={handleSubmit}>
+
+        {/* EMAIL */}
+
         <div className="input-group">
-          <label>Email address</label>
+
+          <label>
+            Email address
+          </label>
 
           <div className="input-wrapper">
+
             <Mail size={19} />
 
             <input
@@ -77,23 +165,39 @@ function Login() {
               onChange={handleChange}
               required
             />
+
           </div>
+
         </div>
 
+
+        {/* PASSWORD */}
+
         <div className="input-group">
+
           <div className="label-row">
-            <label>Password</label>
+
+            <label>
+              Password
+            </label>
 
             <Link to="/forgot-password">
               Forgot password?
             </Link>
+
           </div>
 
+
           <div className="input-wrapper">
+
             <LockKeyhole size={19} />
 
             <input
-              type={showPassword ? "text" : "password"}
+              type={
+                showPassword
+                  ? "text"
+                  : "password"
+              }
               name="password"
               placeholder="Enter your password"
               value={formData.password}
@@ -104,39 +208,109 @@ function Login() {
             <button
               type="button"
               className="password-toggle"
-              onClick={() => setShowPassword(!showPassword)}
+              onClick={() =>
+                setShowPassword(
+                  !showPassword
+                )
+              }
             >
-              {showPassword ? <EyeOff size={19} /> : <Eye size={19} />}
+
+              {showPassword ? (
+                <EyeOff size={19} />
+              ) : (
+                <Eye size={19} />
+              )}
+
             </button>
+
           </div>
+
         </div>
+
+
+        {/* OPTIONS */}
 
         <div className="login-options">
+
           <label className="remember-me">
-            <input type="checkbox" />
-            <span>Remember me</span>
+
+            <input
+              type="checkbox"
+            />
+
+            <span>
+              Remember me
+            </span>
+
           </label>
+
         </div>
 
-        <button className="primary-auth-button" type="submit">
+
+        {/* ERROR */}
+
+        {error && (
+          <div className="auth-message auth-error-message">
+
+            <AlertCircle size={17} />
+
+            <span>
+              {error}
+            </span>
+
+          </div>
+        )}
+
+
+        {/* SIGN IN */}
+
+        <button
+          className="primary-auth-button"
+          type="submit"
+          disabled={loading}
+        >
+
           {loading ? (
-            <span className="button-loader"></span>
+            <>
+              <LoaderCircle
+                size={18}
+                className="auth-loader"
+              />
+
+              Signing In...
+            </>
           ) : (
             <>
               Sign In
-              <ArrowRight size={19} />
+
+              <ArrowRight
+                size={19}
+              />
             </>
           )}
+
         </button>
 
+
         <div className="separator">
-          <span></span>
+          <span />
           <p>OR</p>
-          <span></span>
+          <span />
         </div>
 
-        <button className="google-button" type="button">
-          <svg viewBox="0 0 24 24" width="20" height="20">
+
+        {/* GOOGLE - NEXT STEP */}
+
+        <button
+          className="google-button"
+          type="button"
+        >
+
+          <svg
+            viewBox="0 0 24 24"
+            width="20"
+            height="20"
+          >
             <path
               fill="#4285F4"
               d="M21.35 11.1h-9.18v3.71h5.29c-.23 1.19-.91 2.2-1.93 2.88v2.4h3.12c1.83-1.68 2.88-4.16 2.88-7.09 0-.66-.06-1.3-.18-1.9z"
@@ -159,15 +333,25 @@ function Login() {
           </svg>
 
           Continue with Google
+
         </button>
 
+
         <p className="auth-footer">
+
           Don't have an account?
-          <Link to="/signup"> Create account</Link>
+
+          <Link to="/signup">
+            Create account
+          </Link>
+
         </p>
+
       </form>
+
     </motion.div>
   );
 }
+
 
 export default Login;
