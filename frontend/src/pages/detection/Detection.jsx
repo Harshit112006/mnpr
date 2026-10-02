@@ -11,8 +11,11 @@ import {
   Info,
   FileImage,
   CameraOff,
-  RefreshCcw,
+  LoaderCircle,
 } from "lucide-react";
+
+import ImageQualityPanel from "../../components/detection/ImageQualityPanel";
+import { analyzeImageQuality } from "../../utils/imageQuality";
 
 import "../../styles/Detection.css";
 
@@ -24,11 +27,13 @@ function Detection() {
   const [previewUrl, setPreviewUrl] = useState("");
 
   const [isDragging, setIsDragging] = useState(false);
-
   const [error, setError] = useState("");
 
   const [cameraOpen, setCameraOpen] = useState(false);
   const [cameraError, setCameraError] = useState("");
+
+  const [quality, setQuality] = useState(null);
+  const [qualityLoading, setQualityLoading] = useState(false);
 
   const allowedTypes = [
     "image/jpeg",
@@ -46,16 +51,14 @@ function Detection() {
   };
 
   const clearOldPreview = () => {
-    if (
-      previewUrl &&
-      previewUrl.startsWith("blob:")
-    ) {
+    if (previewUrl && previewUrl.startsWith("blob:")) {
       URL.revokeObjectURL(previewUrl);
     }
   };
 
   const handleFile = (file) => {
     setError("");
+    setQuality(null);
 
     if (!file) {
       return;
@@ -95,13 +98,11 @@ function Detection() {
 
   const handleDragOver = (event) => {
     event.preventDefault();
-
     setIsDragging(true);
   };
 
   const handleDragLeave = (event) => {
     event.preventDefault();
-
     setIsDragging(false);
   };
 
@@ -121,6 +122,7 @@ function Detection() {
 
     setSelectedFile(null);
     setPreviewUrl("");
+    setQuality(null);
     setError("");
   };
 
@@ -155,9 +157,7 @@ function Detection() {
 
       const capturedFile =
         new File(
-          [
-            blob,
-          ],
+          [blob],
           `breedvision-capture-${Date.now()}.jpg`,
           {
             type: "image/jpeg",
@@ -181,6 +181,47 @@ function Detection() {
   };
 
   useEffect(() => {
+    if (!previewUrl) {
+      setQuality(null);
+      return;
+    }
+
+    let cancelled = false;
+
+    const runQualityAnalysis = async () => {
+      try {
+        setQualityLoading(true);
+
+        const result =
+          await analyzeImageQuality(previewUrl);
+
+        if (!cancelled) {
+          setQuality(result);
+        }
+      } catch (qualityError) {
+        console.error(
+          "Image quality analysis failed:",
+          qualityError
+        );
+
+        if (!cancelled) {
+          setQuality(null);
+        }
+      } finally {
+        if (!cancelled) {
+          setQualityLoading(false);
+        }
+      }
+    };
+
+    runQualityAnalysis();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [previewUrl]);
+
+  useEffect(() => {
     return () => {
       if (
         previewUrl &&
@@ -194,22 +235,18 @@ function Detection() {
   return (
     <div className="detection-page">
 
-      {/* HEADER */}
-
       <section className="detection-header">
         <div>
           <span className="detection-eyebrow">
             BREEDVISION COMPUTER VISION
           </span>
 
-          <h1>
-            AI Breed Detection
-          </h1>
+          <h1>AI Breed Detection</h1>
 
           <p>
-            Upload a clear image of cattle
-            or buffalo for breed identification
-            and confidence analysis.
+            Upload or capture a clear image of cattle
+            or buffalo for breed identification and
+            confidence analysis.
           </p>
         </div>
 
@@ -217,59 +254,38 @@ function Detection() {
           <div className="detection-status-dot" />
 
           <div>
-            <span>
-              Detection Interface
-            </span>
-
-            <p>
-              Upload & camera ready
-            </p>
+            <span>Detection Interface</span>
+            <p>Upload, camera & quality check ready</p>
           </div>
         </div>
       </section>
 
-
-      {/* WORKSPACE */}
-
       <section className="detection-workspace">
-
-        {/* LEFT PANEL */}
 
         <div className="detection-upload-panel">
 
           <div className="detection-panel-heading">
             <div>
-              <span>
-                STEP 01
-              </span>
+              <span>STEP 01</span>
 
-              <h2>
-                Provide animal image
-              </h2>
+              <h2>Provide animal image</h2>
 
               <p>
-                Upload a clear side or
-                front-view image for better
-                breed analysis.
+                Upload a clear side or front-view image
+                for better breed analysis.
               </p>
             </div>
 
             <ImagePlus size={23} />
           </div>
 
-
-          {/* CAMERA VIEW */}
-
           {cameraOpen ? (
 
             <div className="camera-workspace">
 
               <div className="camera-toolbar">
-
                 <div>
-                  <span>
-                    LIVE CAMERA
-                  </span>
+                  <span>LIVE CAMERA</span>
 
                   <p>
                     Position the animal clearly
@@ -284,23 +300,18 @@ function Detection() {
                 >
                   <X size={18} />
                 </button>
-
               </div>
-
 
               <div className="webcam-container">
 
                 {!cameraError ? (
-
                   <Webcam
                     ref={webcamRef}
                     audio={false}
                     mirrored={false}
                     screenshotFormat="image/jpeg"
                     screenshotQuality={0.95}
-                    videoConstraints={
-                      videoConstraints
-                    }
+                    videoConstraints={videoConstraints}
                     className="webcam-video"
                     onUserMedia={() => {
                       setCameraError("");
@@ -311,23 +322,14 @@ function Detection() {
                       );
                     }}
                   />
-
                 ) : (
-
                   <div className="camera-error-state">
-
                     <CameraOff size={32} />
 
-                    <h3>
-                      Camera unavailable
-                    </h3>
+                    <h3>Camera unavailable</h3>
 
-                    <p>
-                      {cameraError}
-                    </p>
-
+                    <p>{cameraError}</p>
                   </div>
-
                 )}
 
                 {!cameraError && (
@@ -341,7 +343,6 @@ function Detection() {
 
               </div>
 
-
               <div className="camera-controls">
 
                 <button
@@ -350,7 +351,6 @@ function Detection() {
                   onClick={closeCamera}
                 >
                   <CameraOff size={17} />
-
                   Cancel
                 </button>
 
@@ -361,7 +361,6 @@ function Detection() {
                   disabled={Boolean(cameraError)}
                 >
                   <Camera size={19} />
-
                   Capture Photo
                 </button>
 
@@ -371,13 +370,9 @@ function Detection() {
 
           ) : !previewUrl ? (
 
-            /* UPLOAD AREA */
-
             <div
               className={`image-drop-zone ${
-                isDragging
-                  ? "dragging"
-                  : ""
+                isDragging ? "dragging" : ""
               }`}
               onDragOver={handleDragOver}
               onDragLeave={handleDragLeave}
@@ -386,7 +381,6 @@ function Detection() {
                 fileInputRef.current?.click()
               }
             >
-
               <div className="drop-zone-icon">
                 <UploadCloud size={32} />
               </div>
@@ -398,8 +392,8 @@ function Detection() {
               </h3>
 
               <p>
-                Drag and drop your image
-                here or click to browse
+                Drag and drop your image here
+                or click to browse
               </p>
 
               <button
@@ -412,63 +406,43 @@ function Detection() {
                 }}
               >
                 <FileImage size={17} />
-
                 Browse Image
               </button>
 
               <span className="upload-requirements">
-                JPG, JPEG, PNG or WEBP
-                • Maximum 10 MB
+                JPG, JPEG, PNG or WEBP • Maximum 10 MB
               </span>
-
             </div>
 
           ) : (
 
-            /* IMAGE PREVIEW */
-
             <div className="image-preview-container">
 
               <div className="image-preview-toolbar">
-
                 <div>
-                  <span>
-                    IMAGE READY
-                  </span>
-
-                  <p>
-                    {selectedFile?.name}
-                  </p>
+                  <span>IMAGE READY</span>
+                  <p>{selectedFile?.name}</p>
                 </div>
 
                 <button
                   type="button"
                   className="remove-image-button"
                   onClick={removeImage}
-                  title="Remove image"
                 >
                   <X size={18} />
                 </button>
-
               </div>
 
-
               <div className="image-preview">
-
                 <img
                   src={previewUrl}
                   alt="Animal preview"
                 />
-
               </div>
 
-
               <div className="image-file-info">
-
                 <div>
-                  <span>
-                    File size
-                  </span>
+                  <span>File size</span>
 
                   <strong>
                     {selectedFile
@@ -481,42 +455,27 @@ function Detection() {
                   </strong>
                 </div>
 
-
                 <div>
-                  <span>
-                    Format
-                  </span>
+                  <span>Format</span>
 
                   <strong>
                     {selectedFile?.type
-                      ?.replace(
-                        "image/",
-                        ""
-                      )
-                      .toUpperCase() ||
-                      "—"}
+                      ?.replace("image/", "")
+                      .toUpperCase() || "—"}
                   </strong>
                 </div>
 
-
                 <div>
-                  <span>
-                    Status
-                  </span>
+                  <span>Status</span>
 
                   <strong className="valid-image-status">
                     Valid
                   </strong>
                 </div>
-
               </div>
 
             </div>
-
           )}
-
-
-          {/* HIDDEN FILE INPUT */}
 
           <input
             ref={fileInputRef}
@@ -526,7 +485,6 @@ function Detection() {
             hidden
           />
 
-
           {error && (
             <div className="detection-error-message">
               <Info size={16} />
@@ -534,16 +492,11 @@ function Detection() {
             </div>
           )}
 
-
           {!cameraOpen && (
             <>
               <div className="image-source-divider">
                 <span />
-
-                <p>
-                  OR
-                </p>
-
+                <p>OR</p>
                 <span />
               </div>
 
@@ -556,9 +509,7 @@ function Detection() {
 
                 Capture using Camera
 
-                <span>
-                  LIVE
-                </span>
+                <span>LIVE</span>
               </button>
             </>
           )}
@@ -566,26 +517,16 @@ function Detection() {
         </div>
 
 
-        {/* RIGHT PANEL */}
-
         <aside className="detection-analysis-panel">
 
           <div className="analysis-panel-heading">
-
             <ScanSearch size={23} />
 
             <div>
-              <span>
-                STEP 02
-              </span>
-
-              <h2>
-                AI Analysis
-              </h2>
+              <span>STEP 02</span>
+              <h2>AI Analysis</h2>
             </div>
-
           </div>
-
 
           {!selectedFile ? (
 
@@ -595,113 +536,104 @@ function Detection() {
                 <ScanSearch size={31} />
               </div>
 
-              <h3>
-                Waiting for an image
-              </h3>
+              <h3>Waiting for an image</h3>
 
               <p>
-                Upload or capture an animal
-                image before starting
-                BreedVision analysis.
+                Upload or capture an animal image
+                before starting BreedVision analysis.
               </p>
 
             </div>
 
           ) : (
 
-            <div className="analysis-ready-state">
+            <>
+              {qualityLoading ? (
 
-              <div className="analysis-ready-icon">
-                <ShieldCheck size={28} />
+                <div className="quality-loading-state">
+                  <LoaderCircle
+                    size={28}
+                    className="quality-loading-spinner"
+                  />
+
+                  <h3>Checking image quality</h3>
+
+                  <p>
+                    BreedVision is analyzing resolution,
+                    brightness and sharpness.
+                  </p>
+                </div>
+
+              ) : (
+
+                <ImageQualityPanel quality={quality} />
+
+              )}
+
+              <div className="analysis-ready-state compact-analysis">
+
+                <div className="analysis-ready-icon">
+                  <ShieldCheck size={28} />
+                </div>
+
+                <span>FRONTEND VALIDATION COMPLETE</span>
+
+                <h3>
+                  {quality?.suitable
+                    ? "Ready for breed analysis"
+                    : "Image can still be submitted"}
+                </h3>
+
+                <p>
+                  Image-quality checks are advisory.
+                  Final breed recognition will be performed
+                  by the FastAPI ML pipeline.
+                </p>
+
+                <button
+                  type="button"
+                  className="analyze-animal-button"
+                  disabled
+                >
+                  <ScanSearch size={18} />
+                  Analyze Animal
+                </button>
+
+                <div className="model-not-connected">
+                  FastAPI backend connection is the next phase
+                </div>
+
               </div>
-
-              <span>
-                IMAGE VALIDATED
-              </span>
-
-              <h3>
-                Ready for breed analysis
-              </h3>
-
-              <p>
-                Your image passed the
-                frontend validation checks.
-                Model inference will be
-                connected through the
-                FastAPI backend.
-              </p>
-
-              <button
-                type="button"
-                className="analyze-animal-button"
-                disabled
-              >
-                <ScanSearch size={18} />
-
-                Analyze Animal
-              </button>
-
-              <div className="model-not-connected">
-                ML backend not connected yet
-              </div>
-
-            </div>
-
+            </>
           )}
 
-
           <div className="detection-help-card">
-
-            <h4>
-              For better accuracy
-            </h4>
+            <h4>For better accuracy</h4>
 
             <div>
-              <span>
-                01
-              </span>
-
-              <p>
-                Keep the complete animal visible.
-              </p>
+              <span>01</span>
+              <p>Keep the complete animal visible.</p>
             </div>
 
             <div>
-              <span>
-                02
-              </span>
-
-              <p>
-                Use good lighting and avoid heavy blur.
-              </p>
+              <span>02</span>
+              <p>Use good lighting and avoid heavy blur.</p>
             </div>
 
             <div>
-              <span>
-                03
-              </span>
-
-              <p>
-                Prefer one animal per image.
-              </p>
+              <span>03</span>
+              <p>Prefer one animal per image.</p>
             </div>
 
             <div>
-              <span>
-                04
-              </span>
-
-              <p>
-                Side or front views work best.
-              </p>
+              <span>04</span>
+              <p>Side or front views work best.</p>
             </div>
-
           </div>
 
         </aside>
 
       </section>
-
     </div>
   );
 }
