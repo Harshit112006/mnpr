@@ -1,6 +1,4 @@
-import io
-import uuid
-from pathlib import Path
+from io import BytesIO
 
 from fastapi import APIRouter, File, HTTPException, UploadFile
 from PIL import Image, UnidentifiedImageError
@@ -12,56 +10,64 @@ router = APIRouter(
 )
 
 
-BASE_DIR = Path(__file__).resolve().parents[2]
-UPLOAD_DIR = BASE_DIR / "uploads"
-
-UPLOAD_DIR.mkdir(
-    parents=True,
-    exist_ok=True,
-)
-
-
-MAX_FILE_SIZE = 10 * 1024 * 1024
-
-ALLOWED_TYPES = {
-    "image/jpeg": ".jpg",
-    "image/png": ".png",
-    "image/webp": ".webp",
+ALLOWED_CONTENT_TYPES = {
+    "image/jpeg",
+    "image/png",
+    "image/webp",
 }
+
+MAX_FILE_SIZE = 10 * 1024 * 1024  # 10 MB
 
 
 @router.post("/detect")
-async def upload_detection_image(
-    image: UploadFile = File(...)
+async def detect_animal(
+    file: UploadFile = File(...)
 ):
-    if image.content_type not in ALLOWED_TYPES:
+    # -----------------------------
+    # 1. Validate file type
+    # -----------------------------
+
+    if file.content_type not in ALLOWED_CONTENT_TYPES:
         raise HTTPException(
             status_code=400,
-            detail="Only JPG, PNG and WEBP images are supported.",
+            detail=(
+                "Unsupported file type. "
+                "Please upload JPG, PNG or WEBP."
+            ),
         )
 
-    file_bytes = await image.read()
+    # -----------------------------
+    # 2. Read uploaded file
+    # -----------------------------
+
+    file_bytes = await file.read()
 
     if not file_bytes:
         raise HTTPException(
             status_code=400,
-            detail="Uploaded image is empty.",
+            detail="Uploaded file is empty.",
         )
+
+    # -----------------------------
+    # 3. Validate file size
+    # -----------------------------
 
     if len(file_bytes) > MAX_FILE_SIZE:
         raise HTTPException(
             status_code=400,
-            detail="Image size must be less than 10 MB.",
+            detail="Image must be smaller than 10 MB.",
         )
+
+    # -----------------------------
+    # 4. Decode real image
+    # -----------------------------
 
     try:
-        pil_image = Image.open(
-            io.BytesIO(file_bytes)
+        image = Image.open(
+            BytesIO(file_bytes)
         )
 
-        pil_image.load()
-
-        width, height = pil_image.size
+        image.load()
 
     except UnidentifiedImageError:
         raise HTTPException(
@@ -75,38 +81,46 @@ async def upload_detection_image(
             detail="Unable to process uploaded image.",
         )
 
-    extension = ALLOWED_TYPES[
-        image.content_type
-    ]
+    # -----------------------------
+    # 5. Extract image information
+    # -----------------------------
 
-    detection_id = str(
-        uuid.uuid4()
+    width, height = image.size
+
+    image_format = (
+        image.format
+        if image.format
+        else "UNKNOWN"
     )
 
-    saved_filename = (
-        f"{detection_id}{extension}"
+    size_mb = round(
+        len(file_bytes) / (1024 * 1024),
+        2,
     )
 
-    saved_path = (
-        UPLOAD_DIR /
-        saved_filename
-    )
-
-    saved_path.write_bytes(
-        file_bytes
-    )
+    # -----------------------------
+    # 6. Temporary API response
+    # -----------------------------
+    # ML prediction will be added later.
 
     return {
         "success": True,
-        "message": "Image uploaded successfully.",
-        "detection_id": detection_id,
-        "original_filename": image.filename,
-        "saved_filename": saved_filename,
-        "content_type": image.content_type,
-        "size_bytes": len(file_bytes),
-        "width": width,
-        "height": height,
-        "upload_status": "stored",
-        "model_status": "not_connected",
+
+        "message": (
+            "Image received successfully. "
+            "ML inference is not connected yet."
+        ),
+
+        "image": {
+            "filename": file.filename,
+            "content_type": file.content_type,
+            "format": image_format,
+            "mode": image.mode,
+            "width": width,
+            "height": height,
+            "size_bytes": len(file_bytes),
+            "size_mb": size_mb,
+        },
+
         "prediction": None,
     }
