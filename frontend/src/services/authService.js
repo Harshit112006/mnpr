@@ -65,3 +65,44 @@ export const signOutUser = async () => {
     throw error;
   }
 };
+
+/* =====================================================
+   RESET PASSWORD REQUEST
+   ===================================================== */
+
+export const sendPasswordResetEmail = async (
+  email
+) => {
+  const { data, error } =
+    await supabase.auth.resetPasswordForEmail(
+      email,
+      {
+        redirectTo:
+          `${window.location.origin}/reset-password`,
+      }
+    );
+
+  if (error) {
+    throw error;
+  }
+
+  return data;
+};
+/* =====================================================
+   UPDATE PASSWORD
+   ===================================================== */
+
+export const updateUserPassword = async (
+  newPassword
+) => {
+  const { data, error } =
+    await supabase.auth.updateUser({
+      password: newPassword,
+    });
+
+  if (error) {
+    throw error;
+  }
+
+  return data;
+};

@@ -6,19 +6,29 @@ import {
 
 import AuthLayout from "../layouts/AuthLayout";
 import DashboardLayout from "../layouts/DashboardLayout";
+
 import ProtectedRoute from "./ProtectedRoute";
+import PublicRoute from "./PublicRoute";
+
 import Login from "../pages/auth/Login";
 import Signup from "../pages/auth/Signup";
 import ForgotPassword from "../pages/auth/ForgotPassword";
-import Detection from "../pages/detection/Detection";
+import ResetPassword from "../pages/auth/ResetPassword";
+
 import Dashboard from "../pages/dashboard/Dashboard";
+import Detection from "../pages/detection/Detection";
+
 
 function PlaceholderPage({ title }) {
   return (
     <div className="placeholder-page">
-      <span>BREEDVISION AI</span>
+      <span>
+        BREEDVISION AI
+      </span>
 
-      <h1>{title}</h1>
+      <h1>
+        {title}
+      </h1>
 
       <p>
         This module will be developed in the next phase.
@@ -27,13 +37,23 @@ function PlaceholderPage({ title }) {
   );
 }
 
+
 function AppRoutes() {
   return (
     <Routes>
 
-      {/* Authentication Routes */}
+      {/* =====================================================
+          PUBLIC AUTHENTICATION ROUTES
+          Logged-in users are redirected to /dashboard
+      ===================================================== */}
 
-      <Route element={<AuthLayout />}>
+      <Route
+        element={
+          <PublicRoute>
+            <AuthLayout />
+          </PublicRoute>
+        }
+      >
         <Route
           path="/login"
           element={<Login />}
@@ -51,93 +71,166 @@ function AppRoutes() {
       </Route>
 
 
-      {/* BreedVision Dashboard */}
+      {/* =====================================================
+          PASSWORD RECOVERY ROUTE
+
+          IMPORTANT:
+          This route is intentionally NOT wrapped inside
+          PublicRoute because Supabase creates a temporary
+          recovery session when the user clicks the password
+          reset email link.
+      ===================================================== */}
+
+      <Route element={<AuthLayout />}>
+        <Route
+          path="/reset-password"
+          element={<ResetPassword />}
+        />
+      </Route>
+
+
+      {/* =====================================================
+          PROTECTED BREEDVISION APPLICATION
+          Authentication required
+      ===================================================== */}
 
       <Route
-  element={
-    <ProtectedRoute>
-      <DashboardLayout />
-    </ProtectedRoute>
-  }
->
+        element={
+          <ProtectedRoute>
+            <DashboardLayout />
+          </ProtectedRoute>
+        }
+      >
+
+        {/* Dashboard */}
 
         <Route
           path="/dashboard"
           element={<Dashboard />}
         />
 
-       <Route
-  path="/detection"
-  element={<Detection />}
-/>
+
+        {/* AI Detection */}
+
+        <Route
+          path="/detection"
+          element={<Detection />}
+        />
+
+
+        {/* Animals */}
 
         <Route
           path="/animals"
           element={
-            <PlaceholderPage title="Animals" />
+            <PlaceholderPage
+              title="Animals"
+            />
           }
         />
+
+
+        {/* Farmers */}
 
         <Route
           path="/farmers"
           element={
-            <PlaceholderPage title="Farmers" />
+            <PlaceholderPage
+              title="Farmers"
+            />
           }
         />
+
+
+        {/* Detection History */}
 
         <Route
           path="/history"
           element={
-            <PlaceholderPage title="Detection History" />
+            <PlaceholderPage
+              title="Detection History"
+            />
           }
         />
+
+
+        {/* Human Review Center */}
 
         <Route
           path="/review"
           element={
-            <PlaceholderPage title="Review Center" />
+            <PlaceholderPage
+              title="Review Center"
+            />
           }
         />
+
+
+        {/* Analytics */}
 
         <Route
           path="/analytics"
           element={
-            <PlaceholderPage title="Analytics" />
+            <PlaceholderPage
+              title="Analytics"
+            />
           }
         />
+
+
+        {/* Reports */}
 
         <Route
           path="/reports"
           element={
-            <PlaceholderPage title="Reports" />
+            <PlaceholderPage
+              title="Reports"
+            />
           }
         />
+
+
+        {/* AI Assistant */}
 
         <Route
           path="/assistant"
           element={
-            <PlaceholderPage title="AI Assistant" />
+            <PlaceholderPage
+              title="AI Assistant"
+            />
           }
         />
+
+
+        {/* Alerts */}
 
         <Route
           path="/alerts"
           element={
-            <PlaceholderPage title="Alerts" />
+            <PlaceholderPage
+              title="Alerts"
+            />
           }
         />
+
+
+        {/* Settings */}
 
         <Route
           path="/settings"
           element={
-            <PlaceholderPage title="Settings" />
+            <PlaceholderPage
+              title="Settings"
+            />
           }
         />
 
       </Route>
 
 
-      {/* Redirects */}
+      {/* =====================================================
+          ROOT REDIRECT
+      ===================================================== */}
 
       <Route
         path="/"
@@ -148,6 +241,11 @@ function AppRoutes() {
           />
         }
       />
+
+
+      {/* =====================================================
+          UNKNOWN ROUTES
+      ===================================================== */}
 
       <Route
         path="*"
@@ -162,5 +260,6 @@ function AppRoutes() {
     </Routes>
   );
 }
+
 
 export default AppRoutes;
