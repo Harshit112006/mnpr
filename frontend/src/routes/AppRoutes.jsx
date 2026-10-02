@@ -14,14 +14,18 @@ import Login from "../pages/auth/Login";
 import Signup from "../pages/auth/Signup";
 import ForgotPassword from "../pages/auth/ForgotPassword";
 import ResetPassword from "../pages/auth/ResetPassword";
+import CompleteProfile from "../pages/auth/CompleteProfile";
 
 import Dashboard from "../pages/dashboard/Dashboard";
 import Detection from "../pages/detection/Detection";
 
 
-function PlaceholderPage({ title }) {
+function PlaceholderPage({
+  title,
+}) {
   return (
     <div className="placeholder-page">
+
       <span>
         BREEDVISION AI
       </span>
@@ -31,8 +35,10 @@ function PlaceholderPage({ title }) {
       </h1>
 
       <p>
-        This module will be developed in the next phase.
+        This module will be developed in
+        the next phase.
       </p>
+
     </div>
   );
 }
@@ -44,7 +50,6 @@ function AppRoutes() {
 
       {/* =====================================================
           PUBLIC AUTHENTICATION ROUTES
-          Logged-in users are redirected to /dashboard
       ===================================================== */}
 
       <Route
@@ -54,44 +59,78 @@ function AppRoutes() {
           </PublicRoute>
         }
       >
+
         <Route
           path="/login"
-          element={<Login />}
+          element={
+            <Login />
+          }
         />
 
         <Route
           path="/signup"
-          element={<Signup />}
+          element={
+            <Signup />
+          }
         />
 
         <Route
           path="/forgot-password"
-          element={<ForgotPassword />}
+          element={
+            <ForgotPassword />
+          }
         />
+
       </Route>
 
 
       {/* =====================================================
-          PASSWORD RECOVERY ROUTE
-
-          IMPORTANT:
-          This route is intentionally NOT wrapped inside
-          PublicRoute because Supabase creates a temporary
-          recovery session when the user clicks the password
-          reset email link.
+          PASSWORD RECOVERY
       ===================================================== */}
 
-      <Route element={<AuthLayout />}>
+      <Route
+        element={
+          <AuthLayout />
+        }
+      >
+
         <Route
           path="/reset-password"
-          element={<ResetPassword />}
+          element={
+            <ResetPassword />
+          }
         />
+
       </Route>
+
+
+      {/* =====================================================
+          PROFILE COMPLETION
+
+          Requires authentication but allows an
+          incomplete BreedVision profile.
+      ===================================================== */}
+
+      <Route
+        path="/complete-profile"
+        element={
+          <ProtectedRoute
+            allowIncompleteProfile={
+              true
+            }
+          >
+            <CompleteProfile />
+          </ProtectedRoute>
+        }
+      />
 
 
       {/* =====================================================
           PROTECTED BREEDVISION APPLICATION
-          Authentication required
+
+          Requires:
+          1. Valid Supabase session
+          2. Completed BreedVision profile
       ===================================================== */}
 
       <Route
@@ -102,23 +141,21 @@ function AppRoutes() {
         }
       >
 
-        {/* Dashboard */}
-
         <Route
           path="/dashboard"
-          element={<Dashboard />}
+          element={
+            <Dashboard />
+          }
         />
 
-
-        {/* AI Detection */}
 
         <Route
           path="/detection"
-          element={<Detection />}
+          element={
+            <Detection />
+          }
         />
 
-
-        {/* Animals */}
 
         <Route
           path="/animals"
@@ -130,8 +167,6 @@ function AppRoutes() {
         />
 
 
-        {/* Farmers */}
-
         <Route
           path="/farmers"
           element={
@@ -141,8 +176,6 @@ function AppRoutes() {
           }
         />
 
-
-        {/* Detection History */}
 
         <Route
           path="/history"
@@ -154,8 +187,6 @@ function AppRoutes() {
         />
 
 
-        {/* Human Review Center */}
-
         <Route
           path="/review"
           element={
@@ -165,8 +196,6 @@ function AppRoutes() {
           }
         />
 
-
-        {/* Analytics */}
 
         <Route
           path="/analytics"
@@ -178,8 +207,6 @@ function AppRoutes() {
         />
 
 
-        {/* Reports */}
-
         <Route
           path="/reports"
           element={
@@ -189,8 +216,6 @@ function AppRoutes() {
           }
         />
 
-
-        {/* AI Assistant */}
 
         <Route
           path="/assistant"
@@ -202,8 +227,6 @@ function AppRoutes() {
         />
 
 
-        {/* Alerts */}
-
         <Route
           path="/alerts"
           element={
@@ -213,8 +236,6 @@ function AppRoutes() {
           }
         />
 
-
-        {/* Settings */}
 
         <Route
           path="/settings"
@@ -229,7 +250,7 @@ function AppRoutes() {
 
 
       {/* =====================================================
-          ROOT REDIRECT
+          ROOT
       ===================================================== */}
 
       <Route
