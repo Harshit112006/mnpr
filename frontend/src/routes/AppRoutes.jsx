@@ -18,6 +18,7 @@ import CompleteProfile from "../pages/auth/CompleteProfile";
 
 import Dashboard from "../pages/dashboard/Dashboard";
 import Detection from "../pages/detection/Detection";
+import History from "../pages/history/History";
 import Settings from "../pages/settings/Settings";
 
 
@@ -63,23 +64,17 @@ function AppRoutes() {
 
         <Route
           path="/login"
-          element={
-            <Login />
-          }
+          element={<Login />}
         />
 
         <Route
           path="/signup"
-          element={
-            <Signup />
-          }
+          element={<Signup />}
         />
 
         <Route
           path="/forgot-password"
-          element={
-            <ForgotPassword />
-          }
+          element={<ForgotPassword />}
         />
 
       </Route>
@@ -97,9 +92,7 @@ function AppRoutes() {
 
         <Route
           path="/reset-password"
-          element={
-            <ResetPassword />
-          }
+          element={<ResetPassword />}
         />
 
       </Route>
@@ -137,17 +130,13 @@ function AppRoutes() {
 
         <Route
           path="/dashboard"
-          element={
-            <Dashboard />
-          }
+          element={<Dashboard />}
         />
 
 
         <Route
           path="/detection"
-          element={
-            <Detection />
-          }
+          element={<Detection />}
         />
 
 
@@ -173,11 +162,7 @@ function AppRoutes() {
 
         <Route
           path="/history"
-          element={
-            <PlaceholderPage
-              title="Detection History"
-            />
-          }
+          element={<History />}
         />
 
 
@@ -233,17 +218,13 @@ function AppRoutes() {
 
         <Route
           path="/settings"
-          element={
-            <Settings />
-          }
+          element={<Settings />}
         />
 
       </Route>
 
 
-      {/* =====================================================
-          ROOT REDIRECT
-      ===================================================== */}
+      {/* ROOT */}
 
       <Route
         path="/"
@@ -256,9 +237,7 @@ function AppRoutes() {
       />
 
 
-      {/* =====================================================
-          UNKNOWN ROUTES
-      ===================================================== */}
+      {/* UNKNOWN */}
 
       <Route
         path="*"
