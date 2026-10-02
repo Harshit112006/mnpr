@@ -1,0 +1,6 @@
+{
+    "total_images_checked": 13153,
+    "valid_images": 13153,
+    "corrupt_images": 0,
+    "corrupt_report": "C:\\Users\\lahar\\Documents\\mnpr\\ml\\reports\\corrupt_images.csv"
+}

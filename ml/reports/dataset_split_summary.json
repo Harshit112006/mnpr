@@ -1,0 +1,55 @@
+{
+    "random_seed": 42,
+    "split_ratios": {
+        "train": 0.7,
+        "validation": 0.15,
+        "test": 0.15
+    },
+    "total_images": 6183,
+    "total_groups": 4777,
+    "split_counts": {
+        "train": 2603,
+        "validation": 1791,
+        "test": 1789
+    },
+    "split_percentages": {
+        "train": 42.1,
+        "validation": 28.97,
+        "test": 28.93
+    },
+    "class_split_counts": {
+        "Bargur": {
+            "train": 303,
+            "validation": 47,
+            "test": 207
+        },
+        "Gir": {
+            "train": 1172,
+            "validation": 744,
+            "test": 790
+        },
+        "Hallikar": {
+            "train": 260,
+            "validation": 614,
+            "test": 207
+        },
+        "Ongole": {
+            "train": 222,
+            "validation": 117,
+            "test": 147
+        },
+        "Sahiwal": {
+            "train": 225,
+            "validation": 14,
+            "test": 128
+        },
+        "Tharparkar": {
+            "train": 421,
+            "validation": 255,
+            "test": 310
+        }
+    },
+    "group_leakage_count": 0,
+    "leaking_groups": {},
+    "policy": "Every near-duplicate group is assigned entirely to one split."
+}

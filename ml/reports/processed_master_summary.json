@@ -1,0 +1,23 @@
+{
+    "raw_images_discovered": 13153,
+    "candidate_images": 8456,
+    "final_processed_images": 6183,
+    "hard_exclusions_skipped": 2269,
+    "non_v1_images_skipped": 2428,
+    "unknown_label_images_skipped": 0,
+    "failed_read_images": 0,
+    "same_class_exact_duplicates_removed": 2273,
+    "unexpected_cross_class_hash_groups": 0,
+    "unexpected_cross_class_images_removed": 0,
+    "num_classes": 6,
+    "class_counts": {
+        "Bargur": 557,
+        "Gir": 2706,
+        "Hallikar": 1081,
+        "Ongole": 486,
+        "Sahiwal": 367,
+        "Tharparkar": 986
+    },
+    "processed_root": "D:\\BreedVisionData\\data\\processed\\master",
+    "raw_data_modified": false
+}

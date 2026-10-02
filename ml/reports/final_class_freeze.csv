@@ -1,0 +1,42 @@
+breed,species,total_images,sources,include_v1,decision,reason
+Murrah,buffalo,173,indian_bovine_secondary,False,exclude_low_data,Only 173 images available; v1 minimum is 200.
+Banni,buffalo,108,indian_bovine_secondary,False,exclude_low_data,Only 108 images available; v1 minimum is 200.
+Mehsana,buffalo,94,indian_bovine_secondary,False,exclude_low_data,Only 94 images available; v1 minimum is 200.
+Surti,buffalo,59,indian_bovine_secondary,False,exclude_low_data,Only 59 images available; v1 minimum is 200.
+Gir,cattle,4020,iicbd_2026 | indian_bovine_secondary,True,include_v1,Verified cattle breed with 4020 audited images.
+Hallikar,cattle,2137,iicbd_2026 | indian_bovine_secondary,True,include_v1,Verified cattle breed with 2137 audited images.
+Tharparkar,cattle,1031,iicbd_2026 | indian_bovine_secondary,True,include_v1,Verified cattle breed with 1031 audited images.
+Bargur,cattle,563,iicbd_2026 | indian_bovine_secondary,True,include_v1,Verified cattle breed with 563 audited images.
+Ongole,cattle,534,iicbd_2026 | indian_bovine_secondary,True,include_v1,Verified cattle breed with 534 audited images.
+Sahiwal,cattle,439,indian_bovine_secondary,True,include_v1,Verified cattle breed with 439 audited images.
+Kankrej,cattle,178,indian_bovine_secondary,False,exclude_low_data,Only 178 images available; v1 minimum is 200.
+Rathi,cattle,149,indian_bovine_secondary,False,exclude_low_data,Only 149 images available; v1 minimum is 200.
+Pulikulam,cattle,124,indian_bovine_secondary,False,exclude_low_data,Only 124 images available; v1 minimum is 200.
+Holstein Friesian,unknown,328,indian_bovine_secondary,False,exclude_unverified_species,Species is not verified as cattle or buffalo.
+Ayrshire,unknown,234,indian_bovine_secondary,False,exclude_unverified_species,Species is not verified as cattle or buffalo.
+Brown Swiss,unknown,225,indian_bovine_secondary,False,exclude_unverified_species,Species is not verified as cattle or buffalo.
+Jersey,unknown,203,indian_bovine_secondary,False,exclude_unverified_species,Species is not verified as cattle or buffalo.
+Nagpuri,unknown,182,indian_bovine_secondary,False,exclude_unverified_species,Species is not verified as cattle or buffalo.
+Red Dane,unknown,167,indian_bovine_secondary,False,exclude_unverified_species,Species is not verified as cattle or buffalo.
+Red Sindhi,unknown,162,indian_bovine_secondary,False,exclude_unverified_species,Species is not verified as cattle or buffalo.
+Vechur,unknown,140,indian_bovine_secondary,False,exclude_unverified_species,Species is not verified as cattle or buffalo.
+Krishna Valley,unknown,136,indian_bovine_secondary,False,exclude_unverified_species,Species is not verified as cattle or buffalo.
+Hariana,unknown,129,indian_bovine_secondary,False,exclude_unverified_species,Species is not verified as cattle or buffalo.
+Toda,unknown,124,indian_bovine_secondary,False,exclude_unverified_species,Species is not verified as cattle or buffalo.
+Guernsey,unknown,119,indian_bovine_secondary,False,exclude_unverified_species,Species is not verified as cattle or buffalo.
+Khillari,unknown,113,indian_bovine_secondary,False,exclude_unverified_species,Species is not verified as cattle or buffalo.
+Malnad Gidda,unknown,107,indian_bovine_secondary,False,exclude_unverified_species,Species is not verified as cattle or buffalo.
+Jaffrabadi,unknown,101,indian_bovine_secondary,False,exclude_unverified_species,Species is not verified as cattle or buffalo.
+Alambadi,unknown,99,indian_bovine_secondary,False,exclude_unverified_species,Species is not verified as cattle or buffalo.
+Deoni,unknown,99,indian_bovine_secondary,False,exclude_unverified_species,Species is not verified as cattle or buffalo.
+Kasargod,unknown,95,indian_bovine_secondary,False,exclude_unverified_species,Species is not verified as cattle or buffalo.
+Amritmahal,unknown,94,indian_bovine_secondary,False,exclude_unverified_species,Species is not verified as cattle or buffalo.
+Kangayam,unknown,91,indian_bovine_secondary,False,exclude_unverified_species,Species is not verified as cattle or buffalo.
+Nagori,unknown,89,indian_bovine_secondary,False,exclude_unverified_species,Species is not verified as cattle or buffalo.
+Nili Ravi,unknown,88,indian_bovine_secondary,False,exclude_unverified_species,Species is not verified as cattle or buffalo.
+Bhadawari,unknown,86,indian_bovine_secondary,False,exclude_unverified_species,Species is not verified as cattle or buffalo.
+Nimari,unknown,84,indian_bovine_secondary,False,exclude_unverified_species,Species is not verified as cattle or buffalo.
+Dangi,unknown,82,indian_bovine_secondary,False,exclude_unverified_species,Species is not verified as cattle or buffalo.
+Umblachery,unknown,76,indian_bovine_secondary,False,exclude_unverified_species,Species is not verified as cattle or buffalo.
+Kenkatha,unknown,55,indian_bovine_secondary,False,exclude_unverified_species,Species is not verified as cattle or buffalo.
+Kherigarh,unknown,36,indian_bovine_secondary,False,exclude_unverified_species,Species is not verified as cattle or buffalo.

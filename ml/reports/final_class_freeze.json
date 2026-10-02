@@ -1,0 +1,371 @@
+[
+    {
+        "breed": "Murrah",
+        "species": "buffalo",
+        "total_images": 173,
+        "sources": "indian_bovine_secondary",
+        "include_v1": false,
+        "decision": "exclude_low_data",
+        "reason": "Only 173 images available; v1 minimum is 200."
+    },
+    {
+        "breed": "Banni",
+        "species": "buffalo",
+        "total_images": 108,
+        "sources": "indian_bovine_secondary",
+        "include_v1": false,
+        "decision": "exclude_low_data",
+        "reason": "Only 108 images available; v1 minimum is 200."
+    },
+    {
+        "breed": "Mehsana",
+        "species": "buffalo",
+        "total_images": 94,
+        "sources": "indian_bovine_secondary",
+        "include_v1": false,
+        "decision": "exclude_low_data",
+        "reason": "Only 94 images available; v1 minimum is 200."
+    },
+    {
+        "breed": "Surti",
+        "species": "buffalo",
+        "total_images": 59,
+        "sources": "indian_bovine_secondary",
+        "include_v1": false,
+        "decision": "exclude_low_data",
+        "reason": "Only 59 images available; v1 minimum is 200."
+    },
+    {
+        "breed": "Gir",
+        "species": "cattle",
+        "total_images": 4020,
+        "sources": "iicbd_2026 | indian_bovine_secondary",
+        "include_v1": true,
+        "decision": "include_v1",
+        "reason": "Verified cattle breed with 4020 audited images."
+    },
+    {
+        "breed": "Hallikar",
+        "species": "cattle",
+        "total_images": 2137,
+        "sources": "iicbd_2026 | indian_bovine_secondary",
+        "include_v1": true,
+        "decision": "include_v1",
+        "reason": "Verified cattle breed with 2137 audited images."
+    },
+    {
+        "breed": "Tharparkar",
+        "species": "cattle",
+        "total_images": 1031,
+        "sources": "iicbd_2026 | indian_bovine_secondary",
+        "include_v1": true,
+        "decision": "include_v1",
+        "reason": "Verified cattle breed with 1031 audited images."
+    },
+    {
+        "breed": "Bargur",
+        "species": "cattle",
+        "total_images": 563,
+        "sources": "iicbd_2026 | indian_bovine_secondary",
+        "include_v1": true,
+        "decision": "include_v1",
+        "reason": "Verified cattle breed with 563 audited images."
+    },
+    {
+        "breed": "Ongole",
+        "species": "cattle",
+        "total_images": 534,
+        "sources": "iicbd_2026 | indian_bovine_secondary",
+        "include_v1": true,
+        "decision": "include_v1",
+        "reason": "Verified cattle breed with 534 audited images."
+    },
+    {
+        "breed": "Sahiwal",
+        "species": "cattle",
+        "total_images": 439,
+        "sources": "indian_bovine_secondary",
+        "include_v1": true,
+        "decision": "include_v1",
+        "reason": "Verified cattle breed with 439 audited images."
+    },
+    {
+        "breed": "Kankrej",
+        "species": "cattle",
+        "total_images": 178,
+        "sources": "indian_bovine_secondary",
+        "include_v1": false,
+        "decision": "exclude_low_data",
+        "reason": "Only 178 images available; v1 minimum is 200."
+    },
+    {
+        "breed": "Rathi",
+        "species": "cattle",
+        "total_images": 149,
+        "sources": "indian_bovine_secondary",
+        "include_v1": false,
+        "decision": "exclude_low_data",
+        "reason": "Only 149 images available; v1 minimum is 200."
+    },
+    {
+        "breed": "Pulikulam",
+        "species": "cattle",
+        "total_images": 124,
+        "sources": "indian_bovine_secondary",
+        "include_v1": false,
+        "decision": "exclude_low_data",
+        "reason": "Only 124 images available; v1 minimum is 200."
+    },
+    {
+        "breed": "Holstein Friesian",
+        "species": "unknown",
+        "total_images": 328,
+        "sources": "indian_bovine_secondary",
+        "include_v1": false,
+        "decision": "exclude_unverified_species",
+        "reason": "Species is not verified as cattle or buffalo."
+    },
+    {
+        "breed": "Ayrshire",
+        "species": "unknown",
+        "total_images": 234,
+        "sources": "indian_bovine_secondary",
+        "include_v1": false,
+        "decision": "exclude_unverified_species",
+        "reason": "Species is not verified as cattle or buffalo."
+    },
+    {
+        "breed": "Brown Swiss",
+        "species": "unknown",
+        "total_images": 225,
+        "sources": "indian_bovine_secondary",
+        "include_v1": false,
+        "decision": "exclude_unverified_species",
+        "reason": "Species is not verified as cattle or buffalo."
+    },
+    {
+        "breed": "Jersey",
+        "species": "unknown",
+        "total_images": 203,
+        "sources": "indian_bovine_secondary",
+        "include_v1": false,
+        "decision": "exclude_unverified_species",
+        "reason": "Species is not verified as cattle or buffalo."
+    },
+    {
+        "breed": "Nagpuri",
+        "species": "unknown",
+        "total_images": 182,
+        "sources": "indian_bovine_secondary",
+        "include_v1": false,
+        "decision": "exclude_unverified_species",
+        "reason": "Species is not verified as cattle or buffalo."
+    },
+    {
+        "breed": "Red Dane",
+        "species": "unknown",
+        "total_images": 167,
+        "sources": "indian_bovine_secondary",
+        "include_v1": false,
+        "decision": "exclude_unverified_species",
+        "reason": "Species is not verified as cattle or buffalo."
+    },
+    {
+        "breed": "Red Sindhi",
+        "species": "unknown",
+        "total_images": 162,
+        "sources": "indian_bovine_secondary",
+        "include_v1": false,
+        "decision": "exclude_unverified_species",
+        "reason": "Species is not verified as cattle or buffalo."
+    },
+    {
+        "breed": "Vechur",
+        "species": "unknown",
+        "total_images": 140,
+        "sources": "indian_bovine_secondary",
+        "include_v1": false,
+        "decision": "exclude_unverified_species",
+        "reason": "Species is not verified as cattle or buffalo."
+    },
+    {
+        "breed": "Krishna Valley",
+        "species": "unknown",
+        "total_images": 136,
+        "sources": "indian_bovine_secondary",
+        "include_v1": false,
+        "decision": "exclude_unverified_species",
+        "reason": "Species is not verified as cattle or buffalo."
+    },
+    {
+        "breed": "Hariana",
+        "species": "unknown",
+        "total_images": 129,
+        "sources": "indian_bovine_secondary",
+        "include_v1": false,
+        "decision": "exclude_unverified_species",
+        "reason": "Species is not verified as cattle or buffalo."
+    },
+    {
+        "breed": "Toda",
+        "species": "unknown",
+        "total_images": 124,
+        "sources": "indian_bovine_secondary",
+        "include_v1": false,
+        "decision": "exclude_unverified_species",
+        "reason": "Species is not verified as cattle or buffalo."
+    },
+    {
+        "breed": "Guernsey",
+        "species": "unknown",
+        "total_images": 119,
+        "sources": "indian_bovine_secondary",
+        "include_v1": false,
+        "decision": "exclude_unverified_species",
+        "reason": "Species is not verified as cattle or buffalo."
+    },
+    {
+        "breed": "Khillari",
+        "species": "unknown",
+        "total_images": 113,
+        "sources": "indian_bovine_secondary",
+        "include_v1": false,
+        "decision": "exclude_unverified_species",
+        "reason": "Species is not verified as cattle or buffalo."
+    },
+    {
+        "breed": "Malnad Gidda",
+        "species": "unknown",
+        "total_images": 107,
+        "sources": "indian_bovine_secondary",
+        "include_v1": false,
+        "decision": "exclude_unverified_species",
+        "reason": "Species is not verified as cattle or buffalo."
+    },
+    {
+        "breed": "Jaffrabadi",
+        "species": "unknown",
+        "total_images": 101,
+        "sources": "indian_bovine_secondary",
+        "include_v1": false,
+        "decision": "exclude_unverified_species",
+        "reason": "Species is not verified as cattle or buffalo."
+    },
+    {
+        "breed": "Alambadi",
+        "species": "unknown",
+        "total_images": 99,
+        "sources": "indian_bovine_secondary",
+        "include_v1": false,
+        "decision": "exclude_unverified_species",
+        "reason": "Species is not verified as cattle or buffalo."
+    },
+    {
+        "breed": "Deoni",
+        "species": "unknown",
+        "total_images": 99,
+        "sources": "indian_bovine_secondary",
+        "include_v1": false,
+        "decision": "exclude_unverified_species",
+        "reason": "Species is not verified as cattle or buffalo."
+    },
+    {
+        "breed": "Kasargod",
+        "species": "unknown",
+        "total_images": 95,
+        "sources": "indian_bovine_secondary",
+        "include_v1": false,
+        "decision": "exclude_unverified_species",
+        "reason": "Species is not verified as cattle or buffalo."
+    },
+    {
+        "breed": "Amritmahal",
+        "species": "unknown",
+        "total_images": 94,
+        "sources": "indian_bovine_secondary",
+        "include_v1": false,
+        "decision": "exclude_unverified_species",
+        "reason": "Species is not verified as cattle or buffalo."
+    },
+    {
+        "breed": "Kangayam",
+        "species": "unknown",
+        "total_images": 91,
+        "sources": "indian_bovine_secondary",
+        "include_v1": false,
+        "decision": "exclude_unverified_species",
+        "reason": "Species is not verified as cattle or buffalo."
+    },
+    {
+        "breed": "Nagori",
+        "species": "unknown",
+        "total_images": 89,
+        "sources": "indian_bovine_secondary",
+        "include_v1": false,
+        "decision": "exclude_unverified_species",
+        "reason": "Species is not verified as cattle or buffalo."
+    },
+    {
+        "breed": "Nili Ravi",
+        "species": "unknown",
+        "total_images": 88,
+        "sources": "indian_bovine_secondary",
+        "include_v1": false,
+        "decision": "exclude_unverified_species",
+        "reason": "Species is not verified as cattle or buffalo."
+    },
+    {
+        "breed": "Bhadawari",
+        "species": "unknown",
+        "total_images": 86,
+        "sources": "indian_bovine_secondary",
+        "include_v1": false,
+        "decision": "exclude_unverified_species",
+        "reason": "Species is not verified as cattle or buffalo."
+    },
+    {
+        "breed": "Nimari",
+        "species": "unknown",
+        "total_images": 84,
+        "sources": "indian_bovine_secondary",
+        "include_v1": false,
+        "decision": "exclude_unverified_species",
+        "reason": "Species is not verified as cattle or buffalo."
+    },
+    {
+        "breed": "Dangi",
+        "species": "unknown",
+        "total_images": 82,
+        "sources": "indian_bovine_secondary",
+        "include_v1": false,
+        "decision": "exclude_unverified_species",
+        "reason": "Species is not verified as cattle or buffalo."
+    },
+    {
+        "breed": "Umblachery",
+        "species": "unknown",
+        "total_images": 76,
+        "sources": "indian_bovine_secondary",
+        "include_v1": false,
+        "decision": "exclude_unverified_species",
+        "reason": "Species is not verified as cattle or buffalo."
+    },
+    {
+        "breed": "Kenkatha",
+        "species": "unknown",
+        "total_images": 55,
+        "sources": "indian_bovine_secondary",
+        "include_v1": false,
+        "decision": "exclude_unverified_species",
+        "reason": "Species is not verified as cattle or buffalo."
+    },
+    {
+        "breed": "Kherigarh",
+        "species": "unknown",
+        "total_images": 36,
+        "sources": "indian_bovine_secondary",
+        "include_v1": false,
+        "decision": "exclude_unverified_species",
+        "reason": "Species is not verified as cattle or buffalo."
+    }
+]

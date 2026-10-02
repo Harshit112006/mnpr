@@ -1,0 +1,22 @@
+{
+    "processed_images_checked": 6183,
+    "failed_images": 0,
+    "phash_hamming_threshold": 4,
+    "total_near_duplicate_pairs": 2576,
+    "same_class_near_duplicate_pairs": 2573,
+    "cross_class_near_duplicate_pairs": 3,
+    "pairs_by_hamming_distance": {
+        "0": 300,
+        "2": 977,
+        "4": 1299
+    },
+    "cross_class_breed_combinations": {
+        "Gir <-> Sahiwal": 2,
+        "Ongole <-> Tharparkar": 1
+    },
+    "policy": {
+        "current_action": "Audit only. No files removed.",
+        "cross_class_near_duplicates": "Require review before train/validation/test split.",
+        "same_class_near_duplicates": "Must be grouped before splitting so visually similar images cannot leak across dataset splits."
+    }
+}

@@ -1,0 +1,54 @@
+{
+    "project": "BreedVision AI",
+    "classifier_version": "v1",
+    "minimum_images_per_class": 200,
+    "num_classes": 6,
+    "num_cattle_classes": 6,
+    "num_buffalo_classes": 0,
+    "classes": [
+        "Bargur",
+        "Gir",
+        "Hallikar",
+        "Ongole",
+        "Sahiwal",
+        "Tharparkar"
+    ],
+    "cattle_classes": [
+        "Bargur",
+        "Gir",
+        "Hallikar",
+        "Ongole",
+        "Sahiwal",
+        "Tharparkar"
+    ],
+    "buffalo_classes": [],
+    "class_to_index": {
+        "Bargur": 0,
+        "Gir": 1,
+        "Hallikar": 2,
+        "Ongole": 3,
+        "Sahiwal": 4,
+        "Tharparkar": 5
+    },
+    "species_mapping": {
+        "Bargur": "cattle",
+        "Gir": "cattle",
+        "Hallikar": "cattle",
+        "Ongole": "cattle",
+        "Sahiwal": "cattle",
+        "Tharparkar": "cattle"
+    },
+    "split_policy": {
+        "train": 0.7,
+        "validation": 0.15,
+        "test": 0.15
+    },
+    "image_policy": {
+        "minimum_width": 224,
+        "minimum_height": 224,
+        "raw_data_modified": false,
+        "synthetic_primary_training": false,
+        "validation_augmentation": false,
+        "test_augmentation": false
+    }
+}

@@ -1,0 +1,79 @@
+{
+  "project": "BreedVision AI",
+  "phase": "Phase 4 - Dataset Foundation",
+  "policy": {
+    "primary_training_data": "Real labelled bovine photographs only",
+    "synthetic_images": "Not allowed as primary training or evaluation data",
+    "raw_data_editing": "Forbidden",
+    "test_set_augmentation": false,
+    "validation_set_augmentation": false,
+    "data_leakage": "Train, validation and test sets must be checked for duplicate and near-duplicate leakage before training"
+  },
+  "sources": [
+    {
+      "id": "iicbd_2026",
+      "name": "Annotated Multiview Image Dataset of Prominent Indigenous Indian Cattle Breeds",
+      "source": "Mendeley Data",
+      "doi": "10.17632/xc3j9v382w.1",
+      "license": "CC BY 4.0",
+      "species": "cattle",
+      "status": "approved_partial_primary",
+      "published_metadata": {
+        "reported_images": 9598,
+        "reported_breeds": [
+          "Bargur",
+          "Gir",
+          "Hallikar",
+          "Kankrej",
+          "Ongole",
+          "Pulikulam",
+          "Rathi",
+          "Sahiwal",
+          "Tharparkar"
+        ]
+      },
+      "local_archive_audit": {
+        "total_images_found": 7226,
+        "recognized_images": 7226,
+        "unrecognized_images": 0,
+        "available_breeds": {
+          "Bargur": 470,
+          "Gir": 3648,
+          "Hallikar": 1951,
+          "Ongole": 343,
+          "Tharparkar": 814
+        },
+        "missing_reported_breeds": [
+          "Kankrej",
+          "Pulikulam",
+          "Rathi",
+          "Sahiwal"
+        ],
+        "archive_search_result": "Missing breed names were not present in the downloaded ZIP archive.",
+        "decision": "Use the five locally available classes as valid IICBD source data. Do not fabricate or manually create the four missing classes. Supplement missing breeds only from separately documented datasets."
+      }
+    },
+    {
+      "id": "indian_bovine_secondary",
+      "name": "Secondary Indian Bovine Breed Dataset",
+      "source": "To be selected after audit",
+      "status": "candidate",
+      "species": "cattle_and_buffalo",
+      "requirements": [
+        "Real photographs",
+        "Breed-labelled folders or labels",
+        "Traceable source",
+        "Usable licence",
+        "Must contain cattle and/or buffalo breeds required by BreedVision",
+        "Must be audited before merging with IICBD"
+      ]
+    },
+    {
+      "id": "dahd_pashupedia",
+      "name": "Pashupedia Cattle and Buffalo Breed Reference",
+      "source": "Department of Animal Husbandry and Dairying, Government of India",
+      "status": "reference_only",
+      "purpose": "Breed-name and morphological-reference validation. Not treated automatically as bulk training data."
+    }
+  ]
+}

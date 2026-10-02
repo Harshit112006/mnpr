@@ -1,0 +1,11 @@
+{
+    "duplicate_groups_checked": 1609,
+    "same_class_duplicate_groups": 1480,
+    "cross_class_conflict_groups": 129,
+    "unknown_label_groups": 0,
+    "policy": {
+        "same_class_duplicates": "Keep only one copy in processed dataset.",
+        "cross_class_conflicts": "Exclude all files in conflicting groups until manually reviewed.",
+        "unknown_label_groups": "Exclude until label provenance is resolved."
+    }
+}

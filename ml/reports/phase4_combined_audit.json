@@ -1,0 +1,109 @@
+{
+    "iicbd": {
+        "dataset": "IICBD 2026",
+        "dataset_root": "C:\\Users\\lahar\\Documents\\mnpr\\ml\\data\\raw\\iicbd_2026",
+        "expected_breeds": [
+            "Bargur",
+            "Gir",
+            "Hallikar",
+            "Kankrej",
+            "Ongole",
+            "Pulikulam",
+            "Rathi",
+            "Sahiwal",
+            "Tharparkar"
+        ],
+        "total_image_files_found": 7226,
+        "recognized_images": 7226,
+        "unrecognized_images": 0,
+        "breed_counts": {
+            "Bargur": 470,
+            "Gir": 3648,
+            "Hallikar": 1951,
+            "Kankrej": 0,
+            "Ongole": 343,
+            "Pulikulam": 0,
+            "Rathi": 0,
+            "Sahiwal": 0,
+            "Tharparkar": 814
+        },
+        "extension_counts": {
+            ".jpg": 7226
+        }
+    },
+    "secondary_bovine": {
+        "dataset": "Indian Bovine Breeds - Kaggle",
+        "dataset_root": "C:\\Users\\lahar\\Documents\\mnpr\\ml\\data\\raw\\indian_bovine_kaggle\\extracted",
+        "total_images": 5927,
+        "total_detected_classes": 41,
+        "class_counts": {
+            "Alambadi": 99,
+            "Amritmahal": 94,
+            "Ayrshire": 234,
+            "Banni": 108,
+            "Bargur": 93,
+            "Bhadawari": 86,
+            "Brown Swiss": 225,
+            "Dangi": 82,
+            "Deoni": 99,
+            "Gir": 372,
+            "Guernsey": 119,
+            "Hallikar": 186,
+            "Hariana": 129,
+            "Holstein Friesian": 328,
+            "Jaffrabadi": 101,
+            "Jersey": 203,
+            "Kangayam": 91,
+            "Kankrej": 178,
+            "Kasargod": 95,
+            "Kenkatha": 55,
+            "Kherigarh": 36,
+            "Khillari": 113,
+            "Krishna Valley": 136,
+            "Malnad gidda": 107,
+            "Mehsana": 94,
+            "Murrah": 173,
+            "Nagori": 89,
+            "Nagpuri": 182,
+            "Nili Ravi": 88,
+            "Nimari": 84,
+            "Ongole": 191,
+            "Pulikulam": 124,
+            "Rathi": 149,
+            "Red Dane": 167,
+            "Red Sindhi": 162,
+            "Sahiwal": 439,
+            "Surti": 59,
+            "Tharparkar": 217,
+            "Toda": 124,
+            "Umblachery": 76,
+            "Vechur": 140
+        },
+        "extension_counts": {
+            ".jpeg": 112,
+            ".jpg": 4489,
+            ".png": 1325,
+            ".webp": 1
+        }
+    },
+    "corrupt_audit": {
+        "total_images_checked": 13153,
+        "valid_images": 13153,
+        "corrupt_images": 0,
+        "corrupt_report": "C:\\Users\\lahar\\Documents\\mnpr\\ml\\reports\\corrupt_images.csv"
+    },
+    "duplicate_audit": {
+        "total_images": 13153,
+        "unique_hashes": 10702,
+        "duplicate_groups": 1609,
+        "duplicate_files": 2451
+    },
+    "dimension_audit": {
+        "minimum_width": 224,
+        "minimum_height": 224,
+        "total_images": 13153,
+        "acceptable_dimensions": 11086,
+        "too_small": 2067,
+        "failed": 0
+    }
+}

@@ -1,0 +1,32 @@
+{
+    "dataset": "IICBD 2026",
+    "dataset_root": "C:\\Users\\lahar\\Documents\\mnpr\\ml\\data\\raw\\iicbd_2026",
+    "expected_breeds": [
+        "Bargur",
+        "Gir",
+        "Hallikar",
+        "Kankrej",
+        "Ongole",
+        "Pulikulam",
+        "Rathi",
+        "Sahiwal",
+        "Tharparkar"
+    ],
+    "total_image_files_found": 7226,
+    "recognized_images": 7226,
+    "unrecognized_images": 0,
+    "breed_counts": {
+        "Bargur": 470,
+        "Gir": 3648,
+        "Hallikar": 1951,
+        "Kankrej": 0,
+        "Ongole": 343,
+        "Pulikulam": 0,
+        "Rathi": 0,
+        "Sahiwal": 0,
+        "Tharparkar": 814
+    },
+    "extension_counts": {
+        ".jpg": 7226
+    }
+}

@@ -1,0 +1,8 @@
+{
+    "minimum_width": 224,
+    "minimum_height": 224,
+    "total_images": 13153,
+    "acceptable_dimensions": 11086,
+    "too_small": 2067,
+    "failed": 0
+}

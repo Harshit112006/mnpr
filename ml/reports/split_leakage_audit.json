@@ -1,0 +1,44 @@
+{
+    "status": "PASS",
+    "split_manifest_images": 6183,
+    "processed_master_images": 6183,
+    "duplicate_manifest_paths": 0,
+    "group_leakage_count": 0,
+    "exact_hash_cross_split_count": 0,
+    "near_duplicate_pair_cross_split_count": 0,
+    "missing_processed_files": 0,
+    "missing_class_split_combinations": [],
+    "class_split_counts": {
+        "Bargur": {
+            "train": 303,
+            "validation": 47,
+            "test": 207
+        },
+        "Gir": {
+            "train": 1172,
+            "validation": 744,
+            "test": 790
+        },
+        "Hallikar": {
+            "train": 260,
+            "validation": 614,
+            "test": 207
+        },
+        "Ongole": {
+            "train": 222,
+            "validation": 117,
+            "test": 147
+        },
+        "Sahiwal": {
+            "train": 225,
+            "validation": 14,
+            "test": 128
+        },
+        "Tharparkar": {
+            "train": 421,
+            "validation": 255,
+            "test": 310
+        }
+    },
+    "total_critical_issues": 0
+}

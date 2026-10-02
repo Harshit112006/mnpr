@@ -1,0 +1,462 @@
+[
+    {
+        "source": "indian_bovine_secondary",
+        "original_label": "Alambadi",
+        "normalized_label": "Alambadi",
+        "image_count": 99,
+        "status": "review_required",
+        "species": "",
+        "include": "",
+        "notes": ""
+    },
+    {
+        "source": "indian_bovine_secondary",
+        "original_label": "Amritmahal",
+        "normalized_label": "Amritmahal",
+        "image_count": 94,
+        "status": "review_required",
+        "species": "",
+        "include": "",
+        "notes": ""
+    },
+    {
+        "source": "indian_bovine_secondary",
+        "original_label": "Ayrshire",
+        "normalized_label": "Ayrshire",
+        "image_count": 234,
+        "status": "review_required",
+        "species": "",
+        "include": "",
+        "notes": ""
+    },
+    {
+        "source": "indian_bovine_secondary",
+        "original_label": "Banni",
+        "normalized_label": "Banni",
+        "image_count": 108,
+        "status": "recognized",
+        "species": "",
+        "include": "",
+        "notes": ""
+    },
+    {
+        "source": "iicbd_2026",
+        "original_label": "Bargur",
+        "normalized_label": "Bargur",
+        "image_count": 470,
+        "status": "recognized",
+        "species": "cattle",
+        "include": "",
+        "notes": ""
+    },
+    {
+        "source": "indian_bovine_secondary",
+        "original_label": "Bargur",
+        "normalized_label": "Bargur",
+        "image_count": 93,
+        "status": "recognized",
+        "species": "",
+        "include": "",
+        "notes": ""
+    },
+    {
+        "source": "indian_bovine_secondary",
+        "original_label": "Bhadawari",
+        "normalized_label": "Bhadawari",
+        "image_count": 86,
+        "status": "review_required",
+        "species": "",
+        "include": "",
+        "notes": ""
+    },
+    {
+        "source": "indian_bovine_secondary",
+        "original_label": "Brown Swiss",
+        "normalized_label": "Brown Swiss",
+        "image_count": 225,
+        "status": "review_required",
+        "species": "",
+        "include": "",
+        "notes": ""
+    },
+    {
+        "source": "indian_bovine_secondary",
+        "original_label": "Dangi",
+        "normalized_label": "Dangi",
+        "image_count": 82,
+        "status": "review_required",
+        "species": "",
+        "include": "",
+        "notes": ""
+    },
+    {
+        "source": "indian_bovine_secondary",
+        "original_label": "Deoni",
+        "normalized_label": "Deoni",
+        "image_count": 99,
+        "status": "review_required",
+        "species": "",
+        "include": "",
+        "notes": ""
+    },
+    {
+        "source": "iicbd_2026",
+        "original_label": "Gir",
+        "normalized_label": "Gir",
+        "image_count": 3648,
+        "status": "recognized",
+        "species": "cattle",
+        "include": "",
+        "notes": ""
+    },
+    {
+        "source": "indian_bovine_secondary",
+        "original_label": "Gir",
+        "normalized_label": "Gir",
+        "image_count": 372,
+        "status": "recognized",
+        "species": "",
+        "include": "",
+        "notes": ""
+    },
+    {
+        "source": "indian_bovine_secondary",
+        "original_label": "Guernsey",
+        "normalized_label": "Guernsey",
+        "image_count": 119,
+        "status": "review_required",
+        "species": "",
+        "include": "",
+        "notes": ""
+    },
+    {
+        "source": "iicbd_2026",
+        "original_label": "Hallikar",
+        "normalized_label": "Hallikar",
+        "image_count": 1951,
+        "status": "recognized",
+        "species": "cattle",
+        "include": "",
+        "notes": ""
+    },
+    {
+        "source": "indian_bovine_secondary",
+        "original_label": "Hallikar",
+        "normalized_label": "Hallikar",
+        "image_count": 186,
+        "status": "recognized",
+        "species": "",
+        "include": "",
+        "notes": ""
+    },
+    {
+        "source": "indian_bovine_secondary",
+        "original_label": "Hariana",
+        "normalized_label": "Hariana",
+        "image_count": 129,
+        "status": "review_required",
+        "species": "",
+        "include": "",
+        "notes": ""
+    },
+    {
+        "source": "indian_bovine_secondary",
+        "original_label": "Holstein Friesian",
+        "normalized_label": "Holstein Friesian",
+        "image_count": 328,
+        "status": "review_required",
+        "species": "",
+        "include": "",
+        "notes": ""
+    },
+    {
+        "source": "indian_bovine_secondary",
+        "original_label": "Jaffrabadi",
+        "normalized_label": "Jaffrabadi",
+        "image_count": 101,
+        "status": "review_required",
+        "species": "",
+        "include": "",
+        "notes": ""
+    },
+    {
+        "source": "indian_bovine_secondary",
+        "original_label": "Jersey",
+        "normalized_label": "Jersey",
+        "image_count": 203,
+        "status": "review_required",
+        "species": "",
+        "include": "",
+        "notes": ""
+    },
+    {
+        "source": "indian_bovine_secondary",
+        "original_label": "Kangayam",
+        "normalized_label": "Kangayam",
+        "image_count": 91,
+        "status": "review_required",
+        "species": "",
+        "include": "",
+        "notes": ""
+    },
+    {
+        "source": "indian_bovine_secondary",
+        "original_label": "Kankrej",
+        "normalized_label": "Kankrej",
+        "image_count": 178,
+        "status": "recognized",
+        "species": "",
+        "include": "",
+        "notes": ""
+    },
+    {
+        "source": "indian_bovine_secondary",
+        "original_label": "Kasargod",
+        "normalized_label": "Kasargod",
+        "image_count": 95,
+        "status": "review_required",
+        "species": "",
+        "include": "",
+        "notes": ""
+    },
+    {
+        "source": "indian_bovine_secondary",
+        "original_label": "Kenkatha",
+        "normalized_label": "Kenkatha",
+        "image_count": 55,
+        "status": "review_required",
+        "species": "",
+        "include": "",
+        "notes": ""
+    },
+    {
+        "source": "indian_bovine_secondary",
+        "original_label": "Kherigarh",
+        "normalized_label": "Kherigarh",
+        "image_count": 36,
+        "status": "review_required",
+        "species": "",
+        "include": "",
+        "notes": ""
+    },
+    {
+        "source": "indian_bovine_secondary",
+        "original_label": "Khillari",
+        "normalized_label": "Khillari",
+        "image_count": 113,
+        "status": "review_required",
+        "species": "",
+        "include": "",
+        "notes": ""
+    },
+    {
+        "source": "indian_bovine_secondary",
+        "original_label": "Krishna Valley",
+        "normalized_label": "Krishna Valley",
+        "image_count": 136,
+        "status": "review_required",
+        "species": "",
+        "include": "",
+        "notes": ""
+    },
+    {
+        "source": "indian_bovine_secondary",
+        "original_label": "Malnad gidda",
+        "normalized_label": "Malnad Gidda",
+        "image_count": 107,
+        "status": "review_required",
+        "species": "",
+        "include": "",
+        "notes": ""
+    },
+    {
+        "source": "indian_bovine_secondary",
+        "original_label": "Mehsana",
+        "normalized_label": "Mehsana",
+        "image_count": 94,
+        "status": "recognized",
+        "species": "",
+        "include": "",
+        "notes": ""
+    },
+    {
+        "source": "indian_bovine_secondary",
+        "original_label": "Murrah",
+        "normalized_label": "Murrah",
+        "image_count": 173,
+        "status": "recognized",
+        "species": "",
+        "include": "",
+        "notes": ""
+    },
+    {
+        "source": "indian_bovine_secondary",
+        "original_label": "Nagori",
+        "normalized_label": "Nagori",
+        "image_count": 89,
+        "status": "review_required",
+        "species": "",
+        "include": "",
+        "notes": ""
+    },
+    {
+        "source": "indian_bovine_secondary",
+        "original_label": "Nagpuri",
+        "normalized_label": "Nagpuri",
+        "image_count": 182,
+        "status": "review_required",
+        "species": "",
+        "include": "",
+        "notes": ""
+    },
+    {
+        "source": "indian_bovine_secondary",
+        "original_label": "Nili Ravi",
+        "normalized_label": "Nili Ravi",
+        "image_count": 88,
+        "status": "review_required",
+        "species": "",
+        "include": "",
+        "notes": ""
+    },
+    {
+        "source": "indian_bovine_secondary",
+        "original_label": "Nimari",
+        "normalized_label": "Nimari",
+        "image_count": 84,
+        "status": "review_required",
+        "species": "",
+        "include": "",
+        "notes": ""
+    },
+    {
+        "source": "iicbd_2026",
+        "original_label": "Ongole",
+        "normalized_label": "Ongole",
+        "image_count": 343,
+        "status": "recognized",
+        "species": "cattle",
+        "include": "",
+        "notes": ""
+    },
+    {
+        "source": "indian_bovine_secondary",
+        "original_label": "Ongole",
+        "normalized_label": "Ongole",
+        "image_count": 191,
+        "status": "recognized",
+        "species": "",
+        "include": "",
+        "notes": ""
+    },
+    {
+        "source": "indian_bovine_secondary",
+        "original_label": "Pulikulam",
+        "normalized_label": "Pulikulam",
+        "image_count": 124,
+        "status": "recognized",
+        "species": "",
+        "include": "",
+        "notes": ""
+    },
+    {
+        "source": "indian_bovine_secondary",
+        "original_label": "Rathi",
+        "normalized_label": "Rathi",
+        "image_count": 149,
+        "status": "recognized",
+        "species": "",
+        "include": "",
+        "notes": ""
+    },
+    {
+        "source": "indian_bovine_secondary",
+        "original_label": "Red Dane",
+        "normalized_label": "Red Dane",
+        "image_count": 167,
+        "status": "review_required",
+        "species": "",
+        "include": "",
+        "notes": ""
+    },
+    {
+        "source": "indian_bovine_secondary",
+        "original_label": "Red Sindhi",
+        "normalized_label": "Red Sindhi",
+        "image_count": 162,
+        "status": "review_required",
+        "species": "",
+        "include": "",
+        "notes": ""
+    },
+    {
+        "source": "indian_bovine_secondary",
+        "original_label": "Sahiwal",
+        "normalized_label": "Sahiwal",
+        "image_count": 439,
+        "status": "recognized",
+        "species": "",
+        "include": "",
+        "notes": ""
+    },
+    {
+        "source": "indian_bovine_secondary",
+        "original_label": "Surti",
+        "normalized_label": "Surti",
+        "image_count": 59,
+        "status": "recognized",
+        "species": "",
+        "include": "",
+        "notes": ""
+    },
+    {
+        "source": "iicbd_2026",
+        "original_label": "Tharparkar",
+        "normalized_label": "Tharparkar",
+        "image_count": 814,
+        "status": "recognized",
+        "species": "cattle",
+        "include": "",
+        "notes": ""
+    },
+    {
+        "source": "indian_bovine_secondary",
+        "original_label": "Tharparkar",
+        "normalized_label": "Tharparkar",
+        "image_count": 217,
+        "status": "recognized",
+        "species": "",
+        "include": "",
+        "notes": ""
+    },
+    {
+        "source": "indian_bovine_secondary",
+        "original_label": "Toda",
+        "normalized_label": "Toda",
+        "image_count": 124,
+        "status": "review_required",
+        "species": "",
+        "include": "",
+        "notes": ""
+    },
+    {
+        "source": "indian_bovine_secondary",
+        "original_label": "Umblachery",
+        "normalized_label": "Umblachery",
+        "image_count": 76,
+        "status": "review_required",
+        "species": "",
+        "include": "",
+        "notes": ""
+    },
+    {
+        "source": "indian_bovine_secondary",
+        "original_label": "Vechur",
+        "normalized_label": "Vechur",
+        "image_count": 140,
+        "status": "review_required",
+        "species": "",
+        "include": "",
+        "notes": ""
+    }
+]

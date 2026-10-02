@@ -1,0 +1,18 @@
+{
+    "unique_excluded_images": 2269,
+    "corrupt_rows_found": 0,
+    "small_image_rows_found": 2067,
+    "cross_class_conflict_rows_found": 283,
+    "cross_class_conflict_groups": 129,
+    "unique_image_counts_by_reason": {
+        "below_minimum_dimensions": 2067,
+        "cross_class_duplicate_conflict": 283
+    },
+    "policy": {
+        "raw_data_modified": false,
+        "corrupt_images": "Exclude",
+        "images_below_224x224": "Exclude",
+        "cross_class_exact_duplicates": "Exclude all copies pending manual review",
+        "same_class_exact_duplicates": "Not handled here. Processed-dataset builder will retain one eligible copy."
+    }
+}

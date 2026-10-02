@@ -1,0 +1,12 @@
+{
+    "processed_images": 6183,
+    "near_duplicate_pairs_loaded": 2576,
+    "total_groups": 4777,
+    "multi_image_groups": 619,
+    "same_class_near_duplicate_groups": 616,
+    "cross_class_near_duplicate_groups": 3,
+    "singleton_images": 4158,
+    "images_inside_multi_image_groups": 2025,
+    "largest_group_size": 19,
+    "split_policy": "All images sharing a group_id must remain inside the same train, validation or test split."
+}
