@@ -18,6 +18,7 @@ import CompleteProfile from "../pages/auth/CompleteProfile";
 
 import Dashboard from "../pages/dashboard/Dashboard";
 import Detection from "../pages/detection/Detection";
+import Settings from "../pages/settings/Settings";
 
 
 function PlaceholderPage({
@@ -49,7 +50,7 @@ function AppRoutes() {
     <Routes>
 
       {/* =====================================================
-          PUBLIC AUTHENTICATION ROUTES
+          PUBLIC AUTHENTICATION
       ===================================================== */}
 
       <Route
@@ -106,9 +107,6 @@ function AppRoutes() {
 
       {/* =====================================================
           PROFILE COMPLETION
-
-          Requires authentication but allows an
-          incomplete BreedVision profile.
       ===================================================== */}
 
       <Route
@@ -126,11 +124,7 @@ function AppRoutes() {
 
 
       {/* =====================================================
-          PROTECTED BREEDVISION APPLICATION
-
-          Requires:
-          1. Valid Supabase session
-          2. Completed BreedVision profile
+          PROTECTED APPLICATION
       ===================================================== */}
 
       <Route
@@ -240,9 +234,7 @@ function AppRoutes() {
         <Route
           path="/settings"
           element={
-            <PlaceholderPage
-              title="Settings"
-            />
+            <Settings />
           }
         />
 
@@ -250,7 +242,7 @@ function AppRoutes() {
 
 
       {/* =====================================================
-          ROOT
+          ROOT REDIRECT
       ===================================================== */}
 
       <Route
