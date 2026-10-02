@@ -10,7 +10,7 @@ import DashboardLayout from "../layouts/DashboardLayout";
 import Login from "../pages/auth/Login";
 import Signup from "../pages/auth/Signup";
 import ForgotPassword from "../pages/auth/ForgotPassword";
-
+import Detection from "../pages/detection/Detection";
 import Dashboard from "../pages/dashboard/Dashboard";
 
 function PlaceholderPage({ title }) {
@@ -60,12 +60,10 @@ function AppRoutes() {
           element={<Dashboard />}
         />
 
-        <Route
-          path="/detection"
-          element={
-            <PlaceholderPage title="AI Detection" />
-          }
-        />
+       <Route
+  path="/detection"
+  element={<Detection />}
+/>
 
         <Route
           path="/animals"
