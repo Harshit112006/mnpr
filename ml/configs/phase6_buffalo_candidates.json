@@ -1,0 +1,16 @@
+{
+    "phase": "Phase 6",
+    "purpose": "Buffalo candidate classes for classifier v2",
+    "minimum_images": 80,
+    "candidate_classes": [
+        "Banni",
+        "Jaffarabadi",
+        "Murrah"
+    ],
+    "held_classes": [
+        "Mehsana",
+        "Surti"
+    ],
+    "freeze_status": "provisional",
+    "reason": "Final freeze occurs after near-duplicate grouping."
+}

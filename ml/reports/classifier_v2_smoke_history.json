@@ -1,0 +1,13 @@
+[
+    {
+        "stage": 1,
+        "epoch": 1,
+        "train_loss": 2.9698816299438477,
+        "train_accuracy": 0.1375,
+        "train_macro_f1": 0.07994487692876356,
+        "validation_loss": 2.6895835995674133,
+        "validation_accuracy": 0.18125,
+        "validation_macro_f1": 0.0811980601429514,
+        "seconds": 1533.831514120102
+    }
+]

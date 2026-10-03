@@ -1,0 +1,17 @@
+{
+    "pipeline": "bovine detector -> crop -> breed classifier v2",
+    "samples": 20,
+    "species_summary": {
+        "cattle": {
+            "attempted": 10,
+            "detected": 10,
+            "classified": 10
+        },
+        "buffalo": {
+            "attempted": 10,
+            "detected": 9,
+            "classified": 9
+        }
+    },
+    "important_note": "Classifier softmax scores are uncalibrated. Confidence calibration and unknown handling belong to Phase 7."
+}

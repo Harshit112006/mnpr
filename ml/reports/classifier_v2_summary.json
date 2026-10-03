@@ -1,0 +1,12 @@
+{
+    "classifier_version": "v2",
+    "architecture": "resnet18",
+    "num_classes": 9,
+    "stage1_epochs": 3,
+    "stage2_epochs": 1,
+    "best_stage": 2,
+    "best_epoch": 1,
+    "best_validation_macro_f1": 0.7268268005892792,
+    "checkpoint": "C:\\Users\\lahar\\Documents\\mnpr\\ml\\checkpoints\\classifier_v2_best.pth",
+    "total_seconds": 1638.5804159641266
+}

@@ -1,0 +1,71 @@
+{
+    "phase": "Phase 6.7 - Global Buffalo Group-Aware Split",
+    "random_seed": 42,
+    "search_trials": 1000,
+    "selected_trial": 0,
+    "optimization_score": 0.12373275026490482,
+    "target_ratios": {
+        "train": 0.7,
+        "validation": 0.15,
+        "test": 0.15
+    },
+    "total_images": 6487,
+    "buffalo_images": 304,
+    "buffalo_groups": 297,
+    "buffalo_group_leakage": 0,
+    "total_split_counts": {
+        "train": 4541,
+        "test": 973,
+        "validation": 973
+    },
+    "buffalo_split_counts": {
+        "train": 213,
+        "test": 46,
+        "validation": 45
+    },
+    "buffalo_breed_splits": {
+        "Banni": {
+            "images": 88,
+            "groups": 87,
+            "counts": {
+                "train": 62,
+                "test": 13,
+                "validation": 13
+            },
+            "ratios": {
+                "train": 0.7045,
+                "validation": 0.1477,
+                "test": 0.1477
+            }
+        },
+        "Jaffarabadi": {
+            "images": 93,
+            "groups": 90,
+            "counts": {
+                "train": 65,
+                "validation": 14,
+                "test": 14
+            },
+            "ratios": {
+                "train": 0.6989,
+                "validation": 0.1505,
+                "test": 0.1505
+            }
+        },
+        "Murrah": {
+            "images": 123,
+            "groups": 122,
+            "counts": {
+                "validation": 18,
+                "test": 19,
+                "train": 86
+            },
+            "ratios": {
+                "train": 0.6992,
+                "validation": 0.1463,
+                "test": 0.1545
+            }
+        }
+    },
+    "policy": "All buffalo near-duplicate groups, including cross-class groups, are globally indivisible."
+}

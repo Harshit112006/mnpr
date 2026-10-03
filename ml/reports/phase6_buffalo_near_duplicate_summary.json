@@ -1,0 +1,16 @@
+{
+    "phase": "Phase 6.4 - Buffalo Near Duplicate Audit",
+    "phash_threshold": 4,
+    "candidate_classes": [
+        "Banni",
+        "Jaffarabadi",
+        "Murrah"
+    ],
+    "images_considered": 304,
+    "images_successfully_hashed": 304,
+    "failed_images": 0,
+    "near_duplicate_pairs": 7,
+    "same_class_near_duplicate_pairs": 5,
+    "cross_class_near_duplicate_pairs": 2,
+    "policy": "pHash distance <= 4 is treated as a near-duplicate candidate. Pairs are grouped for leakage prevention, not automatically deleted."
+}

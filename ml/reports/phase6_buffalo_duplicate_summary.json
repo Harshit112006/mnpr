@@ -1,0 +1,58 @@
+{
+    "phase": "Phase 6.2 - Buffalo Exact Duplicate Audit",
+    "usable_images_before_exact_dedup": 465,
+    "hashed_files": 465,
+    "missing_files": 0,
+    "exact_duplicate_groups": 27,
+    "same_class_duplicate_groups": 8,
+    "same_class_duplicate_images_removed": 10,
+    "cross_class_conflict_groups": 19,
+    "cross_class_conflict_images_excluded": 42,
+    "unique_training_candidates": 413,
+    "breed_summary": {
+        "Banni": {
+            "usable_before_exact_dedup": 95,
+            "unique_after_exact_dedup": 88,
+            "cross_class_conflict_images": 6,
+            "post_dedup_strength": "insufficient"
+        },
+        "Jaffarabadi": {
+            "usable_before_exact_dedup": 93,
+            "unique_after_exact_dedup": 93,
+            "cross_class_conflict_images": 0,
+            "post_dedup_strength": "insufficient"
+        },
+        "Mehsana": {
+            "usable_before_exact_dedup": 84,
+            "unique_after_exact_dedup": 67,
+            "cross_class_conflict_images": 15,
+            "post_dedup_strength": "insufficient"
+        },
+        "Murrah": {
+            "usable_before_exact_dedup": 141,
+            "unique_after_exact_dedup": 123,
+            "cross_class_conflict_images": 14,
+            "post_dedup_strength": "weak"
+        },
+        "Surti": {
+            "usable_before_exact_dedup": 52,
+            "unique_after_exact_dedup": 42,
+            "cross_class_conflict_images": 7,
+            "post_dedup_strength": "insufficient"
+        }
+    },
+    "source_distribution_after_dedup": {
+        "indian_bovine_kaggle": {
+            "Banni": 88,
+            "Jaffarabadi": 93,
+            "Mehsana": 67,
+            "Murrah": 123,
+            "Surti": 42
+        }
+    },
+    "policy": {
+        "same_class_exact_duplicates": "Keep one deterministic copy.",
+        "cross_class_exact_duplicates": "Exclude entire hash group pending manual review.",
+        "raw_data_modified": false
+    }
+}

@@ -1,0 +1,63 @@
+{
+    "phase": "Phase 6.3 - Buffalo Class Eligibility Gate",
+    "minimum_unique_images_required": 80,
+    "eligible_breeds": [
+        "Banni",
+        "Jaffarabadi",
+        "Murrah"
+    ],
+    "held_breeds": [
+        "Mehsana",
+        "Surti"
+    ],
+    "eligible_count": 3,
+    "held_count": 2,
+    "breed_decisions": [
+        {
+            "breed": "Banni",
+            "unique_images": 88,
+            "cross_class_conflict_images": 6,
+            "data_strength": "limited_but_eligible",
+            "minimum_required": 80,
+            "eligible": true,
+            "decision": "eligible_for_phase6_v2_candidate"
+        },
+        {
+            "breed": "Jaffarabadi",
+            "unique_images": 93,
+            "cross_class_conflict_images": 0,
+            "data_strength": "limited_but_eligible",
+            "minimum_required": 80,
+            "eligible": true,
+            "decision": "eligible_for_phase6_v2_candidate"
+        },
+        {
+            "breed": "Mehsana",
+            "unique_images": 67,
+            "cross_class_conflict_images": 15,
+            "data_strength": "insufficient",
+            "minimum_required": 80,
+            "eligible": false,
+            "decision": "hold_insufficient_data"
+        },
+        {
+            "breed": "Murrah",
+            "unique_images": 123,
+            "cross_class_conflict_images": 14,
+            "data_strength": "limited_but_eligible",
+            "minimum_required": 80,
+            "eligible": true,
+            "decision": "eligible_for_phase6_v2_candidate"
+        },
+        {
+            "breed": "Surti",
+            "unique_images": 42,
+            "cross_class_conflict_images": 7,
+            "data_strength": "insufficient",
+            "minimum_required": 80,
+            "eligible": false,
+            "decision": "hold_insufficient_data"
+        }
+    ],
+    "policy_note": "Threshold revised to 80 after auditing the actual available real buffalo dataset. Classes below 80 unique images remain held. Near-duplicate grouping is still required before final freeze."
+}

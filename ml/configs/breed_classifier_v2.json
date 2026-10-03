@@ -1,0 +1,34 @@
+{
+    "model_version": "breed-classifier-v2",
+    "architecture": "resnet18",
+    "weights": "weights/breed_classifier_v2.pth",
+    "num_classes": 9,
+    "class_to_index": {
+        "Bargur": 0,
+        "Gir": 1,
+        "Hallikar": 2,
+        "Ongole": 3,
+        "Sahiwal": 4,
+        "Tharparkar": 5,
+        "Banni": 6,
+        "Jaffarabadi": 7,
+        "Murrah": 8
+    },
+    "image_size": 224,
+    "normalization": {
+        "mean": [
+            0.485,
+            0.456,
+            0.406
+        ],
+        "std": [
+            0.229,
+            0.224,
+            0.225
+        ]
+    },
+    "validation_macro_f1": 0.7268268005892792,
+    "test_macro_f1": 0.7412590147039144,
+    "test_accuracy": 0.8828365878725591,
+    "softmax_note": "Softmax scores are not yet calibrated confidence values. Calibration is Phase 7."
+}

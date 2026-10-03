@@ -1,0 +1,50 @@
+{
+    "project": "BreedVision AI",
+    "phase": "Phase 6 - Cattle + Buffalo Expansion and Bovine Detection",
+    "status": "PASS",
+    "validated_at": "2026-10-03T23:54:08",
+    "classifier_version": "v2",
+    "num_classes": 9,
+    "cattle_classes": [
+        "Bargur",
+        "Gir",
+        "Hallikar",
+        "Ongole",
+        "Sahiwal",
+        "Tharparkar"
+    ],
+    "buffalo_classes": [
+        "Banni",
+        "Jaffarabadi",
+        "Murrah"
+    ],
+    "classifier_test_accuracy": 0.8828365878725591,
+    "classifier_test_macro_f1": 0.7412590147039144,
+    "detector": "yolov8n",
+    "detector_species_summary": {
+        "cattle": {
+            "total": 60,
+            "detected": 60,
+            "detection_coverage": 1.0
+        },
+        "buffalo": {
+            "total": 45,
+            "detected": 38,
+            "detection_coverage": 0.8444444444444444
+        }
+    },
+    "pipeline_species_summary": {
+        "cattle": {
+            "attempted": 10,
+            "detected": 10,
+            "classified": 10
+        },
+        "buffalo": {
+            "attempted": 10,
+            "detected": 9,
+            "classified": 9
+        }
+    },
+    "errors": [],
+    "warnings": []
+}

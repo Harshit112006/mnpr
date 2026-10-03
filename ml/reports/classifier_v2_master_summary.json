@@ -1,0 +1,49 @@
+{
+    "phase": "Phase 6.6A - Classifier V2 Master Manifest",
+    "classifier_version": "v2",
+    "total_images": 6487,
+    "species_counts": {
+        "buffalo": 304,
+        "cattle": 6183
+    },
+    "class_counts": {
+        "Banni": 88,
+        "Bargur": 557,
+        "Gir": 2706,
+        "Hallikar": 1081,
+        "Jaffarabadi": 93,
+        "Murrah": 123,
+        "Ongole": 486,
+        "Sahiwal": 367,
+        "Tharparkar": 986
+    },
+    "num_classes": 9,
+    "cattle_classes": [
+        "Bargur",
+        "Gir",
+        "Hallikar",
+        "Ongole",
+        "Sahiwal",
+        "Tharparkar"
+    ],
+    "buffalo_classes": [
+        "Banni",
+        "Jaffarabadi",
+        "Murrah"
+    ],
+    "cattle_split_counts_preserved": {
+        "train": 4328,
+        "validation": 928,
+        "test": 927
+    },
+    "pending_buffalo_split_rows": 304,
+    "duplicate_image_paths": 0,
+    "skipped_cattle_rows": 0,
+    "skipped_buffalo_rows": 0,
+    "policy": {
+        "cattle_split": "Preserved from Phase 4/5 leakage-safe v1 dataset.",
+        "buffalo_split": "Pending. Will be assigned group-wise in Phase 6.7.",
+        "source_images_modified": false,
+        "phase5_dataset_modified": false
+    }
+}

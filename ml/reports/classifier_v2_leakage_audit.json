@@ -1,0 +1,24 @@
+{
+    "phase": "Phase 6.7B - Classifier V2 Leakage Audit",
+    "status": "PASS",
+    "total_images": 6487,
+    "split_counts": {
+        "train": 4541,
+        "test": 973,
+        "validation": 973
+    },
+    "species_counts": {
+        "buffalo": 304,
+        "cattle": 6183
+    },
+    "num_classes": 9,
+    "group_leakage_count": 0,
+    "sha256_leakage_count": 0,
+    "duplicate_path_cross_split_count": 0,
+    "missing_class_split_count": 0,
+    "wrong_class_index_count": 0,
+    "leaking_groups": {},
+    "missing_class_splits": {},
+    "errors": [],
+    "warnings": []
+}

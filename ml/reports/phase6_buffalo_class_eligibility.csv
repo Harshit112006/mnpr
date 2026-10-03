@@ -1,0 +1,6 @@
+breed,unique_images,cross_class_conflict_images,data_strength,minimum_required,eligible,decision
+Banni,88,6,limited_but_eligible,80,True,eligible_for_phase6_v2_candidate
+Jaffarabadi,93,0,limited_but_eligible,80,True,eligible_for_phase6_v2_candidate
+Mehsana,67,15,insufficient,80,False,hold_insufficient_data
+Murrah,123,14,limited_but_eligible,80,True,eligible_for_phase6_v2_candidate
+Surti,42,7,insufficient,80,False,hold_insufficient_data

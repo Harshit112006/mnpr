@@ -1,0 +1,69 @@
+{
+    "phase": "Phase 6 - Buffalo Expansion",
+    "raw_root": "D:\\BreedVisionData\\data\\raw",
+    "candidate_breeds": [
+        "Murrah",
+        "Jaffarabadi",
+        "Mehsana",
+        "Surti",
+        "Banni"
+    ],
+    "minimum_dimensions": {
+        "width": 224,
+        "height": 224
+    },
+    "total_raw_images_scanned": 13153,
+    "matched_buffalo_images": 535,
+    "breed_summary": {
+        "Murrah": {
+            "total_detected": 173,
+            "readable": 173,
+            "minimum_size_pass": 141,
+            "too_small": 32,
+            "corrupt": 0,
+            "data_strength": "weak"
+        },
+        "Jaffarabadi": {
+            "total_detected": 101,
+            "readable": 101,
+            "minimum_size_pass": 93,
+            "too_small": 8,
+            "corrupt": 0,
+            "data_strength": "insufficient"
+        },
+        "Mehsana": {
+            "total_detected": 94,
+            "readable": 94,
+            "minimum_size_pass": 84,
+            "too_small": 10,
+            "corrupt": 0,
+            "data_strength": "insufficient"
+        },
+        "Surti": {
+            "total_detected": 59,
+            "readable": 59,
+            "minimum_size_pass": 52,
+            "too_small": 7,
+            "corrupt": 0,
+            "data_strength": "insufficient"
+        },
+        "Banni": {
+            "total_detected": 108,
+            "readable": 108,
+            "minimum_size_pass": 95,
+            "too_small": 13,
+            "corrupt": 0,
+            "data_strength": "insufficient"
+        }
+    },
+    "source_distribution": {
+        "indian_bovine_kaggle": {
+            "Banni": 108,
+            "Jaffarabadi": 101,
+            "Mehsana": 94,
+            "Murrah": 173,
+            "Surti": 59
+        }
+    },
+    "policy": "This audit does not automatically include any buffalo breed in classifier v2. Final inclusion requires enough real, readable, audited images."
+}

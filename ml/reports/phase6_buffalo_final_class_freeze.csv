@@ -1,0 +1,4 @@
+breed,images,near_duplicate_groups,largest_group_size,minimum_images,minimum_groups,included,decision
+Banni,88,87,2,80,3,True,included_in_classifier_v2
+Jaffarabadi,93,90,2,80,3,True,included_in_classifier_v2
+Murrah,123,122,2,80,3,True,included_in_classifier_v2

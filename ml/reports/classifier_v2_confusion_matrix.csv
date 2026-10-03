@@ -1,0 +1,10 @@
+Actual / Predicted,Bargur,Gir,Hallikar,Ongole,Sahiwal,Tharparkar,Banni,Jaffarabadi,Murrah
+Bargur,80,0,1,0,1,0,0,1,0
+Gir,0,334,0,1,25,1,8,25,10
+Hallikar,0,0,159,0,0,0,0,4,1
+Ongole,0,0,1,68,0,3,0,1,0
+Sahiwal,0,4,0,0,51,0,0,0,0
+Tharparkar,0,0,0,7,0,140,0,1,0
+Banni,0,0,0,0,0,0,10,1,2
+Jaffarabadi,0,0,0,0,0,0,1,13,0
+Murrah,0,0,0,0,0,0,2,13,4

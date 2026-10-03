@@ -1,0 +1,66 @@
+{
+    "project": "BreedVision AI",
+    "classifier_version": "v2",
+    "num_classes": 9,
+    "num_cattle_classes": 6,
+    "num_buffalo_classes": 3,
+    "classes": [
+        "Bargur",
+        "Gir",
+        "Hallikar",
+        "Ongole",
+        "Sahiwal",
+        "Tharparkar",
+        "Banni",
+        "Jaffarabadi",
+        "Murrah"
+    ],
+    "cattle_classes": [
+        "Bargur",
+        "Gir",
+        "Hallikar",
+        "Ongole",
+        "Sahiwal",
+        "Tharparkar"
+    ],
+    "buffalo_classes": [
+        "Banni",
+        "Jaffarabadi",
+        "Murrah"
+    ],
+    "class_to_index": {
+        "Bargur": 0,
+        "Gir": 1,
+        "Hallikar": 2,
+        "Ongole": 3,
+        "Sahiwal": 4,
+        "Tharparkar": 5,
+        "Banni": 6,
+        "Jaffarabadi": 7,
+        "Murrah": 8
+    },
+    "species_mapping": {
+        "Bargur": "cattle",
+        "Gir": "cattle",
+        "Hallikar": "cattle",
+        "Ongole": "cattle",
+        "Sahiwal": "cattle",
+        "Tharparkar": "cattle",
+        "Banni": "buffalo",
+        "Jaffarabadi": "buffalo",
+        "Murrah": "buffalo"
+    },
+    "split_policy": {
+        "train": 0.7,
+        "validation": 0.15,
+        "test": 0.15
+    },
+    "image_policy": {
+        "minimum_width": 224,
+        "minimum_height": 224,
+        "raw_data_modified": false,
+        "validation_augmentation": false,
+        "test_augmentation": false
+    },
+    "near_duplicate_policy": "All members of a near-duplicate group must stay in the same split."
+}

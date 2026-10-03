@@ -1,0 +1,53 @@
+{
+  "project": "BreedVision AI",
+  "classifier_version": "v2",
+
+  "dataset": {
+    "manifest": "reports/classifier_v2_final_manifest.csv",
+    "class_to_index": "configs/classifier_v2_class_to_index.json",
+    "species_mapping": "configs/classifier_v2_species_mapping.json",
+    "image_size": 224
+  },
+
+  "dataloader": {
+    "batch_size": 16,
+    "num_workers": 0,
+    "pin_memory": false
+  },
+
+  "training": {
+    "random_seed": 42,
+    "epochs": 5,
+    "learning_rate": 0.0003,
+    "weight_decay": 0.0001,
+    "label_smoothing": 0.1,
+    "early_stopping_patience": 3
+  },
+
+  "model": {
+    "architecture": "resnet18",
+    "pretrained": true,
+    "freeze_backbone_stage1": true
+  },
+
+  "evaluation": {
+    "primary_metric": "macro_f1",
+    "secondary_metrics": [
+      "accuracy",
+      "precision",
+      "recall",
+      "weighted_f1"
+    ]
+  },
+
+  "augmentation_policy": {
+    "train_augmentation": true,
+    "validation_augmentation": false,
+    "test_augmentation": false
+  },
+
+  "device": {
+    "mode": "auto",
+    "mixed_precision_on_cuda": true
+  }
+}

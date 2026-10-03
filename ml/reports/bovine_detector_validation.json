@@ -1,0 +1,21 @@
+{
+    "detector": "yolov8n",
+    "source_training": "COCO pretrained",
+    "target_coco_class": "cow",
+    "target_class_id": 19,
+    "confidence_threshold": 0.2,
+    "evaluation_type": "presence coverage on known bovine validation images; not bounding-box mAP",
+    "species_summary": {
+        "cattle": {
+            "total": 60,
+            "detected": 60,
+            "detection_coverage": 1.0
+        },
+        "buffalo": {
+            "total": 45,
+            "detected": 38,
+            "detection_coverage": 0.8444444444444444
+        }
+    },
+    "important_limitation": "COCO has a cow class but no dedicated buffalo class. Buffalo coverage is therefore a generalization/proxy measurement."
+}

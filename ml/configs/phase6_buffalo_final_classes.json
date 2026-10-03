@@ -1,0 +1,47 @@
+{
+    "phase": "Phase 6.5 - Final Buffalo Class Freeze",
+    "freeze_status": "final",
+    "minimum_images": 80,
+    "minimum_near_duplicate_groups": 3,
+    "final_buffalo_classes": [
+        "Banni",
+        "Jaffarabadi",
+        "Murrah"
+    ],
+    "held_buffalo_classes": [],
+    "num_final_buffalo_classes": 3,
+    "decisions": [
+        {
+            "breed": "Banni",
+            "images": 88,
+            "near_duplicate_groups": 87,
+            "largest_group_size": 2,
+            "minimum_images": 80,
+            "minimum_groups": 3,
+            "included": true,
+            "decision": "included_in_classifier_v2"
+        },
+        {
+            "breed": "Jaffarabadi",
+            "images": 93,
+            "near_duplicate_groups": 90,
+            "largest_group_size": 2,
+            "minimum_images": 80,
+            "minimum_groups": 3,
+            "included": true,
+            "decision": "included_in_classifier_v2"
+        },
+        {
+            "breed": "Murrah",
+            "images": 123,
+            "near_duplicate_groups": 122,
+            "largest_group_size": 2,
+            "minimum_images": 80,
+            "minimum_groups": 3,
+            "included": true,
+            "decision": "included_in_classifier_v2"
+        }
+    ],
+    "near_duplicate_policy": "Near-duplicate images are retained, but every group must remain entirely within one dataset split.",
+    "data_quality_note": "These buffalo classes are limited-data prototype classes and require per-class evaluation before production claims."
+}

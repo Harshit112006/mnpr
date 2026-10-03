@@ -1,0 +1,28 @@
+{
+    "phase": "Phase 6.4B - Buffalo Near Duplicate Grouping",
+    "images": 304,
+    "input_near_duplicate_pairs": 7,
+    "valid_pairs_used": 7,
+    "total_groups": 297,
+    "singleton_groups": 290,
+    "same_class_near_duplicate_groups": 5,
+    "cross_class_near_duplicate_groups": 2,
+    "breed_group_summary": {
+        "Banni": {
+            "images": 88,
+            "distinct_near_duplicate_groups": 87,
+            "largest_group_size": 2
+        },
+        "Jaffarabadi": {
+            "images": 93,
+            "distinct_near_duplicate_groups": 90,
+            "largest_group_size": 2
+        },
+        "Murrah": {
+            "images": 123,
+            "distinct_near_duplicate_groups": 122,
+            "largest_group_size": 2
+        }
+    },
+    "split_policy": "All images sharing a near-duplicate group ID must remain in the same split."
+}

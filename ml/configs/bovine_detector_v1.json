@@ -1,0 +1,9 @@
+{
+    "detector_version": "bovine-detector-v1",
+    "architecture": "yolov8n",
+    "weights": "yolov8n.pt",
+    "target_class": "cow",
+    "target_class_id": 19,
+    "confidence_threshold": 0.2,
+    "buffalo_limitation": "Buffalo is not a dedicated COCO class; detector behavior on buffalo is proxy generalization."
+}

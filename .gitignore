@@ -48,3 +48,5 @@ ml/weights/
 
 /ml/checkpoints/
 /ml/runs/
+
+/ml/yolov8n.pt
