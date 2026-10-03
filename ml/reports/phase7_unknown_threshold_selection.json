@@ -1,0 +1,158 @@
+{
+    "selected": {
+        "threshold": 0.9848954432539525,
+        "known_acceptance_rate": 0.2682425488180884,
+        "ood_rejection_rate": 0.7910447761194029,
+        "balanced_accuracy": 0.5296436624687457,
+        "minimum_class_rate": 0.2682425488180884
+    },
+    "temperature": 0.4140016508109735,
+    "known_samples": 973,
+    "ood_tuning_samples": 67,
+    "known_score_mean": 0.8240553477476764,
+    "ood_score_mean": 0.8301248061123179,
+    "tuning_auroc": 0.5008666840514795,
+    "top_candidate_thresholds": [
+        {
+            "threshold": 0.9848954432539525,
+            "known_acceptance_rate": 0.2682425488180884,
+            "ood_rejection_rate": 0.7910447761194029,
+            "balanced_accuracy": 0.5296436624687457,
+            "minimum_class_rate": 0.2682425488180884
+        },
+        {
+            "threshold": 0.9849393473729257,
+            "known_acceptance_rate": 0.2682425488180884,
+            "ood_rejection_rate": 0.7910447761194029,
+            "balanced_accuracy": 0.5296436624687457,
+            "minimum_class_rate": 0.2682425488180884
+        },
+        {
+            "threshold": 0.9972463721481717,
+            "known_acceptance_rate": 0.11819116135662898,
+            "ood_rejection_rate": 0.9402985074626866,
+            "balanced_accuracy": 0.5292448344096577,
+            "minimum_class_rate": 0.11819116135662898
+        },
+        {
+            "threshold": 0.9972493399079155,
+            "known_acceptance_rate": 0.11819116135662898,
+            "ood_rejection_rate": 0.9402985074626866,
+            "balanced_accuracy": 0.5292448344096577,
+            "minimum_class_rate": 0.11819116135662898
+        },
+        {
+            "threshold": 0.9850002908313888,
+            "known_acceptance_rate": 0.2672147995889003,
+            "ood_rejection_rate": 0.7910447761194029,
+            "balanced_accuracy": 0.5291297878541517,
+            "minimum_class_rate": 0.2672147995889003
+        },
+        {
+            "threshold": 0.9850612342898519,
+            "known_acceptance_rate": 0.2672147995889003,
+            "ood_rejection_rate": 0.7910447761194029,
+            "balanced_accuracy": 0.5291297878541517,
+            "minimum_class_rate": 0.2672147995889003
+        },
+        {
+            "threshold": 0.9972535186371185,
+            "known_acceptance_rate": 0.1171634121274409,
+            "ood_rejection_rate": 0.9402985074626866,
+            "balanced_accuracy": 0.5287309597950638,
+            "minimum_class_rate": 0.1171634121274409
+        },
+        {
+            "threshold": 0.9972576973663215,
+            "known_acceptance_rate": 0.1171634121274409,
+            "ood_rejection_rate": 0.9402985074626866,
+            "balanced_accuracy": 0.5287309597950638,
+            "minimum_class_rate": 0.1171634121274409
+        },
+        {
+            "threshold": 0.9850626527592763,
+            "known_acceptance_rate": 0.26618705035971224,
+            "ood_rejection_rate": 0.7910447761194029,
+            "balanced_accuracy": 0.5286159132395576,
+            "minimum_class_rate": 0.26618705035971224
+        },
+        {
+            "threshold": 0.9850640712287005,
+            "known_acceptance_rate": 0.26618705035971224,
+            "ood_rejection_rate": 0.7910447761194029,
+            "balanced_accuracy": 0.5286159132395576,
+            "minimum_class_rate": 0.26618705035971224
+        },
+        {
+            "threshold": 0.9972963560716139,
+            "known_acceptance_rate": 0.11613566289825282,
+            "ood_rejection_rate": 0.9402985074626866,
+            "balanced_accuracy": 0.5282170851804697,
+            "minimum_class_rate": 0.11613566289825282
+        },
+        {
+            "threshold": 0.9973350147769063,
+            "known_acceptance_rate": 0.11613566289825282,
+            "ood_rejection_rate": 0.9402985074626866,
+            "balanced_accuracy": 0.5282170851804697,
+            "minimum_class_rate": 0.11613566289825282
+        },
+        {
+            "threshold": 0.9851295094974559,
+            "known_acceptance_rate": 0.26515930113052416,
+            "ood_rejection_rate": 0.7910447761194029,
+            "balanced_accuracy": 0.5281020386249635,
+            "minimum_class_rate": 0.26515930113052416
+        },
+        {
+            "threshold": 0.9851949477662113,
+            "known_acceptance_rate": 0.26515930113052416,
+            "ood_rejection_rate": 0.7910447761194029,
+            "balanced_accuracy": 0.5281020386249635,
+            "minimum_class_rate": 0.26515930113052416
+        },
+        {
+            "threshold": 0.9973360818532667,
+            "known_acceptance_rate": 0.11510791366906475,
+            "ood_rejection_rate": 0.9402985074626866,
+            "balanced_accuracy": 0.5277032105658757,
+            "minimum_class_rate": 0.11510791366906475
+        },
+        {
+            "threshold": 0.9973371489296271,
+            "known_acceptance_rate": 0.11510791366906475,
+            "ood_rejection_rate": 0.9402985074626866,
+            "balanced_accuracy": 0.5277032105658757,
+            "minimum_class_rate": 0.11510791366906475
+        },
+        {
+            "threshold": 0.9852075435605661,
+            "known_acceptance_rate": 0.2641315519013361,
+            "ood_rejection_rate": 0.7910447761194029,
+            "balanced_accuracy": 0.5275881640103695,
+            "minimum_class_rate": 0.2641315519013361
+        },
+        {
+            "threshold": 0.9852201393549208,
+            "known_acceptance_rate": 0.2641315519013361,
+            "ood_rejection_rate": 0.7910447761194029,
+            "balanced_accuracy": 0.5275881640103695,
+            "minimum_class_rate": 0.2641315519013361
+        },
+        {
+            "threshold": 0.9973736962922011,
+            "known_acceptance_rate": 0.11408016443987667,
+            "ood_rejection_rate": 0.9402985074626866,
+            "balanced_accuracy": 0.5271893359512816,
+            "minimum_class_rate": 0.11408016443987667
+        },
+        {
+            "threshold": 0.997410243654775,
+            "known_acceptance_rate": 0.11408016443987667,
+            "ood_rejection_rate": 0.9402985074626866,
+            "balanced_accuracy": 0.5271893359512816,
+            "minimum_class_rate": 0.11408016443987667
+        }
+    ],
+    "test_data_used": false
+}

@@ -1,0 +1,40 @@
+{
+    "project": "BreedVision AI",
+    "phase": 7,
+    "classifier_version": "v2",
+    "model": {
+        "architecture": "resnet18",
+        "weights": "weights/breed_classifier_v2.pth",
+        "classifier_config": "configs/breed_classifier_v2.json"
+    },
+    "dataset": {
+        "manifest": "reports/classifier_v2_final_manifest.csv",
+        "calibration_split": "validation",
+        "final_evaluation_split": "test"
+    },
+    "calibration": {
+        "method": "temperature_scaling",
+        "initial_temperature": 1.0,
+        "minimum_temperature": 0.05,
+        "maximum_temperature": 10.0
+    },
+    "prediction": {
+        "top_k": 3
+    },
+    "unknown_handling": {
+        "policy": "calibrated_probability_threshold",
+        "threshold_status": "selected",
+        "threshold": 0.9848954432539525,
+        "threshold_config": "configs/phase7_unknown_threshold.json"
+    },
+    "explainability": {
+        "method": "gradcam",
+        "target_layer": "layer4"
+    },
+    "important_notes": [
+        "Raw softmax scores must not be described as calibrated confidence.",
+        "Temperature scaling will be fitted only on validation data.",
+        "Unknown threshold will be selected using validation data.",
+        "Test data will not be used to tune calibration parameters."
+    ]
+}

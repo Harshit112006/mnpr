@@ -1,0 +1,20 @@
+{
+    "status": "PASS",
+    "method": "Grad-CAM",
+    "architecture": "resnet18",
+    "target_layer": "layer4[-1]",
+    "samples_generated": 9,
+    "expected_known_classes": 9,
+    "files": [
+        "C:\\Users\\lahar\\Documents\\mnpr\\ml\\phase7\\gradcam\\01_Banni_gradcam.png",
+        "C:\\Users\\lahar\\Documents\\mnpr\\ml\\phase7\\gradcam\\02_Bargur_gradcam.png",
+        "C:\\Users\\lahar\\Documents\\mnpr\\ml\\phase7\\gradcam\\03_Gir_gradcam.png",
+        "C:\\Users\\lahar\\Documents\\mnpr\\ml\\phase7\\gradcam\\04_Hallikar_gradcam.png",
+        "C:\\Users\\lahar\\Documents\\mnpr\\ml\\phase7\\gradcam\\05_Jaffarabadi_gradcam.png",
+        "C:\\Users\\lahar\\Documents\\mnpr\\ml\\phase7\\gradcam\\06_Murrah_gradcam.png",
+        "C:\\Users\\lahar\\Documents\\mnpr\\ml\\phase7\\gradcam\\07_Ongole_gradcam.png",
+        "C:\\Users\\lahar\\Documents\\mnpr\\ml\\phase7\\gradcam\\08_Sahiwal_gradcam.png",
+        "C:\\Users\\lahar\\Documents\\mnpr\\ml\\phase7\\gradcam\\09_Tharparkar_gradcam.png"
+    ],
+    "interpretation_note": "Grad-CAM highlights image regions that contributed to the selected model output. It does not prove causal reasoning."
+}

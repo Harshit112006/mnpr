@@ -7,6 +7,10 @@ import json
 # BREEDVISION AI
 # PHASE 6.5
 # FINAL BUFFALO CLASS FREEZE
+#
+# FIX:
+# Breeds already held during the provisional eligibility
+# gate must remain recorded as held in the final config.
 # =========================================================
 
 
@@ -16,15 +20,8 @@ PROJECT_ROOT = (
     .parents[1]
 )
 
-REPORTS_DIR = (
-    PROJECT_ROOT
-    / "reports"
-)
-
-CONFIGS_DIR = (
-    PROJECT_ROOT
-    / "configs"
-)
+REPORTS_DIR = PROJECT_ROOT / "reports"
+CONFIGS_DIR = PROJECT_ROOT / "configs"
 
 
 GROUP_SUMMARY = (
@@ -37,7 +34,6 @@ PROVISIONAL_CONFIG = (
     / "phase6_buffalo_candidates.json"
 )
 
-
 OUTPUT_JSON = (
     CONFIGS_DIR
     / "phase6_buffalo_final_classes.json"
@@ -48,10 +44,6 @@ OUTPUT_CSV = (
     / "phase6_buffalo_final_class_freeze.csv"
 )
 
-
-# =========================================================
-# FINAL POLICY
-# =========================================================
 
 MIN_IMAGES = 80
 MIN_GROUPS = 3
@@ -91,25 +83,38 @@ def main():
     )
 
 
-    provisional_classes = (
-        provisional[
-            "candidate_classes"
-        ]
+    provisional_classes = list(
+        provisional.get(
+            "candidate_classes",
+            [],
+        )
     )
 
 
-    group_summary = (
-        summary[
-            "breed_group_summary"
-        ]
+    previously_held_classes = list(
+        provisional.get(
+            "held_classes",
+            [],
+        )
+    )
+
+
+    group_summary = summary.get(
+        "breed_group_summary",
+        {},
     )
 
 
     final_classes = []
 
-    held_classes = []
+    failed_final_gate = []
 
     rows = []
+
+
+    # =====================================================
+    # FINAL CHECK FOR PROVISIONAL CANDIDATES
+    # =====================================================
 
 
     for breed in sorted(
@@ -127,44 +132,54 @@ def main():
 
 
         images = int(
-            info[
-                "images"
-            ]
+            info.get(
+                "images",
+                0,
+            )
         )
 
 
         groups = int(
-            info[
-                "distinct_near_duplicate_groups"
-            ]
+            info.get(
+                "distinct_near_duplicate_groups",
+                0,
+            )
         )
 
 
-        eligible = (
+        largest_group_size = int(
+            info.get(
+                "largest_group_size",
+                0,
+            )
+        )
+
+
+        included = (
             images >= MIN_IMAGES
             and
             groups >= MIN_GROUPS
         )
 
 
-        if eligible:
-
-            decision = (
-                "included_in_classifier_v2"
-            )
+        if included:
 
             final_classes.append(
                 breed
             )
 
-        else:
-
             decision = (
-                "held_from_classifier_v2"
+                "included_in_classifier_v2"
             )
 
-            held_classes.append(
+        else:
+
+            failed_final_gate.append(
                 breed
+            )
+
+            decision = (
+                "held_after_final_group_gate"
             )
 
 
@@ -180,9 +195,7 @@ def main():
                     groups,
 
                 "largest_group_size":
-                    info[
-                        "largest_group_size"
-                    ],
+                    largest_group_size,
 
                 "minimum_images":
                     MIN_IMAGES,
@@ -191,12 +204,60 @@ def main():
                     MIN_GROUPS,
 
                 "included":
-                    eligible,
+                    included,
 
                 "decision":
                     decision,
             }
         )
+
+
+    # =====================================================
+    # PRESERVE CLASSES HELD DURING EARLIER ELIGIBILITY GATE
+    # =====================================================
+
+
+    held_classes = sorted(
+        set(
+            previously_held_classes
+            +
+            failed_final_gate
+        )
+    )
+
+
+    final_classes = sorted(
+        final_classes
+    )
+
+
+    # =====================================================
+    # SAFETY
+    # =====================================================
+
+
+    overlap = (
+        set(
+            final_classes
+        )
+        &
+        set(
+            held_classes
+        )
+    )
+
+
+    if overlap:
+
+        raise RuntimeError(
+            "A breed cannot be both final and held: "
+            f"{sorted(overlap)}"
+        )
+
+
+    # =====================================================
+    # CSV
+    # =====================================================
 
 
     with OUTPUT_CSV.open(
@@ -226,6 +287,11 @@ def main():
         )
 
 
+    # =====================================================
+    # FINAL CONFIG
+    # =====================================================
+
+
     result = {
 
         "phase":
@@ -251,6 +317,21 @@ def main():
                 final_classes
             ),
 
+        "num_held_buffalo_classes":
+            len(
+                held_classes
+            ),
+
+        "held_from_provisional_gate":
+            sorted(
+                previously_held_classes
+            ),
+
+        "held_after_final_group_gate":
+            sorted(
+                failed_final_gate
+            ),
+
         "decisions":
             rows,
 
@@ -263,9 +344,10 @@ def main():
 
         "data_quality_note":
             (
-                "These buffalo classes are limited-data "
-                "prototype classes and require per-class "
-                "evaluation before production claims."
+                "Buffalo classes below the eligibility "
+                "threshold remain explicitly recorded as "
+                "held classes and are not part of "
+                "classifier-v2 training."
             ),
     }
 
@@ -282,11 +364,15 @@ def main():
         )
 
 
+    # =====================================================
+    # DISPLAY
+    # =====================================================
+
+
     print()
     print(
         "Final buffalo classes:"
     )
-
 
     for breed in final_classes:
 
@@ -298,9 +384,8 @@ def main():
 
     print()
     print(
-        "Held classes:"
+        "Held buffalo classes:"
     )
-
 
     for breed in held_classes:
 
@@ -308,6 +393,22 @@ def main():
             "  -",
             breed
         )
+
+
+    print()
+    print(
+        "Previously held:",
+        sorted(
+            previously_held_classes
+        )
+    )
+
+    print(
+        "Failed final gate:",
+        sorted(
+            failed_final_gate
+        )
+    )
 
 
     print()

@@ -1,0 +1,14 @@
+{
+    "phase": "Phase 7 - Validation Logit Collection",
+    "classifier_version": "v2",
+    "split": "validation",
+    "samples": 973,
+    "num_classes": 9,
+    "logit_shape": [
+        973,
+        9
+    ],
+    "raw_validation_accuracy": 0.8746145940390545,
+    "output_npz": "C:\\Users\\lahar\\Documents\\mnpr\\ml\\phase7\\cache\\validation_logits.npz",
+    "raw_softmax_note": "These softmax scores are uncalibrated and must not yet be interpreted as reliable confidence values."
+}

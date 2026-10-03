@@ -1,0 +1,17 @@
+{
+    "project": "BreedVision AI",
+    "phase": 7,
+    "classifier_version": "v2",
+    "unknown_policy": "max_calibrated_probability",
+    "decision_rule": "If maximum calibrated probability is below threshold, return unknown.",
+    "threshold": 0.9848954432539525,
+    "temperature": 0.4140016508109735,
+    "selection_metric": "known_ood_balanced_accuracy",
+    "fit_known_split": "validation",
+    "fit_ood_split": "threshold_tuning",
+    "known_validation_acceptance_rate": 0.2682425488180884,
+    "ood_tuning_rejection_rate": 0.7910447761194029,
+    "tuning_balanced_accuracy": 0.5296436624687457,
+    "tuning_auroc": 0.5008666840514795,
+    "test_data_used_for_selection": false
+}

@@ -8,8 +8,17 @@
         "Jaffarabadi",
         "Murrah"
     ],
-    "held_buffalo_classes": [],
+    "held_buffalo_classes": [
+        "Mehsana",
+        "Surti"
+    ],
     "num_final_buffalo_classes": 3,
+    "num_held_buffalo_classes": 2,
+    "held_from_provisional_gate": [
+        "Mehsana",
+        "Surti"
+    ],
+    "held_after_final_group_gate": [],
     "decisions": [
         {
             "breed": "Banni",
@@ -43,5 +52,5 @@
         }
     ],
     "near_duplicate_policy": "Near-duplicate images are retained, but every group must remain entirely within one dataset split.",
-    "data_quality_note": "These buffalo classes are limited-data prototype classes and require per-class evaluation before production claims."
+    "data_quality_note": "Buffalo classes below the eligibility threshold remain explicitly recorded as held classes and are not part of classifier-v2 training."
 }

@@ -1,0 +1,26 @@
+{
+    "phase": "Phase 7 - Real OOD Dataset",
+    "ood_breeds": [
+        "Mehsana",
+        "Surti"
+    ],
+    "total_ood_images": 109,
+    "threshold_tuning_images": 67,
+    "evaluation_images": 42,
+    "near_duplicate_threshold": 4,
+    "near_duplicate_pairs": 0,
+    "near_duplicate_groups": 109,
+    "group_leakage_count": 0,
+    "failed_images": [],
+    "breed_split_counts": {
+        "Mehsana": {
+            "threshold_tuning": 41,
+            "evaluation": 26
+        },
+        "Surti": {
+            "threshold_tuning": 26,
+            "evaluation": 16
+        }
+    },
+    "policy": "Held buffalo breeds are treated as real unknown/OOD classes. Near-duplicate groups remain entirely within one OOD split."
+}

@@ -1,0 +1,217 @@
+{
+    "status": "PASS",
+    "samples_tested": 6,
+    "top_k": 3,
+    "outputs": [
+        {
+            "source": "known_test",
+            "actual": "Banni",
+            "image_path": "D:\\BreedVisionData\\data\\raw\\indian_bovine_kaggle\\extracted\\Indian_bovine_breeds\\Indian_bovine_breeds\\Banni\\00000003.jpg",
+            "prediction": {
+                "status": "unknown",
+                "unknown": true,
+                "threshold": 0.9848954432539525,
+                "temperature": 0.4140016508109735,
+                "max_calibrated_probability": 0.9576907753944397,
+                "predicted_breed": null,
+                "predicted_species": null,
+                "top3": [
+                    {
+                        "rank": 1,
+                        "breed": "Banni",
+                        "species": "buffalo",
+                        "calibrated_probability": 0.9576907753944397
+                    },
+                    {
+                        "rank": 2,
+                        "breed": "Jaffarabadi",
+                        "species": "buffalo",
+                        "calibrated_probability": 0.023779384791851044
+                    },
+                    {
+                        "rank": 3,
+                        "breed": "Murrah",
+                        "species": "buffalo",
+                        "calibrated_probability": 0.018377181142568588
+                    }
+                ],
+                "note": "Probability is temperature-calibrated. Unknown decision uses the frozen Phase-7 threshold."
+            }
+        },
+        {
+            "source": "known_test",
+            "actual": "Banni",
+            "image_path": "D:\\BreedVisionData\\data\\raw\\indian_bovine_kaggle\\extracted\\Indian_bovine_breeds\\Indian_bovine_breeds\\Banni\\00000011.JPG",
+            "prediction": {
+                "status": "known",
+                "unknown": false,
+                "threshold": 0.9848954432539525,
+                "temperature": 0.4140016508109735,
+                "max_calibrated_probability": 0.9969027638435364,
+                "predicted_breed": "Banni",
+                "predicted_species": "buffalo",
+                "top3": [
+                    {
+                        "rank": 1,
+                        "breed": "Banni",
+                        "species": "buffalo",
+                        "calibrated_probability": 0.9969027638435364
+                    },
+                    {
+                        "rank": 2,
+                        "breed": "Jaffarabadi",
+                        "species": "buffalo",
+                        "calibrated_probability": 0.0022383981849998236
+                    },
+                    {
+                        "rank": 3,
+                        "breed": "Murrah",
+                        "species": "buffalo",
+                        "calibrated_probability": 0.00041982377297244966
+                    }
+                ],
+                "note": "Probability is temperature-calibrated. Unknown decision uses the frozen Phase-7 threshold."
+            }
+        },
+        {
+            "source": "known_test",
+            "actual": "Banni",
+            "image_path": "D:\\BreedVisionData\\data\\raw\\indian_bovine_kaggle\\extracted\\Indian_bovine_breeds\\Indian_bovine_breeds\\Banni\\00000017.jpg",
+            "prediction": {
+                "status": "unknown",
+                "unknown": true,
+                "threshold": 0.9848954432539525,
+                "temperature": 0.4140016508109735,
+                "max_calibrated_probability": 0.943236231803894,
+                "predicted_breed": null,
+                "predicted_species": null,
+                "top3": [
+                    {
+                        "rank": 1,
+                        "breed": "Banni",
+                        "species": "buffalo",
+                        "calibrated_probability": 0.943236231803894
+                    },
+                    {
+                        "rank": 2,
+                        "breed": "Murrah",
+                        "species": "buffalo",
+                        "calibrated_probability": 0.035541221499443054
+                    },
+                    {
+                        "rank": 3,
+                        "breed": "Sahiwal",
+                        "species": "cattle",
+                        "calibrated_probability": 0.015588724054396152
+                    }
+                ],
+                "note": "Probability is temperature-calibrated. Unknown decision uses the frozen Phase-7 threshold."
+            }
+        },
+        {
+            "source": "ood_evaluation",
+            "actual": "Mehsana",
+            "image_path": "D:\\BreedVisionData\\data\\raw\\indian_bovine_kaggle\\extracted\\Indian_bovine_breeds\\Indian_bovine_breeds\\Mehsana\\Mehsana_10.jpg",
+            "prediction": {
+                "status": "known",
+                "unknown": false,
+                "threshold": 0.9848954432539525,
+                "temperature": 0.4140016508109735,
+                "max_calibrated_probability": 0.9870510101318359,
+                "predicted_breed": "Jaffarabadi",
+                "predicted_species": "buffalo",
+                "top3": [
+                    {
+                        "rank": 1,
+                        "breed": "Jaffarabadi",
+                        "species": "buffalo",
+                        "calibrated_probability": 0.9870510101318359
+                    },
+                    {
+                        "rank": 2,
+                        "breed": "Murrah",
+                        "species": "buffalo",
+                        "calibrated_probability": 0.007836862467229366
+                    },
+                    {
+                        "rank": 3,
+                        "breed": "Sahiwal",
+                        "species": "cattle",
+                        "calibrated_probability": 0.003887635888531804
+                    }
+                ],
+                "note": "Probability is temperature-calibrated. Unknown decision uses the frozen Phase-7 threshold."
+            }
+        },
+        {
+            "source": "ood_evaluation",
+            "actual": "Mehsana",
+            "image_path": "D:\\BreedVisionData\\data\\raw\\indian_bovine_kaggle\\extracted\\Indian_bovine_breeds\\Indian_bovine_breeds\\Mehsana\\Mehsana_11.png",
+            "prediction": {
+                "status": "known",
+                "unknown": false,
+                "threshold": 0.9848954432539525,
+                "temperature": 0.4140016508109735,
+                "max_calibrated_probability": 0.9977452158927917,
+                "predicted_breed": "Jaffarabadi",
+                "predicted_species": "buffalo",
+                "top3": [
+                    {
+                        "rank": 1,
+                        "breed": "Jaffarabadi",
+                        "species": "buffalo",
+                        "calibrated_probability": 0.9977452158927917
+                    },
+                    {
+                        "rank": 2,
+                        "breed": "Murrah",
+                        "species": "buffalo",
+                        "calibrated_probability": 0.0018288166029378772
+                    },
+                    {
+                        "rank": 3,
+                        "breed": "Banni",
+                        "species": "buffalo",
+                        "calibrated_probability": 0.0003870253567583859
+                    }
+                ],
+                "note": "Probability is temperature-calibrated. Unknown decision uses the frozen Phase-7 threshold."
+            }
+        },
+        {
+            "source": "ood_evaluation",
+            "actual": "Mehsana",
+            "image_path": "D:\\BreedVisionData\\data\\raw\\indian_bovine_kaggle\\extracted\\Indian_bovine_breeds\\Indian_bovine_breeds\\Mehsana\\Mehsana_12.png",
+            "prediction": {
+                "status": "known",
+                "unknown": false,
+                "threshold": 0.9848954432539525,
+                "temperature": 0.4140016508109735,
+                "max_calibrated_probability": 0.9958016276359558,
+                "predicted_breed": "Jaffarabadi",
+                "predicted_species": "buffalo",
+                "top3": [
+                    {
+                        "rank": 1,
+                        "breed": "Jaffarabadi",
+                        "species": "buffalo",
+                        "calibrated_probability": 0.9958016276359558
+                    },
+                    {
+                        "rank": 2,
+                        "breed": "Banni",
+                        "species": "buffalo",
+                        "calibrated_probability": 0.003115779021754861
+                    },
+                    {
+                        "rank": 3,
+                        "breed": "Hallikar",
+                        "species": "cattle",
+                        "calibrated_probability": 0.00048500049160793424
+                    }
+                ],
+                "note": "Probability is temperature-calibrated. Unknown decision uses the frozen Phase-7 threshold."
+            }
+        }
+    ]
+}

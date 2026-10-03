@@ -1,0 +1,38 @@
+{
+    "project": "BreedVision AI",
+    "phase": 7,
+    "classifier_version": "v2",
+    "evaluation_protocol": {
+        "known_split": "test",
+        "ood_split": "evaluation",
+        "threshold_frozen_before_test": true,
+        "test_used_for_tuning": false
+    },
+    "temperature": 0.4140016508109735,
+    "unknown_threshold": 0.9848954432539525,
+    "known_test": {
+        "samples": 973,
+        "top1_accuracy": 0.8828365878725591,
+        "top3_accuracy": 0.986639260020555,
+        "known_acceptance_rate": 0.31551901336073995,
+        "known_rejection_rate": 0.68448098663926,
+        "selective_top1_accuracy": 0.9609120521172638,
+        "raw_nll": 0.7268538762913214,
+        "calibrated_nll": 0.47061698318282613,
+        "raw_ece": 0.30699647964464005,
+        "calibrated_ece": 0.0730939222109841
+    },
+    "ood_evaluation": {
+        "samples": 42,
+        "ood_rejection_rate": 0.47619047619047616,
+        "ood_false_acceptance_rate": 0.5238095238095238,
+        "mean_max_calibrated_probability": 0.8402381532248997
+    },
+    "open_set": {
+        "balanced_accuracy": 0.39585474477560806,
+        "auroc": 0.43686683306416085,
+        "aupr_ood": 0.04076544178183847,
+        "unknown_f1": 0.054945054945054944
+    },
+    "probability_note": "Calibrated probabilities improve probability calibration on known classes, but they are not guarantees of correctness."
+}

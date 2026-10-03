@@ -1,0 +1,14 @@
+{
+    "project": "BreedVision AI",
+    "phase": 7,
+    "classifier_version": "v2",
+    "method": "temperature_scaling",
+    "fit_split": "validation",
+    "temperature": 0.4140016508109735,
+    "optimization_metric": "negative_log_likelihood",
+    "temperature_bounds": {
+        "minimum": 0.05,
+        "maximum": 10.0
+    },
+    "important_note": "Temperature was fitted using validation data only. Test data was not used."
+}

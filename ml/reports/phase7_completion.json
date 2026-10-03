@@ -1,0 +1,41 @@
+{
+    "project": "BreedVision AI",
+    "phase": "Phase 7 - Confidence, Top-3, Unknown Handling, Grad-CAM and Evaluation",
+    "status": "PASS",
+    "validated_at": "2026-10-04T00:27:36",
+    "classifier_version": "v2",
+    "calibration": {
+        "method": "temperature_scaling",
+        "temperature": 0.4140016508109735,
+        "validation_nll_before": 0.7680461382261787,
+        "validation_nll_after": 0.5129327210698089,
+        "validation_ece_before": 0.3179275685265675,
+        "validation_ece_after": 0.08533130266481026
+    },
+    "unknown_handling": {
+        "threshold": 0.9848954432539525,
+        "ood_breeds": [
+            "Mehsana",
+            "Surti"
+        ],
+        "threshold_tuning_balanced_accuracy": 0.5296436624687457,
+        "test_known_acceptance_rate": 0.31551901336073995,
+        "test_ood_rejection_rate": 0.47619047619047616,
+        "test_open_set_auroc": 0.43686683306416085
+    },
+    "classification": {
+        "test_top1_accuracy": 0.8828365878725591,
+        "test_top3_accuracy": 0.986639260020555,
+        "selective_top1_accuracy": 0.9609120521172638
+    },
+    "explainability": {
+        "method": "Grad-CAM",
+        "target_layer": "layer4[-1]",
+        "gradcam_examples": 9
+    },
+    "errors": [],
+    "warnings": [
+        "Open-set AUROC is below 0.70. Unknown/OOD separation may need stronger methods in future versions.",
+        "Final OOD rejection rate is below 60%."
+    ]
+}

@@ -1,0 +1,10 @@
+actual_breed,predicted_breed,decision,calibrated_probability,image_path,gradcam_path
+Banni,Banni,unknown,0.9576907753944397,D:\BreedVisionData\data\raw\indian_bovine_kaggle\extracted\Indian_bovine_breeds\Indian_bovine_breeds\Banni\00000003.jpg,C:\Users\lahar\Documents\mnpr\ml\phase7\gradcam\01_Banni_gradcam.png
+Bargur,Bargur,known,0.9999419450759888,D:\BreedVisionData\data\processed\master\Bargur\0365b09bda82663f.jpg,C:\Users\lahar\Documents\mnpr\ml\phase7\gradcam\02_Bargur_gradcam.png
+Gir,Gir,unknown,0.964495062828064,D:\BreedVisionData\data\processed\master\Gir\001115611ad387c0.jpg,C:\Users\lahar\Documents\mnpr\ml\phase7\gradcam\03_Gir_gradcam.png
+Hallikar,Hallikar,unknown,0.9683238863945007,D:\BreedVisionData\data\processed\master\Hallikar\000e911a9e4add72.jpg,C:\Users\lahar\Documents\mnpr\ml\phase7\gradcam\04_Hallikar_gradcam.png
+Jaffarabadi,Jaffarabadi,unknown,0.9210303425788879,D:\BreedVisionData\data\raw\indian_bovine_kaggle\extracted\Indian_bovine_breeds\Indian_bovine_breeds\Jaffrabadi\Jaffrabadi_102.png,C:\Users\lahar\Documents\mnpr\ml\phase7\gradcam\05_Jaffarabadi_gradcam.png
+Murrah,Jaffarabadi,unknown,0.9792163968086243,D:\BreedVisionData\data\raw\indian_bovine_kaggle\extracted\Indian_bovine_breeds\Indian_bovine_breeds\Murrah\Murrah_100.png,C:\Users\lahar\Documents\mnpr\ml\phase7\gradcam\06_Murrah_gradcam.png
+Ongole,Ongole,unknown,0.9215168952941895,D:\BreedVisionData\data\processed\master\Ongole\00fb3d84fa971e38.png,C:\Users\lahar\Documents\mnpr\ml\phase7\gradcam\07_Ongole_gradcam.png
+Sahiwal,Sahiwal,unknown,0.839762806892395,D:\BreedVisionData\data\processed\master\Sahiwal\0568b223ecbdf50c.jpg,C:\Users\lahar\Documents\mnpr\ml\phase7\gradcam\08_Sahiwal_gradcam.png
+Tharparkar,Tharparkar,unknown,0.9786940813064575,D:\BreedVisionData\data\processed\master\Tharparkar\0021f6b92b608517.jpg,C:\Users\lahar\Documents\mnpr\ml\phase7\gradcam\09_Tharparkar_gradcam.png
