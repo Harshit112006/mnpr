@@ -1,0 +1,66 @@
+{
+  "project": "BreedVision AI",
+  "classifier_version": "v1",
+
+  "dataset": {
+    "manifest": "reports/final_dataset_manifest.csv",
+    "class_to_index": "configs/class_to_index.json",
+    "species_mapping": "configs/species_mapping.json",
+    "image_size": 224
+  },
+
+  "dataloader": {
+    "batch_size": 16,
+    "num_workers": 0,
+    "pin_memory": false
+  },
+
+  "training": {
+    "random_seed": 42,
+    "epochs": 25,
+    "learning_rate": 0.0003,
+    "weight_decay": 0.0001,
+    "label_smoothing": 0.1,
+    "early_stopping_patience": 6
+  },
+
+  "optimizer": {
+    "name": "AdamW"
+  },
+
+  "scheduler": {
+    "name": "CosineAnnealingLR"
+  },
+
+  "models": {
+    "baseline": "resnet18",
+    "primary": "tf_efficientnetv2_s.in21k_ft_in1k"
+  },
+
+  "evaluation": {
+    "primary_metric": "macro_f1",
+    "secondary_metrics": [
+      "accuracy",
+      "precision",
+      "recall",
+      "weighted_f1"
+    ]
+  },
+
+  "augmentation_policy": {
+    "train_augmentation": true,
+    "validation_augmentation": false,
+    "test_augmentation": false
+  },
+
+  "checkpointing": {
+    "directory": "checkpoints",
+    "save_best_only": true,
+    "monitor": "validation_macro_f1"
+  },
+
+  "device": {
+    "mode": "auto",
+    "mixed_precision_on_cuda": true
+  }
+}

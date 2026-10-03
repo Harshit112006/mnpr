@@ -1,0 +1,70 @@
+{
+    "model": "resnet18",
+    "checkpoint_epoch": 14,
+    "validation_macro_f1": 0.9762496186754651,
+    "test_images": 927,
+    "accuracy": 0.9848975188781014,
+    "macro_precision": 0.9808053018881816,
+    "macro_recall": 0.9720578676121449,
+    "macro_f1": 0.976253760028293,
+    "weighted_f1": 0.9848310243913807,
+    "classification_report": {
+        "Bargur": {
+            "precision": 1.0,
+            "recall": 0.9879518072289156,
+            "f1-score": 0.9939393939393939,
+            "support": 83.0
+        },
+        "Gir": {
+            "precision": 0.9852216748768473,
+            "recall": 0.9900990099009901,
+            "f1-score": 0.9876543209876543,
+            "support": 404.0
+        },
+        "Hallikar": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1-score": 1.0,
+            "support": 164.0
+        },
+        "Ongole": {
+            "precision": 1.0,
+            "recall": 0.9452054794520548,
+            "f1-score": 0.971830985915493,
+            "support": 73.0
+        },
+        "Sahiwal": {
+            "precision": 0.9259259259259259,
+            "recall": 0.9090909090909091,
+            "f1-score": 0.9174311926605505,
+            "support": 55.0
+        },
+        "Tharparkar": {
+            "precision": 0.9736842105263158,
+            "recall": 1.0,
+            "f1-score": 0.9866666666666667,
+            "support": 148.0
+        },
+        "accuracy": 0.9848975188781014,
+        "macro avg": {
+            "precision": 0.9808053018881816,
+            "recall": 0.9720578676121449,
+            "f1-score": 0.976253760028293,
+            "support": 927.0
+        },
+        "weighted avg": {
+            "precision": 0.9849630482568145,
+            "recall": 0.9848975188781014,
+            "f1-score": 0.9848310243913807,
+            "support": 927.0
+        }
+    },
+    "class_to_index": {
+        "Bargur": 0,
+        "Gir": 1,
+        "Hallikar": 2,
+        "Ongole": 3,
+        "Sahiwal": 4,
+        "Tharparkar": 5
+    }
+}

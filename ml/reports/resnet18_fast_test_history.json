@@ -1,0 +1,15 @@
+[
+    {
+        "epoch": 1,
+        "learning_rate": 0.0003,
+        "train_loss": 1.5595653572717127,
+        "train_accuracy": 0.49191312384473196,
+        "train_macro_f1": 0.4413182378142153,
+        "train_weighted_f1": 0.5303172492129347,
+        "validation_loss": 1.4098109407671566,
+        "validation_accuracy": 0.7693965517241379,
+        "validation_macro_f1": 0.7254227416939099,
+        "validation_weighted_f1": 0.7855473346684725,
+        "epoch_seconds": 528.8245010375977
+    }
+]

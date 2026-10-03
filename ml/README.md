@@ -5,9 +5,9 @@ training, evaluation and inference pipeline for BreedVision AI.
 
 ## Current Phase
 
-Phase 4 - Dataset Foundation and Preparation
+Phase 5 - Breed Classifier Training & Benchmarking - Complete
 
-No production breed classifier has been trained yet.
+Breed Classifier v1 has been trained, benchmarked, selected using validation Macro F1, and evaluated on the held-out test set.
 
 ## Directory Structure
 
@@ -35,5 +35,5 @@ No production breed classifier has been trained yet.
 ## Current Model Status
 
 - Bovine detector: Not trained yet.
-- Breed classifier: Not trained yet.
+- Breed classifier: v1 trained and validated. See configs/breed_classifier_v1.json.
 - Production inference model: Not available yet.

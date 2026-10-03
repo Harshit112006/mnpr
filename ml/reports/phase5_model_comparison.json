@@ -1,0 +1,34 @@
+{
+    "selection_metric": "validation_macro_f1",
+    "test_metrics_used_for_selection": false,
+    "candidates": [
+        {
+            "name": "resnet18_baseline",
+            "architecture": "resnet18",
+            "validation_macro_f1": 0.8739741708199323,
+            "best_epoch": 3,
+            "checkpoint": "C:\\Users\\lahar\\Documents\\mnpr\\ml\\checkpoints\\resnet18_baseline_best.pth"
+        },
+        {
+            "name": "efficientnetv2s_stage2",
+            "architecture": "tf_efficientnetv2_s.in21k_ft_in1k",
+            "validation_macro_f1": 0.6453807640761667,
+            "best_epoch": 1,
+            "checkpoint": "C:\\Users\\lahar\\Documents\\mnpr\\ml\\checkpoints\\efficientnetv2s_stage2_best.pth"
+        },
+        {
+            "name": "efficientnetv2s_stage1",
+            "architecture": "tf_efficientnetv2_s.in21k_ft_in1k",
+            "validation_macro_f1": 0.3637639433085606,
+            "best_epoch": 3,
+            "checkpoint": "C:\\Users\\lahar\\Documents\\mnpr\\ml\\checkpoints\\efficientnetv2s_stage1_best.pth"
+        }
+    ],
+    "selected": {
+        "name": "resnet18_baseline",
+        "architecture": "resnet18",
+        "validation_macro_f1": 0.8739741708199323,
+        "best_epoch": 3,
+        "checkpoint": "C:\\Users\\lahar\\Documents\\mnpr\\ml\\checkpoints\\resnet18_baseline_best.pth"
+    }
+}

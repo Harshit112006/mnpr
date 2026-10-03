@@ -1,0 +1,10 @@
+{
+    "model_version": "breed-classifier-v1",
+    "selected_run": "resnet18_baseline",
+    "architecture": "resnet18",
+    "checkpoint": "C:\\Users\\lahar\\Documents\\mnpr\\ml\\checkpoints\\resnet18_baseline_best.pth",
+    "selection_metric": "validation_macro_f1",
+    "validation_macro_f1": 0.8739741708199323,
+    "best_epoch": 3,
+    "test_metrics_used_for_selection": false
+}

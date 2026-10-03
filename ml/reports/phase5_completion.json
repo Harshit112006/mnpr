@@ -1,0 +1,30 @@
+{
+    "project": "BreedVision AI",
+    "phase": "Phase 5 - Breed Classifier Training & Benchmarking",
+    "status": "PASS",
+    "validated_at": "2026-10-03T19:31:25",
+    "selected_model": "resnet18_baseline",
+    "architecture": "resnet18",
+    "selection_metric": "validation_macro_f1",
+    "validation_macro_f1": 0.8739741708199323,
+    "test_accuracy": 0.9816612729234089,
+    "test_macro_precision": 0.9751147687072058,
+    "test_macro_recall": 0.9672187063542937,
+    "test_macro_f1": 0.9710273520487256,
+    "test_weighted_f1": 0.9815613561289885,
+    "training_ready_images": 6183,
+    "test_images": 927,
+    "num_classes": 6,
+    "classes": [
+        "Bargur",
+        "Gir",
+        "Hallikar",
+        "Ongole",
+        "Sahiwal",
+        "Tharparkar"
+    ],
+    "production_candidate_weights": "C:\\Users\\lahar\\Documents\\mnpr\\ml\\weights\\breed_classifier_v1.pth",
+    "candidate_models_compared": 3,
+    "errors": [],
+    "warnings": []
+}

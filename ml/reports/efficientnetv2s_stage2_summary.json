@@ -1,0 +1,16 @@
+{
+    "model": "tf_efficientnetv2_s.in21k_ft_in1k",
+    "stage": 2,
+    "training_policy": "last_block_and_classifier_finetuning",
+    "parent_checkpoint": "C:\\Users\\lahar\\Documents\\mnpr\\ml\\checkpoints\\efficientnetv2s_stage1_best.pth",
+    "device": "cpu",
+    "completed_epochs": 1,
+    "best_epoch": 1,
+    "best_validation_macro_f1": 0.6453807640761667,
+    "learning_rate": 5e-05,
+    "total_parameters": 20185174,
+    "trainable_parameters": 14899758,
+    "total_training_seconds": 6180.165392875671,
+    "checkpoint": "C:\\Users\\lahar\\Documents\\mnpr\\ml\\checkpoints\\efficientnetv2s_stage2_best.pth",
+    "timestamp": "2026-10-03T19:25:46"
+}

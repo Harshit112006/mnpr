@@ -45,3 +45,6 @@ ml/weights/
 /ml/data/
 /ml/.venv/
 /ml/weights/
+
+/ml/checkpoints/
+/ml/runs/

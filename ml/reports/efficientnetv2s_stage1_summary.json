@@ -1,0 +1,16 @@
+{
+    "model": "tf_efficientnetv2_s.in21k_ft_in1k",
+    "stage": 1,
+    "training_policy": "frozen_backbone_classifier_head_only",
+    "device": "cpu",
+    "requested_epochs": 3,
+    "completed_epochs": 3,
+    "best_epoch": 3,
+    "best_validation_macro_f1": 0.3637639433085606,
+    "total_parameters": 20185174,
+    "trainable_parameters": 7686,
+    "trainable_percentage": 0.0380774522924598,
+    "total_training_seconds": 7266.867022037506,
+    "checkpoint": "C:\\Users\\lahar\\Documents\\mnpr\\ml\\checkpoints\\efficientnetv2s_stage1_best.pth",
+    "timestamp": "2026-10-03T17:25:49"
+}
