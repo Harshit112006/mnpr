@@ -1,7 +1,28 @@
 from io import BytesIO
 
-from fastapi import APIRouter, File, HTTPException, UploadFile
-from PIL import Image, UnidentifiedImageError
+from fastapi import (
+    APIRouter,
+    File,
+    HTTPException,
+    UploadFile,
+)
+
+from PIL import (
+    Image,
+    UnidentifiedImageError,
+)
+
+from starlette.concurrency import (
+    run_in_threadpool,
+)
+
+from app.services.ml.inference_pipeline import (
+    get_inference_pipeline,
+)
+
+from app.services.ml.paths import (
+    validate_ml_paths,
+)
 
 
 router = APIRouter(
@@ -16,18 +37,84 @@ ALLOWED_CONTENT_TYPES = {
     "image/webp",
 }
 
-MAX_FILE_SIZE = 10 * 1024 * 1024  # 10 MB
+MAX_FILE_SIZE = (
+    10
+    *
+    1024
+    *
+    1024
+)
 
 
-@router.post("/detect")
+@router.get(
+    "/ml/health"
+)
+async def ml_health():
+
+    path_status = (
+        validate_ml_paths()
+    )
+
+    if not path_status[
+        "ready"
+    ]:
+
+        return {
+            "status":
+                "not_ready",
+
+            "paths":
+                path_status,
+        }
+
+    try:
+
+        pipeline = await run_in_threadpool(
+            get_inference_pipeline
+        )
+
+        health = await run_in_threadpool(
+            pipeline.health
+        )
+
+    except Exception as error:
+
+        return {
+            "status":
+                "error",
+
+            "detail":
+                str(
+                    error
+                ),
+        }
+
+    return {
+        "status":
+            "ready",
+
+        "ml":
+            health,
+    }
+
+
+@router.post(
+    "/detect"
+)
 async def detect_animal(
     file: UploadFile = File(...)
 ):
-    # -----------------------------
-    # 1. Validate file type
-    # -----------------------------
 
-    if file.content_type not in ALLOWED_CONTENT_TYPES:
+    # =====================================================
+    # FILE TYPE
+    # =====================================================
+
+    if (
+        file.content_type
+        not in
+        ALLOWED_CONTENT_TYPES
+    ):
+
         raise HTTPException(
             status_code=400,
             detail=(
@@ -36,56 +123,75 @@ async def detect_animal(
             ),
         )
 
-    # -----------------------------
-    # 2. Read uploaded file
-    # -----------------------------
+
+    # =====================================================
+    # READ
+    # =====================================================
 
     file_bytes = await file.read()
 
     if not file_bytes:
+
         raise HTTPException(
             status_code=400,
-            detail="Uploaded file is empty.",
+            detail=(
+                "Uploaded file is empty."
+            ),
         )
 
-    # -----------------------------
-    # 3. Validate file size
-    # -----------------------------
 
-    if len(file_bytes) > MAX_FILE_SIZE:
+    if len(
+        file_bytes
+    ) > MAX_FILE_SIZE:
+
         raise HTTPException(
             status_code=400,
-            detail="Image must be smaller than 10 MB.",
+            detail=(
+                "Image must be smaller than 10 MB."
+            ),
         )
 
-    # -----------------------------
-    # 4. Decode real image
-    # -----------------------------
+
+    # =====================================================
+    # DECODE
+    # =====================================================
 
     try:
+
         image = Image.open(
-            BytesIO(file_bytes)
+            BytesIO(
+                file_bytes
+            )
         )
 
         image.load()
 
     except UnidentifiedImageError:
+
         raise HTTPException(
             status_code=400,
-            detail="Uploaded file is not a valid image.",
+            detail=(
+                "Uploaded file is not a valid image."
+            ),
         )
 
     except Exception:
+
         raise HTTPException(
             status_code=400,
-            detail="Unable to process uploaded image.",
+            detail=(
+                "Unable to process uploaded image."
+            ),
         )
 
-    # -----------------------------
-    # 5. Extract image information
-    # -----------------------------
 
-    width, height = image.size
+    width, height = (
+        image.size
+    )
+
+    original_mode = (
+        image.mode
+    )
 
     image_format = (
         image.format
@@ -94,33 +200,132 @@ async def detect_animal(
     )
 
     size_mb = round(
-        len(file_bytes) / (1024 * 1024),
+        len(
+            file_bytes
+        )
+        /
+        (
+            1024
+            *
+            1024
+        ),
         2,
     )
 
-    # -----------------------------
-    # 6. Temporary API response
-    # -----------------------------
-    # ML prediction will be added later.
+
+    # =====================================================
+    # ML INFERENCE
+    # =====================================================
+
+    try:
+
+        pipeline = await run_in_threadpool(
+            get_inference_pipeline
+        )
+
+        inference = await run_in_threadpool(
+            pipeline.predict,
+            image.convert(
+                "RGB"
+            ),
+        )
+
+    except Exception as error:
+
+        raise HTTPException(
+            status_code=503,
+            detail=(
+                "BreedVision ML inference "
+                f"is unavailable: {error}"
+            ),
+        )
+
+
+    pipeline_status = (
+        inference[
+            "pipeline_status"
+        ]
+    )
+
+    if (
+        pipeline_status
+        ==
+        "no_bovine"
+    ):
+
+        message = (
+            "Image processed successfully, "
+            "but no bovine was detected."
+        )
+
+    elif (
+        pipeline_status
+        ==
+        "unknown"
+    ):
+
+        message = (
+            "Bovine detected, but the breed "
+            "could not be identified reliably."
+        )
+
+    else:
+
+        message = (
+            "Bovine detected and breed "
+            "analysis completed successfully."
+        )
+
+
+    # =====================================================
+    # RESPONSE
+    # =====================================================
 
     return {
-        "success": True,
+        "success":
+            True,
 
-        "message": (
-            "Image received successfully. "
-            "ML inference is not connected yet."
-        ),
+        "message":
+            message,
 
         "image": {
-            "filename": file.filename,
-            "content_type": file.content_type,
-            "format": image_format,
-            "mode": image.mode,
-            "width": width,
-            "height": height,
-            "size_bytes": len(file_bytes),
-            "size_mb": size_mb,
+            "filename":
+                file.filename,
+
+            "content_type":
+                file.content_type,
+
+            "format":
+                image_format,
+
+            "mode":
+                original_mode,
+
+            "width":
+                width,
+
+            "height":
+                height,
+
+            "size_bytes":
+                len(
+                    file_bytes
+                ),
+
+            "size_mb":
+                size_mb,
         },
 
-        "prediction": None,
+        "pipeline_status":
+            pipeline_status,
+
+        "bovine":
+            inference[
+                "bovine"
+            ],
+
+        "prediction":
+            inference[
+                "prediction"
+            ],
     }

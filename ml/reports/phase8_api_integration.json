@@ -1,0 +1,95 @@
+{
+    "status": "PASS",
+    "attempted_images": 1,
+    "health": {
+        "status": "healthy",
+        "service": "BreedVision AI Backend",
+        "version": "0.1.0"
+    },
+    "ml_health": {
+        "status": "ready",
+        "ml": {
+            "ready": true,
+            "detector": {
+                "ready": true,
+                "model_version": "bovine-detector-v1",
+                "target_class": "cow",
+                "target_class_id": 19,
+                "primary_threshold": 0.2,
+                "fallback_threshold": 0.08,
+                "primary_image_size": 640,
+                "fallback_image_size": 960,
+                "weights": "C:\\Users\\lahar\\Documents\\mnpr\\ml\\yolov8n.pt"
+            },
+            "classifier": {
+                "ready": true,
+                "device": "cpu",
+                "model_version": "breed-classifier-v2",
+                "num_classes": 9,
+                "temperature": 0.4140016508109735,
+                "unknown_threshold": 0.9848954432539525
+            }
+        }
+    },
+    "sample_response": {
+        "success": true,
+        "message": "Bovine detected and breed analysis completed successfully.",
+        "image": {
+            "filename": "b40306a3a4ac62b5.jpg",
+            "content_type": "image/jpeg",
+            "format": "JPEG",
+            "mode": "RGB",
+            "width": 1920,
+            "height": 1080,
+            "size_bytes": 377046,
+            "size_mb": 0.36
+        },
+        "pipeline_status": "known",
+        "bovine": {
+            "detected": true,
+            "score": 0.8097152709960938,
+            "bbox": [
+                95.10845947265625,
+                50.6590576171875,
+                1817.93896484375,
+                1075.509521484375
+            ],
+            "target_class": "cow",
+            "model_version": "bovine-detector-v1",
+            "detection_mode": "primary",
+            "runtime_threshold": 0.2,
+            "image_size": 640
+        },
+        "prediction": {
+            "status": "known",
+            "breed": "Sahiwal",
+            "species": "cattle",
+            "calibrated_probability": 0.9999847412109375,
+            "confidence": 0.9999847412109375,
+            "unknown_threshold": 0.9848954432539525,
+            "temperature": 0.4140016508109735,
+            "top_predictions": [
+                {
+                    "rank": 1,
+                    "breed": "Sahiwal",
+                    "species": "cattle",
+                    "probability": 0.9999847412109375
+                },
+                {
+                    "rank": 2,
+                    "breed": "Jaffarabadi",
+                    "species": "buffalo",
+                    "probability": 1.288122348341858e-05
+                },
+                {
+                    "rank": 3,
+                    "breed": "Murrah",
+                    "species": "buffalo",
+                    "probability": 1.077918682312884e-06
+                }
+            ],
+            "model_version": "breed-classifier-v2",
+            "architecture": "resnet18"
+        }
+    }
+}

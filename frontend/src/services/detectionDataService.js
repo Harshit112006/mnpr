@@ -1,78 +1,111 @@
-import { supabase } from "../lib/supabaseClient";
+import {
+  supabase,
+} from "../lib/supabaseClient";
 
 
-const DETECTION_BUCKET = "detection-images";
+const DETECTION_BUCKET =
+  "detection-images";
 
 
-/* =====================================================
-   HELPERS
-   ===================================================== */
+const getCurrentUser =
+  async () => {
 
-const getCurrentUser = async () => {
-  const {
-    data: { user },
-    error,
-  } = await supabase.auth.getUser();
-
-  if (error) {
-    throw error;
-  }
-
-  if (!user) {
-    throw new Error(
-      "You must be signed in to save a detection."
-    );
-  }
-
-  return user;
-};
+    const {
+      data: {
+        user,
+      },
+      error,
+    } =
+      await supabase.auth
+        .getUser();
 
 
-const sanitizeFileName = (fileName) => {
+    if (error) {
+      throw error;
+    }
+
+
+    if (!user) {
+      throw new Error(
+        "You must be signed in to save a detection."
+      );
+    }
+
+
+    return user;
+  };
+
+
+const sanitizeFileName = (
+  fileName
+) => {
+
   return fileName
     .trim()
     .toLowerCase()
-    .replace(/[^a-z0-9._-]/g, "-")
-    .replace(/-+/g, "-");
+    .replace(
+      /[^a-z0-9._-]/g,
+      "-"
+    )
+    .replace(
+      /-+/g,
+      "-"
+    );
 };
 
 
-const createUniqueId = () => {
-  if (
-    typeof crypto !== "undefined" &&
-    typeof crypto.randomUUID === "function"
-  ) {
-    return crypto.randomUUID();
-  }
+const createUniqueId =
+  () => {
 
-  return `${Date.now()}-${Math.random()
-    .toString(36)
-    .slice(2)}`;
-};
+    if (
+      typeof crypto !==
+        "undefined" &&
+      typeof crypto.randomUUID ===
+        "function"
+    ) {
+
+      return crypto.randomUUID();
+    }
+
+
+    return `${Date.now()}-${Math.random()
+      .toString(36)
+      .slice(2)}`;
+  };
 
 
 const buildStoragePath = (
   userId,
   file
 ) => {
-  const now = new Date();
+
+  const now =
+    new Date();
+
 
   const year =
     now.getFullYear();
 
+
   const month =
     String(
       now.getMonth() + 1
-    ).padStart(2, "0");
+    ).padStart(
+      2,
+      "0"
+    );
+
 
   const uniqueId =
     createUniqueId();
 
+
   const safeName =
     sanitizeFileName(
       file.name ||
-        "animal-image.jpg"
+      "animal-image.jpg"
     );
+
 
   return `${userId}/${year}/${month}/${uniqueId}-${safeName}`;
 };
@@ -81,236 +114,307 @@ const buildStoragePath = (
 const numberOrNull = (
   value
 ) => {
+
   if (
     value === null ||
     value === undefined ||
     value === ""
   ) {
+
     return null;
   }
 
-  const parsed =
-    Number(value);
 
-  return Number.isFinite(parsed)
+  const parsed =
+    Number(
+      value
+    );
+
+
+  return Number.isFinite(
+    parsed
+  )
     ? parsed
     : null;
 };
 
 
-/* =====================================================
-   SAVE DETECTION
-   ===================================================== */
+export const saveDetection =
+  async ({
+    file,
+    source = "upload",
+    quality = null,
+    backendImage = null,
+    backendResult = null,
+  }) => {
 
-export const saveDetection = async ({
-  file,
-  source = "upload",
-  quality = null,
-  backendImage = null,
-}) => {
-  if (!file) {
-    throw new Error(
-      "Detection image is required."
-    );
-  }
+    if (!file) {
 
-
-  if (
-    source !== "upload" &&
-    source !== "camera"
-  ) {
-    throw new Error(
-      "Invalid image source."
-    );
-  }
+      throw new Error(
+        "Detection image is required."
+      );
+    }
 
 
-  const user =
-    await getCurrentUser();
+    if (
+      source !== "upload" &&
+      source !== "camera"
+    ) {
+
+      throw new Error(
+        "Invalid image source."
+      );
+    }
 
 
-  const imagePath =
-    buildStoragePath(
-      user.id,
-      file
-    );
+    const user =
+      await getCurrentUser();
 
 
-  /* =====================================================
-     1. UPLOAD PRIVATE IMAGE
-     ===================================================== */
-
-  const {
-    error: uploadError,
-  } = await supabase.storage
-    .from(DETECTION_BUCKET)
-    .upload(
-      imagePath,
-      file,
-      {
-        cacheControl: "3600",
-        contentType:
-          file.type ||
-          "image/jpeg",
-        upsert: false,
-      }
-    );
+    const imagePath =
+      buildStoragePath(
+        user.id,
+        file
+      );
 
 
-  if (uploadError) {
-    throw uploadError;
-  }
+    const {
+      error:
+        uploadError,
+    } =
+      await supabase.storage
+        .from(
+          DETECTION_BUCKET
+        )
+        .upload(
+          imagePath,
+          file,
+          {
+            cacheControl:
+              "3600",
+
+            contentType:
+              file.type ||
+              "image/jpeg",
+
+            upsert:
+              false,
+          }
+        );
 
 
-  /* =====================================================
-     2. NORMALIZE QUALITY VALUES
-     ===================================================== */
-
-  const qualityScore =
-    numberOrNull(
-      quality?.score ??
-      quality?.qualityScore ??
-      quality?.quality_score
-    );
+    if (uploadError) {
+      throw uploadError;
+    }
 
 
-  const qualityStatus =
-    quality
-      ? quality.suitable
-        ? "suitable"
-        : "warning"
-      : null;
+    const qualityScore =
+      numberOrNull(
+        quality?.score ??
+        quality?.qualityScore ??
+        quality?.quality_score
+      );
 
 
-  const imageWidth =
-    numberOrNull(
-      backendImage?.width ??
-      quality?.width ??
-      quality?.resolution?.width
-    );
+    const qualityStatus =
+      quality
+        ? quality.suitable
+          ? "suitable"
+          : "warning"
+        : null;
 
 
-  const imageHeight =
-    numberOrNull(
-      backendImage?.height ??
-      quality?.height ??
-      quality?.resolution?.height
-    );
+    const imageWidth =
+      numberOrNull(
+        backendImage?.width ??
+        quality?.width ??
+        quality
+          ?.resolution
+          ?.width
+      );
 
 
-  /* =====================================================
-     3. DATABASE RECORD
-     ===================================================== */
-
-  const detectionPayload = {
-    user_id:
-      user.id,
-
-    image_path:
-      imagePath,
-
-    original_filename:
-      file.name,
-
-    mime_type:
-      file.type || null,
-
-    file_size_bytes:
-      file.size,
-
-    image_width:
-      imageWidth,
-
-    image_height:
-      imageHeight,
-
-    image_format:
-      backendImage?.format ||
-      file.type
-        ?.replace("image/", "")
-        ?.toUpperCase() ||
-      null,
-
-    quality_score:
-      qualityScore,
-
-    quality_status:
-      qualityStatus,
-
-    source,
-
-    /*
-      ML is not connected yet.
-
-      species,
-      predicted_breed,
-      confidence,
-      top_predictions,
-      model_version
-
-      remain NULL in Supabase.
-    */
-
-    review_status:
-      "pending",
-  };
+    const imageHeight =
+      numberOrNull(
+        backendImage?.height ??
+        quality?.height ??
+        quality
+          ?.resolution
+          ?.height
+      );
 
 
-  const {
-    data,
-    error: databaseError,
-  } = await supabase
-    .from("detections")
-    .insert(
-      detectionPayload
-    )
-    .select()
-    .single();
+    const prediction =
+      backendResult
+        ?.prediction ||
+      null;
 
 
-  /* =====================================================
-     ROLLBACK STORAGE IF DB INSERT FAILS
-     ===================================================== */
+    const predictionStatus =
+      prediction
+        ?.status ||
+      null;
 
-  if (databaseError) {
-    await supabase.storage
-      .from(DETECTION_BUCKET)
-      .remove([
+
+    const isKnown =
+      predictionStatus ===
+      "known";
+
+
+    const confidence =
+      numberOrNull(
+        prediction
+          ?.calibrated_probability ??
+        prediction
+          ?.confidence
+      );
+
+
+    const topPredictions =
+      Array.isArray(
+        prediction
+          ?.top_predictions
+      )
+        ? prediction
+            .top_predictions
+        : null;
+
+
+    const detectionPayload = {
+
+      user_id:
+        user.id,
+
+      image_path:
         imagePath,
-      ]);
 
-    throw databaseError;
-  }
+      original_filename:
+        file.name,
+
+      mime_type:
+        file.type ||
+        null,
+
+      file_size_bytes:
+        file.size,
+
+      image_width:
+        imageWidth,
+
+      image_height:
+        imageHeight,
+
+      image_format:
+        backendImage?.format ||
+        file.type
+          ?.replace(
+            "image/",
+            ""
+          )
+          ?.toUpperCase() ||
+        null,
+
+      quality_score:
+        qualityScore,
+
+      quality_status:
+        qualityStatus,
+
+      source,
+
+      species:
+        isKnown
+          ? prediction
+              ?.species ||
+            null
+          : null,
+
+      predicted_breed:
+        isKnown
+          ? prediction
+              ?.breed ||
+            null
+          : null,
+
+      confidence:
+        confidence,
+
+      top_predictions:
+        topPredictions,
+
+      model_version:
+        prediction
+          ?.model_version ||
+        null,
+
+      review_status:
+        isKnown
+          ? "pending"
+          : "needs_review",
+    };
 
 
-  return {
-    detection:
+    const {
       data,
+      error:
+        databaseError,
+    } =
+      await supabase
+        .from(
+          "detections"
+        )
+        .insert(
+          detectionPayload
+        )
+        .select()
+        .single();
 
-    imagePath,
+
+    if (databaseError) {
+
+      await supabase.storage
+        .from(
+          DETECTION_BUCKET
+        )
+        .remove([
+          imagePath,
+        ]);
+
+
+      throw databaseError;
+    }
+
+
+    return {
+      detection:
+        data,
+
+      imagePath,
+    };
   };
-};
 
-
-/* =====================================================
-   GET CURRENT USER DETECTIONS
-   Used later by History page.
-   ===================================================== */
 
 export const getUserDetections =
   async () => {
+
     const {
       data,
       error,
-    } = await supabase
-      .from("detections")
-      .select("*")
-      .order(
-        "created_at",
-        {
-          ascending: false,
-        }
-      );
+    } =
+      await supabase
+        .from(
+          "detections"
+        )
+        .select(
+          "*"
+        )
+        .order(
+          "created_at",
+          {
+            ascending:
+              false,
+          }
+        );
 
 
     if (error) {
@@ -318,20 +422,19 @@ export const getUserDetections =
     }
 
 
-    return data || [];
+    return data ||
+      [];
   };
 
-
-/* =====================================================
-   CREATE PRIVATE SIGNED IMAGE URL
-   ===================================================== */
 
 export const getDetectionImageUrl =
   async (
     imagePath,
     expiresIn = 3600
   ) => {
+
     if (!imagePath) {
+
       return null;
     }
 
@@ -339,12 +442,15 @@ export const getDetectionImageUrl =
     const {
       data,
       error,
-    } = await supabase.storage
-      .from(DETECTION_BUCKET)
-      .createSignedUrl(
-        imagePath,
-        expiresIn
-      );
+    } =
+      await supabase.storage
+        .from(
+          DETECTION_BUCKET
+        )
+        .createSignedUrl(
+          imagePath,
+          expiresIn
+        );
 
 
     if (error) {
@@ -352,20 +458,19 @@ export const getDetectionImageUrl =
     }
 
 
-    return data?.signedUrl ||
+    return data
+      ?.signedUrl ||
       null;
   };
 
-
-/* =====================================================
-   DELETE DETECTION
-   ===================================================== */
 
 export const deleteDetection =
   async (
     detection
   ) => {
+
     if (!detection?.id) {
+
       throw new Error(
         "Detection ID is required."
       );
@@ -375,13 +480,19 @@ export const deleteDetection =
     if (
       detection.image_path
     ) {
+
       const {
-        error: storageError,
-      } = await supabase.storage
-        .from(DETECTION_BUCKET)
-        .remove([
-          detection.image_path,
-        ]);
+        error:
+          storageError,
+      } =
+        await supabase.storage
+          .from(
+            DETECTION_BUCKET
+          )
+          .remove([
+            detection
+              .image_path,
+          ]);
 
 
       if (storageError) {
@@ -392,13 +503,16 @@ export const deleteDetection =
 
     const {
       error,
-    } = await supabase
-      .from("detections")
-      .delete()
-      .eq(
-        "id",
-        detection.id
-      );
+    } =
+      await supabase
+        .from(
+          "detections"
+        )
+        .delete()
+        .eq(
+          "id",
+          detection.id
+        );
 
 
     if (error) {

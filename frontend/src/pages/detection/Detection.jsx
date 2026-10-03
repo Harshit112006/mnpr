@@ -605,6 +605,9 @@ function Detection() {
               backendImage:
                 result?.image ||
                 null,
+
+              backendResult:
+                result,
             });
 
 

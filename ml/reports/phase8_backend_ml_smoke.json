@@ -1,0 +1,104 @@
+{
+    "status": "PASS",
+    "pipeline": "YOLO bovine detector -> crop -> ResNet18 classifier v2 -> temperature calibration -> unknown threshold -> Top-3",
+    "samples": {
+        "cattle": {
+            "pipeline_status": "known",
+            "bovine": {
+                "detected": true,
+                "score": 0.8097152709960938,
+                "bbox": [
+                    95.10845947265625,
+                    50.6590576171875,
+                    1817.93896484375,
+                    1075.509521484375
+                ],
+                "target_class": "cow",
+                "model_version": "bovine-detector-v1",
+                "detection_mode": "primary",
+                "runtime_threshold": 0.2,
+                "image_size": 640
+            },
+            "prediction": {
+                "status": "known",
+                "breed": "Sahiwal",
+                "species": "cattle",
+                "calibrated_probability": 0.9999847412109375,
+                "confidence": 0.9999847412109375,
+                "unknown_threshold": 0.9848954432539525,
+                "temperature": 0.4140016508109735,
+                "top_predictions": [
+                    {
+                        "rank": 1,
+                        "breed": "Sahiwal",
+                        "species": "cattle",
+                        "probability": 0.9999847412109375
+                    },
+                    {
+                        "rank": 2,
+                        "breed": "Jaffarabadi",
+                        "species": "buffalo",
+                        "probability": 1.288122348341858e-05
+                    },
+                    {
+                        "rank": 3,
+                        "breed": "Murrah",
+                        "species": "buffalo",
+                        "probability": 1.077918682312884e-06
+                    }
+                ],
+                "model_version": "breed-classifier-v2",
+                "architecture": "resnet18"
+            }
+        },
+        "buffalo": {
+            "pipeline_status": "known",
+            "bovine": {
+                "detected": true,
+                "score": 0.7945342659950256,
+                "bbox": [
+                    45.81003189086914,
+                    30.526256561279297,
+                    246.333740234375,
+                    162.1793975830078
+                ],
+                "target_class": "cow",
+                "model_version": "bovine-detector-v1",
+                "detection_mode": "primary",
+                "runtime_threshold": 0.2,
+                "image_size": 640
+            },
+            "prediction": {
+                "status": "known",
+                "breed": "Jaffarabadi",
+                "species": "buffalo",
+                "calibrated_probability": 0.9901722073554993,
+                "confidence": 0.9901722073554993,
+                "unknown_threshold": 0.9848954432539525,
+                "temperature": 0.4140016508109735,
+                "top_predictions": [
+                    {
+                        "rank": 1,
+                        "breed": "Jaffarabadi",
+                        "species": "buffalo",
+                        "probability": 0.9901722073554993
+                    },
+                    {
+                        "rank": 2,
+                        "breed": "Murrah",
+                        "species": "buffalo",
+                        "probability": 0.006823478266596794
+                    },
+                    {
+                        "rank": 3,
+                        "breed": "Banni",
+                        "species": "buffalo",
+                        "probability": 0.002999774878844619
+                    }
+                ],
+                "model_version": "breed-classifier-v2",
+                "architecture": "resnet18"
+            }
+        }
+    }
+}
