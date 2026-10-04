@@ -1,0 +1,15 @@
+{
+    "project": "BreedVision AI",
+    "phase": 11,
+    "status": "PASS",
+    "validated_at": "2026-10-04T15:10:07",
+    "service_worker": true,
+    "manifest_files": [
+        "manifest.webmanifest"
+    ],
+    "pwa_icons": [
+        "pwa-192x192.png",
+        "pwa-512x512.png",
+        "pwa-maskable-512x512.png"
+    ]
+}
