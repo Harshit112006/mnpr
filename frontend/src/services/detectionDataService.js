@@ -1,7 +1,9 @@
 import {
   supabase,
 } from "../lib/supabaseClient";
-
+import {
+  createDetectionReviewAlert,
+} from "./phase9/alertService";
 
 const DETECTION_BUCKET =
   "detection-images";
@@ -385,12 +387,51 @@ export const saveDetection =
     }
 
 
-    return {
+    let alert =
+  null;
+
+
+let alertError =
+  null;
+
+
+try {
+
+  alert =
+    await createDetectionReviewAlert({
       detection:
         data,
 
-      imagePath,
-    };
+      backendResult,
+    });
+
+}
+
+catch (error) {
+
+  console.error(
+    "Automatic detection alert failed:",
+    error
+  );
+
+
+  alertError =
+    error?.message ||
+    "Automatic alert creation failed.";
+}
+
+
+return {
+
+  detection:
+    data,
+
+  imagePath,
+
+  alert,
+
+  alertError,
+};
   };
 
 

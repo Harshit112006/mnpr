@@ -21,10 +21,18 @@ import Detection from "../pages/detection/Detection";
 import History from "../pages/history/History";
 import Settings from "../pages/settings/Settings";
 
+import Farmers from "../pages/farmers/Farmers";
+import Animals from "../pages/animals/Animals";
+import ReviewCenter from "../pages/review/ReviewCenter";
+import Analytics from "../pages/analytics/Analytics";
+import Reports from "../pages/reports/Reports";
+import Alerts from "../pages/alerts/Alerts";
+
 
 function PlaceholderPage({
   title,
 }) {
+
   return (
     <div className="placeholder-page">
 
@@ -47,12 +55,9 @@ function PlaceholderPage({
 
 
 function AppRoutes() {
+
   return (
     <Routes>
-
-      {/* =====================================================
-          PUBLIC AUTHENTICATION
-      ===================================================== */}
 
       <Route
         element={
@@ -80,10 +85,6 @@ function AppRoutes() {
       </Route>
 
 
-      {/* =====================================================
-          PASSWORD RECOVERY
-      ===================================================== */}
-
       <Route
         element={
           <AuthLayout />
@@ -97,10 +98,6 @@ function AppRoutes() {
 
       </Route>
 
-
-      {/* =====================================================
-          PROFILE COMPLETION
-      ===================================================== */}
 
       <Route
         path="/complete-profile"
@@ -116,10 +113,6 @@ function AppRoutes() {
       />
 
 
-      {/* =====================================================
-          PROTECTED APPLICATION
-      ===================================================== */}
-
       <Route
         element={
           <ProtectedRoute>
@@ -133,68 +126,43 @@ function AppRoutes() {
           element={<Dashboard />}
         />
 
-
         <Route
           path="/detection"
           element={<Detection />}
         />
 
-
         <Route
           path="/animals"
-          element={
-            <PlaceholderPage
-              title="Animals"
-            />
-          }
+          element={<Animals />}
         />
-
 
         <Route
           path="/farmers"
-          element={
-            <PlaceholderPage
-              title="Farmers"
-            />
-          }
+          element={<Farmers />}
         />
-
 
         <Route
           path="/history"
           element={<History />}
         />
 
-
         <Route
           path="/review"
-          element={
-            <PlaceholderPage
-              title="Review Center"
-            />
-          }
+          element={<ReviewCenter />}
         />
-
 
         <Route
           path="/analytics"
-          element={
-            <PlaceholderPage
-              title="Analytics"
-            />
-          }
+          element={<Analytics />}
         />
-
 
         <Route
           path="/reports"
-          element={
-            <PlaceholderPage
-              title="Reports"
-            />
-          }
+          element={<Reports />}
         />
 
+
+        {/* Phase 10 remains intentionally separate. */}
 
         <Route
           path="/assistant"
@@ -208,13 +176,8 @@ function AppRoutes() {
 
         <Route
           path="/alerts"
-          element={
-            <PlaceholderPage
-              title="Alerts"
-            />
-          }
+          element={<Alerts />}
         />
-
 
         <Route
           path="/settings"
@@ -223,8 +186,6 @@ function AppRoutes() {
 
       </Route>
 
-
-      {/* ROOT */}
 
       <Route
         path="/"
@@ -236,8 +197,6 @@ function AppRoutes() {
         }
       />
 
-
-      {/* UNKNOWN */}
 
       <Route
         path="*"
