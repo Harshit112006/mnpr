@@ -1,7 +1,16 @@
 import os
 
-from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
+from fastapi import (
+    FastAPI,
+)
+
+from fastapi.middleware.cors import (
+    CORSMiddleware,
+)
+
+from app.api.assistant import (
+    router as assistant_router,
+)
 
 from app.api.detection import (
     router as detection_router,
@@ -25,44 +34,65 @@ def get_cors_origins():
 
     if not raw_origins:
 
-        return DEFAULT_CORS_ORIGINS.copy()
+        return (
+            DEFAULT_CORS_ORIGINS
+            .copy()
+        )
 
 
-    origins = [
+    return [
+
         origin
         .strip()
         .rstrip("/")
+
         for origin
         in raw_origins.split(",")
+
         if origin.strip()
     ]
 
 
-    return origins
-
-
 app = FastAPI(
-    title="BreedVision AI API",
+    title=
+        "BreedVision AI API",
+
     description=(
         "Backend API for BreedVision AI bovine "
-        "breed identification platform."
+        "breed identification and AI Assistant."
     ),
-    version="0.1.0",
+
+    version=
+        "0.2.0",
 )
 
 
 app.add_middleware(
     CORSMiddleware,
+
     allow_origins=
         get_cors_origins(),
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+
+    allow_credentials=
+        True,
+
+    allow_methods=[
+        "*",
+    ],
+
+    allow_headers=[
+        "*",
+    ],
 )
 
 
 app.include_router(
     detection_router
+)
+
+
+app.include_router(
+    assistant_router
 )
 
 
@@ -72,19 +102,24 @@ def root():
     return {
         "application":
             "BreedVision AI",
+
         "status":
             "running",
     }
 
 
-@app.get("/api/health")
+@app.get(
+    "/api/health"
+)
 def health_check():
 
     return {
         "status":
             "healthy",
+
         "service":
             "BreedVision AI Backend",
+
         "version":
-            "0.1.0",
+            "0.2.0",
     }

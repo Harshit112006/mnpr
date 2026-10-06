@@ -4,54 +4,65 @@ import {
   Routes,
 } from "react-router-dom";
 
-import AuthLayout from "../layouts/AuthLayout";
-import DashboardLayout from "../layouts/DashboardLayout";
+import AuthLayout
+  from "../layouts/AuthLayout";
 
-import ProtectedRoute from "./ProtectedRoute";
-import PublicRoute from "./PublicRoute";
+import DashboardLayout
+  from "../layouts/DashboardLayout";
 
-import Login from "../pages/auth/Login";
-import Signup from "../pages/auth/Signup";
-import ForgotPassword from "../pages/auth/ForgotPassword";
-import ResetPassword from "../pages/auth/ResetPassword";
-import CompleteProfile from "../pages/auth/CompleteProfile";
+import ProtectedRoute
+  from "./ProtectedRoute";
 
-import Dashboard from "../pages/dashboard/Dashboard";
-import Detection from "../pages/detection/Detection";
-import History from "../pages/history/History";
-import Settings from "../pages/settings/Settings";
+import PublicRoute
+  from "./PublicRoute";
 
-import Farmers from "../pages/farmers/Farmers";
-import Animals from "../pages/animals/Animals";
-import ReviewCenter from "../pages/review/ReviewCenter";
-import Analytics from "../pages/analytics/Analytics";
-import Reports from "../pages/reports/Reports";
-import Alerts from "../pages/alerts/Alerts";
+import Login
+  from "../pages/auth/Login";
 
+import Signup
+  from "../pages/auth/Signup";
 
-function PlaceholderPage({
-  title,
-}) {
+import ForgotPassword
+  from "../pages/auth/ForgotPassword";
 
-  return (
-    <div className="placeholder-page">
+import ResetPassword
+  from "../pages/auth/ResetPassword";
 
-      <span>
-        BREEDVISION AI
-      </span>
+import CompleteProfile
+  from "../pages/auth/CompleteProfile";
 
-      <h1>
-        {title}
-      </h1>
+import Dashboard
+  from "../pages/dashboard/Dashboard";
 
-      <p>
-        This module will be developed in
-        the next phase.
-      </p>
+import Detection
+  from "../pages/detection/Detection";
 
-    </div>
-  );
-}
+import History
+  from "../pages/history/History";
+
+import Settings
+  from "../pages/settings/Settings";
+
+import Farmers
+  from "../pages/farmers/Farmers";
+
+import Animals
+  from "../pages/animals/Animals";
+
+import ReviewCenter
+  from "../pages/review/ReviewCenter";
+
+import Analytics
+  from "../pages/analytics/Analytics";
+
+import Reports
+  from "../pages/reports/Reports";
+
+import Alerts
+  from "../pages/alerts/Alerts";
+
+import Assistant
+  from "../pages/assistant/Assistant";
 
 
 function AppRoutes() {
@@ -161,18 +172,10 @@ function AppRoutes() {
           element={<Reports />}
         />
 
-
-        {/* Phase 10 remains intentionally separate. */}
-
         <Route
           path="/assistant"
-          element={
-            <PlaceholderPage
-              title="AI Assistant"
-            />
-          }
+          element={<Assistant />}
         />
-
 
         <Route
           path="/alerts"

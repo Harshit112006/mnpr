@@ -1,0 +1,29 @@
+{
+    "project": "BreedVision AI",
+    "phase": 10,
+    "status": "PASS",
+    "validated_at": "2026-10-06T23:43:54",
+    "provider": "OpenRouter",
+    "configured_model": "openrouter/free",
+    "checks": {
+        "openrouter_free_api": "PASS",
+        "general_questions": "PASS",
+        "out_of_domain": "PASS",
+        "programming": "PASS",
+        "mathematics": "PASS",
+        "multilingual": "PASS",
+        "breedvision_rag": "PASS",
+        "conversation_context": "PASS",
+        "persistent_history": "PASS",
+        "new_chat": "PASS",
+        "delete_chat": "PASS",
+        "markdown": "PASS",
+        "code_rendering": "PASS",
+        "mobile_ui": "PASS",
+        "frontend_build": "PASS"
+    },
+    "limitations": [
+        "The free router can select different underlying free models between requests.",
+        "Live web search is not enabled because the hosted search tool requires paid usage."
+    ]
+}
