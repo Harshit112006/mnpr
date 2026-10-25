@@ -68,7 +68,7 @@ class BovineDetectorService:
 
         self.primary_image_size = 640
 
-        self.fallback_image_size = 960
+        self.fallback_image_size = 640
 
         self.model = YOLO(
             str(

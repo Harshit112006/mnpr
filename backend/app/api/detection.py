@@ -46,56 +46,27 @@ MAX_FILE_SIZE = (
 )
 
 
-@router.get(
-    "/ml/health"
-)
+
+@router.get("/ml/health")
 async def ml_health():
+    path_status = validate_ml_paths()
 
-    path_status = (
-        validate_ml_paths()
-    )
-
-    if not path_status[
-        "ready"
-    ]:
-
+    if not path_status["ready"]:
         return {
-            "status":
-                "not_ready",
-
-            "paths":
-                path_status,
-        }
-
-    try:
-
-        pipeline = await run_in_threadpool(
-            get_inference_pipeline
-        )
-
-        health = await run_in_threadpool(
-            pipeline.health
-        )
-
-    except Exception as error:
-
-        return {
-            "status":
-                "error",
-
-            "detail":
-                str(
-                    error
-                ),
+            "status": "not_ready",
+            "paths": path_status,
         }
 
     return {
-        "status":
-            "ready",
-
-        "ml":
-            health,
+        "status": "files_ready",
+        "paths": path_status,
+        "models_loaded": False,
+        "note": (
+            "Models load lazily on the first "
+            "/api/detect request to conserve RAM."
+        ),
     }
+
 
 
 @router.post(
@@ -211,6 +182,12 @@ async def detect_animal(
         ),
         2,
     )
+
+# Resize large images to reduce inference memory usage
+image.thumbnail(
+    (1280, 1280),
+    Image.Resampling.LANCZOS,
+)
 
 
     # =====================================================
